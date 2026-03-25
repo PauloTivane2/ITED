@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-surface text-primary font-sans;
+  }
+
+  ::selection {
+    @apply bg-accent/20 text-primary;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #6366F1 0%, #818CF8 50%, #22C55E 100%);
+  }
+
+  .bg-gradient-hero {
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 40%, #0F172A 100%);
+  }
+
+  .bg-gradient-accent {
+    background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+  }
+
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/20;
+  }
+
+  .glass-dark {
+    @apply bg-primary/60 backdrop-blur-xl border border-white/10;
+  }
+}
