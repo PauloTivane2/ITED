@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import { Header } from './Header';
 import { Footer } from './Footer';
 
@@ -7,13 +7,19 @@ interface PageLayoutProps {
 }
 
 export const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
+  const [isIframe, setIsIframe] = useState(false);
+
+  useEffect(() => {
+    setIsIframe(window !== window.top);
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-surface font-sans text-primary antialiased">
-      <Header />
+      {!isIframe && <Header />}
       <main className="flex-grow">
         {children}
       </main>
-      <Footer />
+      {!isIframe && <Footer />}
     </div>
   );
 };

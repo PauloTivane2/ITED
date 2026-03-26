@@ -152,11 +152,16 @@ export const HeroSection: React.FC = () => {
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-surface to-transparent z-10" />
 
       {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 z-10"
+      <motion.a
+        href="#sobre"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 hover:text-white transition-colors cursor-pointer z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.6 }}
+        onClick={(e) => {
+          e.preventDefault();
+          document.getElementById('sobre')?.scrollIntoView({ behavior: 'smooth' });
+        }}
       >
         <span className="text-xs font-medium tracking-widest uppercase">Explorar</span>
         <motion.div
@@ -165,7 +170,7 @@ export const HeroSection: React.FC = () => {
         >
           <FaChevronDown className="w-5 h-5" />
         </motion.div>
-      </motion.div>
+      </motion.a>
     </section>
   );
 };

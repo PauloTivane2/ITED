@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SectionContainer } from '../shared/SectionContainer';
+import { IframeModal } from '../shared/IframeModal';
 
 const events = [
   {
@@ -35,6 +36,8 @@ const events = [
 ];
 
 export const EventsSection: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <SectionContainer background="surface" id="eventos">
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
@@ -48,15 +51,15 @@ export const EventsSection: React.FC = () => {
           <p className="text-secondary text-lg mb-8 leading-relaxed">
             Fique por dentro de tudo o que acontece na comunidade. Eventos são oportunidades para comunhão, crescimento e celebração.
           </p>
-          <a 
-            href="#calendario" 
+          <button 
+            onClick={() => setIsModalOpen(true)} 
             className="inline-flex items-center gap-3 px-7 py-4 rounded-xl border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-normal hover:shadow-medium group"
           >
             Ver Calendário Completo
             <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>
-          </a>
+          </button>
         </div>
 
         {/* Right: Event List */}
@@ -107,6 +110,7 @@ export const EventsSection: React.FC = () => {
           ))}
         </div>
       </div>
+      <IframeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} url="/calendario" />
     </SectionContainer>
   );
 };

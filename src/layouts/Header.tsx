@@ -19,7 +19,7 @@ export const Header: React.FC = () => {
     { label: 'Ministérios', href: '#ministerios' },
     { label: 'Eventos', href: '#eventos' },
     { label: 'Galeria', href: '#galeria' },
-    { label: 'Contato', href: '#contato' },
+
   ];
 
   return (

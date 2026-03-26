@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SectionContainer } from '../shared/SectionContainer';
+import { IframeModal } from '../shared/IframeModal';
 import { FadeUp, StaggerContainer, StaggerItem } from '../styles/effect/motionVariants';
 import { FaExpandAlt } from 'react-icons/fa';
 
@@ -13,6 +14,8 @@ const galleryItems = [
 ];
 
 export const GallerySection: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <SectionContainer background="surface" id="galeria">
       <FadeUp className="text-center max-w-2xl mx-auto mb-16">
@@ -49,13 +52,14 @@ export const GallerySection: React.FC = () => {
       </StaggerContainer>
 
       <FadeUp delay={0.4} className="mt-12 text-center">
-        <button className="px-8 py-4 rounded-xl font-semibold text-primary bg-white border border-muted hover:border-accent hover:text-accent shadow-sm hover:shadow-medium transition-all duration-normal inline-flex items-center gap-2">
+        <button onClick={() => setIsModalOpen(true)} className="px-8 py-4 rounded-xl font-semibold text-primary bg-white border border-muted hover:border-accent hover:text-accent shadow-sm hover:shadow-medium transition-all duration-normal inline-flex items-center gap-2">
           Ver Álbum Completo
           <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m-7-7H3" />
           </svg>
         </button>
       </FadeUp>
+      <IframeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} url="/galeria" />
     </SectionContainer>
   );
 };

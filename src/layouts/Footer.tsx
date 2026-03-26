@@ -68,9 +68,11 @@ export const Footer: React.FC = () => {
             <h3 className="font-bold text-base mb-6 text-white/90">Horários</h3>
             <ul className="flex flex-col gap-4 text-sm">
               {[
-                { day: 'Domingo', service: 'Culto da Família', time: '09:00' },
-                { day: 'Quarta-feira', service: 'Estudo Bíblico', time: '19:30' },
-                { day: 'Sexta-feira', service: 'Oração', time: '20:00' },
+                { day: 'Segunda', service: 'Intercessão', time: '17:00' },
+                { day: 'Quinta', service: 'Ensino', time: '17:30' },
+                { day: 'Sexta', service: 'Mulheres', time: '16:00' },
+                { day: 'Sábado', service: 'Jejum e Libert.', time: '09:00' },
+                { day: 'Domingo', service: 'Culto de Manã', time: '09:00' },
               ].map((item) => (
                 <li key={item.day} className="flex items-center justify-between pb-3 border-b border-white/5 last:border-0">
                   <div>
