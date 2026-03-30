@@ -40,7 +40,19 @@ const galleryItems: GalleryItem[] = [
 ];
 
 export const GallerySection: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalState, setModalState] = useState<{ isOpen: boolean; url: string; title: string }>({
+    isOpen: false,
+    url: '',
+    title: '',
+  });
+
+  const openModal = (url: string, title: string) => {
+    setModalState({ isOpen: true, url, title });
+  };
+
+  const closeModal = () => {
+    setModalState(prev => ({ ...prev, isOpen: false }));
+  };
 
   const renderMedia = (item: GalleryItem) => {
     switch (item.type) {
@@ -91,7 +103,10 @@ export const GallerySection: React.FC = () => {
       <Carousel className="md:hidden -mx-4 pb-4" gap="gap-4" padding="px-4">
         {galleryItems.map((item) => (
           <CarouselItem key={item.id} className="min-w-[80vw] sm:min-w-[60vw]">
-            <div className="relative group rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-subtle hover:shadow-medium transition-all duration-normal active:scale-[0.98]">
+            <div 
+              onClick={() => openModal(item.url, item.title)}
+              className="relative group rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-subtle hover:shadow-medium transition-all duration-normal active:scale-[0.98]"
+            >
               {renderMedia(item)}
               
               <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-normal z-0" />
@@ -109,7 +124,11 @@ export const GallerySection: React.FC = () => {
       {/* Desktop: Masonry-style Grid */}
       <StaggerContainer className="hidden md:grid md:grid-cols-4 grid-rows-auto gap-3 md:gap-5">
         {galleryItems.map((item) => (
-          <StaggerItem key={item.id} className={`${item.span} relative group rounded-3xl overflow-hidden min-h-[240px] cursor-pointer shadow-sm hover:shadow-medium transition-all duration-normal`}>
+          <StaggerItem 
+            key={item.id} 
+            onClick={() => openModal(item.url, item.title)}
+            className={`${item.span} relative group rounded-3xl overflow-hidden min-h-[240px] cursor-pointer shadow-sm hover:shadow-medium transition-all duration-normal`}
+          >
             {renderMedia(item)}
             
             <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-normal z-0" />
@@ -124,14 +143,19 @@ export const GallerySection: React.FC = () => {
       </StaggerContainer>
 
       <FadeUp delay={0.4} className="mt-12 text-center">
-        <button onClick={() => setIsModalOpen(true)} className="px-6 py-3.5 sm:px-8 sm:py-4 rounded-xl font-semibold text-primary bg-white border border-muted hover:border-accent hover:text-accent shadow-sm hover:shadow-medium transition-all duration-normal inline-flex items-center gap-2 min-h-[48px] active:scale-95">
+        <button onClick={() => openModal('/galeria', 'Galeria Completa')} className="px-6 py-3.5 sm:px-8 sm:py-4 rounded-xl font-semibold text-primary bg-white border border-muted hover:border-accent hover:text-accent shadow-sm hover:shadow-medium transition-all duration-normal inline-flex items-center gap-2 min-h-[48px] active:scale-95">
           Ver Álbum Completo
           <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m-7-7H3" />
           </svg>
         </button>
       </FadeUp>
-      <IframeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} url="/galeria" title="Galeria" />
+      <IframeModal 
+        isOpen={modalState.isOpen} 
+        onClose={closeModal} 
+        url={modalState.url} 
+        title={modalState.title} 
+      />
     </SectionContainer>
   );
 };

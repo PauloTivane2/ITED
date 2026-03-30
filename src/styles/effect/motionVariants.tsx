@@ -20,7 +20,7 @@
  */
 
 import React from 'react';
-import { motion, Variants, MotionProps } from 'framer-motion';
+import { motion, Variants, MotionProps, HTMLMotionProps } from 'framer-motion';
 
 // ─── shared easing ────────────────────────────────────────────────────────────
 const easeSmooth = 'easeInOut' as const;
@@ -64,12 +64,13 @@ interface FadeUpProps {
   once?: boolean;
 }
 
-export const FadeUp: React.FC<FadeUpProps> = ({
+export const FadeUp: React.FC<FadeUpProps & HTMLMotionProps<'div'>> = ({
   children,
   delay = 0,
   duration = 0.6,
   className = '',
   once = true,
+  ...props
 }) => (
   <motion.div
     initial={{ opacity: 0, y: 40 }}
@@ -77,6 +78,7 @@ export const FadeUp: React.FC<FadeUpProps> = ({
     viewport={{ once, margin: '-80px' }}
     transition={{ duration, delay, ease: easeOut }}
     className={className}
+    {...props}
   >
     {children}
   </motion.div>
@@ -101,13 +103,14 @@ const slideOffset = (direction: SlideInProps['direction'], amount = 60) => {
   }
 };
 
-export const SlideIn: React.FC<SlideInProps> = ({
+export const SlideIn: React.FC<SlideInProps & HTMLMotionProps<'div'>> = ({
   children,
   direction = 'up',
   delay = 0,
   duration = 0.6,
   className = '',
   once = true,
+  ...props
 }) => {
   const offset = slideOffset(direction);
   return (
@@ -117,6 +120,7 @@ export const SlideIn: React.FC<SlideInProps> = ({
       viewport={{ once, margin: '-80px' }}
       transition={{ duration, delay, ease: easeOut }}
       className={className}
+      {...props}
     >
       {children}
     </motion.div>
@@ -133,13 +137,14 @@ interface ScaleInProps {
   scale?: number;
 }
 
-export const ScaleIn: React.FC<ScaleInProps> = ({
+export const ScaleIn: React.FC<ScaleInProps & HTMLMotionProps<'div'>> = ({
   children,
   delay = 0,
   duration = 0.5,
   className = '',
   once = true,
   scale = 0.85,
+  ...props
 }) => (
   <motion.div
     initial={{ opacity: 0, scale }}
@@ -147,6 +152,7 @@ export const ScaleIn: React.FC<ScaleInProps> = ({
     viewport={{ once, margin: '-80px' }}
     transition={{ duration, delay, ease: easeOut }}
     className={className}
+    {...props}
   >
     {children}
   </motion.div>
@@ -172,11 +178,12 @@ const staggerChildVariants: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: easeOut } },
 };
 
-export const StaggerContainer: React.FC<StaggerContainerProps> = ({
+export const StaggerContainer: React.FC<StaggerContainerProps & HTMLMotionProps<'div'>> = ({
   children,
   staggerDelay = 0.12,
   className = '',
   once = true,
+  ...props
 }) => (
   <motion.div
     variants={staggerVariants(staggerDelay)}
@@ -184,17 +191,19 @@ export const StaggerContainer: React.FC<StaggerContainerProps> = ({
     whileInView="visible"
     viewport={{ once, margin: '-80px' }}
     className={className}
+    {...props}
   >
     {children}
   </motion.div>
 );
 
 /** Use this as direct child of <StaggerContainer> */
-export const StaggerItem: React.FC<{ children: React.ReactNode; className?: string }> = ({
+export const StaggerItem: React.FC<HTMLMotionProps<'div'>> = ({
   children,
   className = '',
+  ...props
 }) => (
-  <motion.div variants={staggerChildVariants} className={className}>
+  <motion.div variants={staggerChildVariants} className={className} {...props}>
     {children}
   </motion.div>
 );
