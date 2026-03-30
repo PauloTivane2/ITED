@@ -123,9 +123,8 @@ export const HeroSection: React.FC = () => {
             transition={{ duration: 0.7, delay: 0.6, ease: easeOut }}
           >
             {[
-              { number: '10+', label: 'Anos de história' },
-              { number: '500+', label: 'Famílias conectadas' },
-              { number: '12', label: 'Ministérios ativos' },
+              { number: '7+', label: 'Anos Manifestando o Reino' },
+              { number: '500+', label: 'Vidas Edificadas no Altar' },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}

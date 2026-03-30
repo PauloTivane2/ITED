@@ -30,16 +30,20 @@ export const Footer: React.FC = () => {
             </p>
             {/* Social Icons */}
             <div className="flex gap-3 mt-2">
-              {['facebook', 'instagram', 'youtube'].map((social) => (
+              {[
+                { label: 'facebook', icon: <FaFacebookF className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />, href: 'https://www.facebook.com/profile.php?id=61559318708114' },
+                { label: 'instagram', icon: <FaInstagram className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />, href: '#' },
+                { label: 'youtube', icon: <FaYoutube className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />, href: 'https://www.youtube.com/@ITEDTV' },
+              ].map((social) => (
                 <a 
-                  key={social}
-                  href="#" 
+                  key={social.label}
+                  href={social.href}
+                  target={social.href !== '#' ? "_blank" : undefined}
+                  rel={social.href !== '#' ? "noopener noreferrer" : undefined}
                   className="w-10 h-10 min-w-[44px] min-h-[44px] rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-accent hover:border-accent hover:shadow-glow transition-all duration-normal group"
-                  aria-label={social}
+                  aria-label={social.label}
                 >
-                  {social === 'facebook' && <FaFacebookF className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />}
-                  {social === 'instagram' && <FaInstagram className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />}
-                  {social === 'youtube' && <FaYoutube className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />}
+                  {social.icon}
                 </a>
               ))}
             </div>
@@ -93,13 +97,15 @@ export const Footer: React.FC = () => {
             <h3 className="font-bold text-base mb-6 text-white/90">Contato</h3>
             <ul className="flex flex-col gap-4 text-sm text-white/50">
               {[
-                { icon: <FaPhoneAlt className="w-4 h-4" />, text: '+258 848083482' },
-                { icon: <FaEnvelope className="w-4 h-4" />, text: 'contato@iited.org' },
-                { icon: <FaMapMarkerAlt className="w-4 h-4" />, text: 'Matacuanne, Beira — Moçambique' },
+                { icon: <FaPhoneAlt className="w-4 h-4" />, text: '+258 848083482', href: 'tel:+258848083482' },
+                { icon: <FaEnvelope className="w-4 h-4" />, text: 'itedmidia@gmail.com', href: 'mailto:itedmidia@gmail.com' },
+                { icon: <FaMapMarkerAlt className="w-4 h-4" />, text: 'Matacuanne, Beira — Moçambique', href: 'https://maps.app.goo.gl/Vn6iaZRVSL9f9Hg69' },
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-3 group hover:text-white transition-colors">
                   <span className="mt-0.5 text-accent/60 group-hover:text-accent transition-colors shrink-0">{item.icon}</span>
-                  <span>{item.text}</span>
+                  <a href={item.href} target={item.href.startsWith('http') ? "_blank" : undefined} rel={item.href.startsWith('http') ? "noopener noreferrer" : undefined} className="hover:underline decoration-accent/30 underline-offset-4">
+                    {item.text}
+                  </a>
                 </li>
               ))}
             </ul>

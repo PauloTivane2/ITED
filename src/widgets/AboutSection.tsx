@@ -1,6 +1,6 @@
 import React from 'react';
 import { SectionContainer } from '../shared/SectionContainer';
-import { FadeUp, SlideIn, StaggerContainer, StaggerItem } from '../styles/effect/motionVariants';
+import { FadeUp, SlideIn } from '../styles/effect/motionVariants';
 import { FaChurch, FaGlobe, FaHeart } from 'react-icons/fa';
 
 export const AboutSection: React.FC = () => {
@@ -8,51 +8,56 @@ export const AboutSection: React.FC = () => {
     <SectionContainer background="white" id="sobre">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
         {/* Text Content */}
-        <div className="flex flex-col gap-8">
-          <FadeUp>
-            <span className="inline-block text-accent font-semibold text-sm tracking-widest uppercase mb-4">Sobre Nós</span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary tracking-tight">
-              Uma igreja feita de <span className="font-serif italic font-medium text-accent">Pessoas</span> e <span className="font-serif italic font-medium text-accent">Propósito</span>
-            </h2>
-          </FadeUp>
-          
-          <FadeUp delay={0.1}>
-            <div className="text-secondary text-base lg:text-lg leading-relaxed space-y-4">
-              <p>
-                A Igreja Internacional Tenda do Encontro com Deus (I.I.T.E.D), sediada no 7º Bairro Matacuane, na cidade da Beira, Moçambique, é uma comunidade cristã em crescimento, fundada na fé e guiada pelo Espírito Santo. Sob a liderança do Apóstolo Rev. Clemente Raiva, a igreja vive o princípio de Atos 4:32-35 na versão King James (KJA), que detalha essa comunhão e a entrega dos bens aos apóstolos:
-              </p>
-              <blockquote className="pl-4 border-l-4 border-accent bg-accent/5 p-4 rounded-r-xl text-sm md:text-base text-secondary/90 italic space-y-2">
-                <p><strong>32.</strong> Da multidão dos que creram, era um só o coração e uma só a alma. Ninguém considerava exclusivamente sua posse qualquer coisa que lhe pertencesse; ao contrário, tudo o que tinham era compartilhado.</p>
-                <p><strong>33.</strong> Com grande poder os apóstolos continuavam a dar testemunho da ressurreição do Senhor Jesus, e sobre todos eles havia abundante graça.</p>
-                <p><strong>34.</strong> Não havia, pois, nenhum necessitado entre eles, porquanto os que possuíam terras ou casas, vendendo-as, traziam os valores correspondentes à venda,</p>
-                <p><strong>35.</strong> e os depositavam aos pés dos apóstolos; e distribuía-se a qualquer um, à medida que alguém tivesse necessidade.</p>
-              </blockquote>
-              <p>
-                Promovendo transformação espiritual, comunhão e serviço à comunidade.
-              </p>
-            </div>
-          </FadeUp>
-
-          <StaggerContainer staggerDelay={0.15} className="flex flex-col gap-6 mt-4">
-            {[
-              { icon: <FaChurch />, title: 'Nossa Visão', desc: 'Sermos uma casa de adoração e restauração contínua para as nações.' },
-              { icon: <FaHeart />, title: 'Nossos Valores', desc: 'Comunhão, Espiritualidade, Ensino da Palavra e Amor ao Próximo.' },
-              { icon: <FaGlobe />, title: 'Nossa Missão', desc: 'Levar as boas novas do evangelho, acolher os feridos e transformar realidades locais.' }
-            ].map((item, idx) => (
-              <StaggerItem key={idx}>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center text-accent shrink-0">
-                    {item.icon}
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-primary mb-1">{item.title}</h3>
-                    <p className="text-secondary text-sm leading-relaxed">{item.desc}</p>
-                  </div>
+          {/* Main Content Cluster */}
+          <div className="flex flex-col gap-10">
+            <FadeUp>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-[1.5px] bg-accent" />
+                <span className="text-accent font-bold text-xs sm:text-sm tracking-[0.3em] uppercase">Excelência & Fé</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary leading-[1.1] mb-6">
+                Fundada na <span className="text-accent italic font-serif font-medium">Palavra</span>,<br />
+                Movida pelo <span className="text-accent italic font-serif font-medium">Amor</span>.
+              </h2>
+              <div className="h-1 w-20 bg-gradient-accent rounded-full opacity-60" />
+            </FadeUp>
+            
+            <FadeUp delay={0.1}>
+              <div className="prose prose-lg text-secondary max-w-none">
+                <p className="text-lg lg:text-xl font-medium text-primary/80 mb-6 leading-relaxed">
+                  A <span className="text-accent font-bold">I.T.E.D</span> é mais do que uma instituição; é um refúgio espiritual dedicado à manifestação genuína do Reino de Deus em Moçambique.
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm lg:text-base leading-relaxed text-secondary/70">
+                  <p>
+                    Sediada no coração do <span className="font-semibold text-primary">Matacuanne, Beira</span>, nossa congregação nasceu de um chamado para a restauração. Sob a visão do <span className="font-semibold text-primary">Apóstolo Rev. Clemente Raiva</span>, cultivamos um ambiente onde a fé se traduz em atos práticos de serviço e comunhão.
+                  </p>
+                  <p>
+                    Acreditamos em uma espiritualidade que transforma realidades. Nossa jornada é centrada na verdade bíblica, acolhendo cada pessoa como parte de uma família unida pelo propósito eterno de glorificar ao Senhor em todas as esferas da vida.
+                  </p>
                 </div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-        </div>
+              </div>
+            </FadeUp>
+
+            {/* Pillar Cards (Vision, Values, Mission) */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-4">
+              {[
+                { icon: <FaChurch />, title: 'Visão', desc: 'Ser casa de adoração para as nações.' },
+                { icon: <FaHeart />, title: 'Valores', desc: 'Comunhão, Ensino e Amor Próximo.' },
+                { icon: <FaGlobe />, title: 'Missão', desc: 'Levar o Evangelho e transformar vidas.' }
+              ].map((item, idx) => (
+                <FadeUp key={idx} delay={0.2 + idx * 0.1}>
+                  <div className="p-6 rounded-2xl bg-surface border border-muted/30 hover:border-accent/40 transition-all duration-medium group hover:shadow-soft">
+                    <div className="w-10 h-10 rounded-xl bg-accent/5 flex items-center justify-center text-accent mb-4 group-hover:bg-accent group-hover:text-white transition-all">
+                      {item.icon}
+                    </div>
+                    <h3 className="text-sm font-black text-primary uppercase tracking-wider mb-2">{item.title}</h3>
+                    <p className="text-xs lg:text-sm text-secondary leading-snug">{item.desc}</p>
+                  </div>
+                </FadeUp>
+              ))}
+            </div>
+          </div>
 
         {/* Image Grid */}
         <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:gap-6 relative">
