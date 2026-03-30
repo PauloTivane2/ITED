@@ -11,7 +11,7 @@ export const AboutSection: React.FC = () => {
         <div className="flex flex-col gap-8">
           <FadeUp>
             <span className="inline-block text-accent font-semibold text-sm tracking-widest uppercase mb-4">Sobre Nós</span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary tracking-tight">
               Uma igreja feita de <span className="font-serif italic font-medium text-accent">Pessoas</span> e <span className="font-serif italic font-medium text-accent">Propósito</span>
             </h2>
           </FadeUp>
@@ -55,20 +55,20 @@ export const AboutSection: React.FC = () => {
         </div>
 
         {/* Image Grid */}
-        <div className="grid grid-cols-2 gap-4 lg:gap-6 relative">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:gap-6 relative">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-accent/5 rounded-full blur-[100px] -z-10" />
           
-          <SlideIn direction="left" className="flex flex-col gap-4 lg:gap-6 pt-12 lg:pt-20">
+          <SlideIn direction="left" className="flex flex-col gap-3 sm:gap-4 lg:gap-6 pt-8 sm:pt-12 lg:pt-20">
             <div className="rounded-2xl overflow-hidden aspect-[4/5] relative shadow-strong">
               <img src="https://images.unsplash.com/photo-1437603568260-1950d3c00cb5?q=80&w=600&auto=format&fit=crop" alt="Igreja adoração" className="w-full h-full object-cover" />
             </div>
           </SlideIn>
           
-          <SlideIn direction="right" className="flex flex-col gap-4 lg:gap-6">
+          <SlideIn direction="right" className="flex flex-col gap-3 sm:gap-4 lg:gap-6">
             <div className="rounded-2xl overflow-hidden aspect-[4/5] relative shadow-strong">
               <img src="https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=600&auto=format&fit=crop" alt="Comunidade unida" className="w-full h-full object-cover" />
             </div>
-            <div className="bg-gradient-accent rounded-2xl p-6 md:p-8 text-white shadow-glow">
+            <div className="bg-gradient-accent rounded-2xl p-5 sm:p-6 md:p-8 text-white shadow-glow">
               <h4 className="text-3xl font-extrabold mb-1">10+</h4>
               <p className="text-sm text-white/80 font-medium">Anos transformando vidas em nossa comunidade.</p>
             </div>

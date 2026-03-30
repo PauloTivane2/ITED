@@ -28,11 +28,11 @@ export const SectionContainer: React.FC<SectionContainerProps> = ({
 
   return (
     <Component 
-      className={`py-20 md:py-28 lg:py-32 ${backgrounds[background]} ${className}`}
+      className={`py-12 sm:py-16 md:py-20 lg:py-28 ${backgrounds[background]} ${className}`}
       {...props}
     >
       <motion.div
-        className={`container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl ${containerClass}`}
+        className={`container mx-auto px-4 sm:px-5 md:px-8 lg:px-10 max-w-7xl ${containerClass}`}
         initial={animate ? { opacity: 0, y: 36 } : false}
         whileInView={animate ? { opacity: 1, y: 0 } : undefined}
         viewport={{ once: true, margin: '-80px' }}

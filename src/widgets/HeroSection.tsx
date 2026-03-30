@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
 import { FaClock, FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import { MatrixRain } from '../styles/effect/MatrixRain';
+import { BibleVerse } from './BibleVerse';
 
 const easeOut = 'easeOut' as const;
 
@@ -33,9 +34,9 @@ export const HeroSection: React.FC = () => {
 
       {/* ── Animated background orbs ────────────────────────────── */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-[1]">
-        <div className="absolute top-1/4 -left-20 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[120px] animate-pulse-soft" />
-        <div className="absolute bottom-1/4 -right-20 w-[400px] h-[400px] bg-highlight/8 rounded-full blur-[100px] animate-pulse-soft" style={{ animationDelay: '1.5s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[150px]" />
+        <div className="absolute top-1/4 -left-20 w-[280px] h-[280px] sm:w-[500px] sm:h-[500px] bg-accent/10 rounded-full blur-[80px] sm:blur-[120px] animate-pulse-soft" />
+        <div className="absolute bottom-1/4 -right-20 w-[220px] h-[220px] sm:w-[400px] sm:h-[400px] bg-highlight/8 rounded-full blur-[80px] sm:blur-[100px] animate-pulse-soft" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] bg-accent/5 rounded-full blur-[100px] sm:blur-[150px]" />
       </div>
 
       {/* ── Subtle grid ─────────────────────────────────────────── */}
@@ -51,8 +52,8 @@ export const HeroSection: React.FC = () => {
       </div>
 
       {/* ── Content ─────────────────────────────────────────────── */}
-      <div className="relative z-10 container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl py-32 md:py-40">
-        <div className="max-w-3xl flex flex-col gap-8">
+      <div className="relative z-10 container mx-auto px-4 sm:px-5 md:px-8 lg:px-10 max-w-7xl py-20 sm:py-28 md:py-40">
+        <div className="max-w-3xl flex flex-col gap-6 sm:gap-8">
 
           {/* Badge */}
           <motion.div
@@ -60,12 +61,12 @@ export const HeroSection: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: easeOut }}
           >
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/[0.07] border border-white/[0.12] backdrop-blur-sm text-sm font-medium text-white/90">
-              <span className="relative flex h-2.5 w-2.5">
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.05] border border-white/[0.1] backdrop-blur-md text-[10px] sm:text-xs md:text-sm font-medium text-white/80 tracking-wide uppercase">
+              <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-highlight opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-highlight" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-highlight shadow-[0_0_8px_rgba(109,255,179,0.8)]" />
               </span>
-              Seja bem Vindo a ITED, estamos baseados na fé
+              Seja bem-vindo à ITED • Baseados na fé
             </div>
           </motion.div>
 
@@ -75,25 +76,21 @@ export const HeroSection: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15, ease: easeOut }}
           >
-            <span className="block text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-[1.1] tracking-tight">
+            <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] tracking-tight">
               Encontre
             </span>
-            <span className="block text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.1] tracking-tight mt-2">
+            <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight mt-2">
               <span className="text-gradient">{typeText}</span>
               <Cursor cursorStyle="|" cursorColor="#6dffb3" />
               <span className="text-white">.</span>
             </span>
           </motion.h1>
 
-          {/* Subtitle */}
-          <motion.p
-            className="text-lg md:text-xl text-white/60 leading-relaxed max-w-xl"
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3, ease: easeOut }}
-          >
-            "Em Êxodo 33:7-11, Moisés montava a 'Tenda do Encontro' (ou da Congregação) fora do arraial, longe do povo, para consultar a Deus. Quando Moisés entrava, a coluna de nuvem descia e Deus falava com ele face a face, como um homem fala com seu amigo."
-          </motion.p>
+          {/* Subtitle / Verse */}
+          <BibleVerse 
+            reference="Êxodo 33:7-11"
+            text="Moisés montava a 'Tenda do Encontro' fora do arraial, longe do povo, para consultar a Deus. Quando Moisés entrava, a coluna de nuvem descia e Deus falava com ele face a face, como um homem fala com seu amigo."
+          />
 
           {/* CTAs */}
           <motion.div
@@ -102,29 +99,25 @@ export const HeroSection: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.45, ease: easeOut }}
           >
-            <motion.a
+            <a
               href="#horarios"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-2.5 px-7 py-4 rounded-xl font-semibold text-white bg-gradient-accent shadow-glow hover:shadow-glow-lg transition-shadow duration-normal"
+              className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 sm:px-7 sm:py-4 rounded-xl font-semibold text-white bg-gradient-accent shadow-glow hover:shadow-glow-lg transition-all duration-normal hover:-translate-y-0.5 min-h-[48px] active:scale-95 active:translate-y-0"
             >
               <FaClock className="w-5 h-5" />
               Nossos Horários
-            </motion.a>
-            <motion.a
+            </a>
+            <a
               href="#sobre"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-2.5 px-7 py-4 rounded-xl font-semibold text-white/80 hover:text-white border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-normal"
+              className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 sm:px-7 sm:py-4 rounded-xl font-semibold text-white/80 hover:text-white border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-normal hover:-translate-y-0.5 min-h-[48px] active:scale-95 active:translate-y-0"
             >
               Conheça a Igreja
               <FaChevronRight className="w-3.5 h-3.5" />
-            </motion.a>
+            </a>
           </motion.div>
 
           {/* Stats row */}
           <motion.div
-            className="flex flex-wrap gap-8 md:gap-12 pt-8 mt-4 border-t border-white/[0.06]"
+            className="flex flex-wrap gap-x-8 sm:gap-x-12 gap-y-6 pt-8 mt-4 border-t border-white/[0.08]"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.6, ease: easeOut }}
@@ -139,9 +132,10 @@ export const HeroSection: React.FC = () => {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.65 + i * 0.1, ease: easeOut }}
+                className="flex flex-col"
               >
-                <div className="text-2xl md:text-3xl font-extrabold text-white">{stat.number}</div>
-                <div className="text-sm text-white/40 mt-1">{stat.label}</div>
+                <div className="text-2xl sm:text-3xl font-black text-white tracking-tight">{stat.number}</div>
+                <div className="text-[10px] sm:text-xs text-white/40 mt-1 uppercase tracking-widest font-bold font-sans">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>

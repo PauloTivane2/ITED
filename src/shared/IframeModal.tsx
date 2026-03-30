@@ -6,9 +6,10 @@ interface IframeModalProps {
   isOpen: boolean;
   onClose: () => void;
   url: string;
+  title?: string;
 }
 
-export const IframeModal: React.FC<IframeModalProps> = ({ isOpen, onClose, url }) => {
+export const IframeModal: React.FC<IframeModalProps> = ({ isOpen, onClose, url, title }) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -51,7 +52,7 @@ export const IframeModal: React.FC<IframeModalProps> = ({ isOpen, onClose, url }
           >
             {/* Header / close bar */}
             <div className="flex items-center justify-between px-6 py-4 bg-surface border-b border-muted/20 shrink-0">
-              <span className="font-semibold text-primary">Navegação</span>
+              <span className="font-semibold text-primary">{title || 'Navegação'}</span>
               <button
                 onClick={onClose}
                 className="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-muted/30 text-secondary hover:text-accent hover:border-accent hover:bg-accent/5 transition-all shadow-sm"

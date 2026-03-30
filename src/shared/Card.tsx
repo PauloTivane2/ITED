@@ -28,7 +28,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
     return (
       <div
         ref={ref}
-        className={`bg-white rounded-2xl border border-muted/40 overflow-hidden transition-all duration-normal ease-smooth ${elevations[elevation]} ${hoverClass} ${glowClass} ${className}`}
+        className={`bg-white rounded-2xl border border-muted/40 overflow-hidden transition-all duration-normal ease-smooth active:scale-[0.98] ${elevations[elevation]} ${hoverClass} ${glowClass} ${className}`}
         {...props}
       >
         {children}

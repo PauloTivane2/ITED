@@ -45,15 +45,15 @@ export const EventsSection: React.FC = () => {
         {/* Left: Content */}
         <div className="flex-1 lg:max-w-md">
           <span className="inline-block text-accent font-semibold text-sm tracking-widest uppercase mb-4">Agenda</span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-6 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-4 sm:mb-6 tracking-tight">
             Próximos <span className="font-serif italic font-medium text-accent">Eventos</span>
           </h2>
-          <p className="text-secondary text-lg mb-8 leading-relaxed">
+          <p className="text-secondary text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed">
             Fique por dentro de tudo o que acontece na comunidade. Eventos são oportunidades para comunhão, crescimento e celebração.
           </p>
           <button 
             onClick={() => setIsModalOpen(true)} 
-            className="inline-flex items-center gap-3 px-7 py-4 rounded-xl border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-normal hover:shadow-medium group"
+            className="inline-flex items-center gap-3 px-6 py-3.5 sm:px-7 sm:py-4 rounded-xl border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-normal hover:shadow-medium group min-h-[48px] active:scale-95"
           >
             Ver Calendário Completo
             <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -67,10 +67,10 @@ export const EventsSection: React.FC = () => {
           {events.map((event) => (
             <div 
               key={event.id}
-              className="group bg-white rounded-2xl border border-muted/40 p-5 sm:p-6 flex gap-5 sm:gap-6 items-start hover:border-accent/20 hover:shadow-medium cursor-pointer transition-all duration-normal"
+              className="group bg-white rounded-2xl border border-muted/40 p-4 sm:p-5 md:p-6 flex gap-4 sm:gap-5 md:gap-6 items-start hover:border-accent/20 hover:shadow-medium cursor-pointer transition-all duration-normal active:scale-[0.98]"
             >
               {/* Date Badge */}
-              <div className="flex flex-col items-center justify-center bg-surface group-hover:bg-gradient-accent group-hover:text-white rounded-2xl w-[72px] h-[72px] min-w-[72px] transition-all duration-normal">
+              <div className="flex flex-col items-center justify-center bg-surface group-hover:bg-gradient-accent group-hover:text-white rounded-2xl w-[60px] h-[60px] min-w-[60px] sm:w-[72px] sm:h-[72px] sm:min-w-[72px] transition-all duration-normal">
                 <span className="font-extrabold text-2xl leading-none group-hover:text-white text-primary transition-colors">{event.date}</span>
                 <span className="text-xs font-bold mt-1 tracking-wider group-hover:text-white/80 text-secondary transition-colors">{event.month}</span>
               </div>
@@ -110,7 +110,7 @@ export const EventsSection: React.FC = () => {
           ))}
         </div>
       </div>
-      <IframeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} url="/calendario" />
+      <IframeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} url="/calendario" title="Calendário de Eventos" />
     </SectionContainer>
   );
 };

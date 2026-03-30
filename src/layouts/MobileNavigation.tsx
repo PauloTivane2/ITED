@@ -41,7 +41,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
           </div>
           <button 
             onClick={onClose}
-            className="p-2 text-secondary hover:text-primary rounded-xl hover:bg-surface transition-all"
+            className="p-2 min-w-[48px] min-h-[48px] flex items-center justify-center text-secondary hover:text-primary rounded-xl hover:bg-surface transition-all"
             aria-label="Fechar menu"
           >
             <FaTimes className="w-5 h-5" />
@@ -49,13 +49,13 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         </div>
 
         {/* Navigation Links */}
-        <nav className="flex-1 overflow-y-auto py-6 px-4 flex flex-col gap-1">
+        <nav className="flex-1 overflow-y-auto py-6 px-4 flex flex-col gap-2">
           {links.map((link, index) => (
             <a
               key={link.label}
               href={link.href}
               onClick={onClose}
-              className="px-4 py-3.5 rounded-xl text-base font-medium text-secondary hover:text-accent hover:bg-accent/5 transition-all duration-fast"
+              className="px-4 py-4 rounded-xl text-base font-medium text-secondary hover:text-accent hover:bg-accent/5 transition-all duration-fast min-h-[48px] flex items-center"
               style={{ 
                 transitionDelay: isOpen ? `${index * 50}ms` : '0ms',
                 opacity: isOpen ? 1 : 0,

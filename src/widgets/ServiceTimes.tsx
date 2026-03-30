@@ -1,6 +1,7 @@
 import React from 'react';
 import { SectionContainer } from '../shared/SectionContainer';
 import { Card } from '../shared/Card';
+import { Carousel, CarouselItem } from '../shared/Carousel';
 import { FadeUp, StaggerContainer, StaggerItem } from '../styles/effect/motionVariants';
 
 const services = [
@@ -75,25 +76,54 @@ export const ServiceTimes: React.FC = () => {
   return (
     <SectionContainer background="surface" id="horarios">
       {/* Section Header */}
-      <FadeUp className="text-center max-w-2xl mx-auto mb-16">
-        <span className="inline-block text-accent font-semibold text-sm tracking-widest uppercase mb-4">Programação</span>
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-5 tracking-tight">
+      <FadeUp className="text-center max-w-2xl mx-auto mb-8 sm:mb-12 md:mb-16">
+        <span className="inline-block text-accent font-semibold text-sm tracking-widest uppercase mb-3 sm:mb-4">Programação</span>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-4 sm:mb-5 tracking-tight">
           Nossos <span className="font-serif italic font-medium text-accent">Horários</span>
         </h2>
-        <p className="text-secondary text-lg leading-relaxed">
+        <p className="text-secondary text-base sm:text-lg leading-relaxed">
           Temos encontros semanais pensados para edificar sua vida. Escolha o melhor horário e venha estar conosco.
         </p>
       </FadeUp>
 
-      {/* Cards Grid */}
-      <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+      {/* Mobile: Horizontal Carousel | Desktop: Grid */}
+      <Carousel className="md:hidden -mx-4 pb-4" gap="gap-4" padding="px-4">
+        {services.map((service) => (
+          <CarouselItem key={service.day} className="min-w-[280px] max-w-[85vw]">
+            <Card hoverable glowing className="group p-0 h-full">
+              <div className={`h-1.5 bg-gradient-to-r ${service.gradient}`} />
+              <div className="p-6 flex flex-col gap-4 h-full">
+                <div className={`w-12 h-12 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center ${service.iconColor} group-hover:scale-110 transition-transform duration-normal`}>
+                  {service.icon}
+                </div>
+                <div>
+                  <div className={`text-xs font-bold tracking-[0.2em] uppercase mb-2 ${service.iconColor}`}>{service.day}</div>
+                  <h3 className="text-lg font-bold text-primary mb-2 group-hover:text-accent transition-colors">{service.name}</h3>
+                  <p className="text-secondary leading-relaxed text-sm">{service.description}</p>
+                </div>
+                <div className="mt-auto pt-4 border-t border-muted/50 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-surface flex items-center justify-center">
+                    <svg className="w-4 h-4 text-secondary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <span className="font-bold text-primary">{service.time}</span>
+                </div>
+              </div>
+            </Card>
+          </CarouselItem>
+        ))}
+      </Carousel>
+
+      {/* Desktop: Grid */}
+      <StaggerContainer className="hidden md:grid md:grid-cols-3 gap-5 lg:gap-8">
         {services.map((service) => (
           <StaggerItem key={service.day}>
             <Card hoverable glowing className="group p-0 h-full">
               {/* Gradient top bar */}
               <div className={`h-1.5 bg-gradient-to-r ${service.gradient}`} />
               
-              <div className="p-8 lg:p-10 flex flex-col gap-5 h-full">
+              <div className="p-6 lg:p-10 flex flex-col gap-5 h-full">
                 {/* Icon */}
                 <div className={`w-14 h-14 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center ${service.iconColor} group-hover:scale-110 transition-transform duration-normal`}>
                   {service.icon}
@@ -125,5 +155,3 @@ export const ServiceTimes: React.FC = () => {
     </SectionContainer>
   );
 };
-
-

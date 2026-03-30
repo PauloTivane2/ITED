@@ -20,9 +20,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     const sizes = {
-      sm: "text-sm px-4 py-2 rounded-lg",
-      md: "text-base px-6 py-3",
-      lg: "text-lg px-8 py-4",
+      sm: "text-sm px-5 py-2.5 min-h-[44px] rounded-lg",
+      md: "text-base px-6 py-3 min-h-[48px]",
+      lg: "text-lg px-8 py-4 min-h-[52px]",
     };
 
     const widthClass = fullWidth ? "w-full" : "";

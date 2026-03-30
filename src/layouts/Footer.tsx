@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaFacebookF, FaInstagram, FaYoutube, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { IframeModal } from '../shared/IframeModal';
 
 export const Footer: React.FC = () => {
+  const [modalState, setModalState] = useState<{ title: string; url: string } | null>(null);
+
   return (
     <footer className="relative bg-primary text-white overflow-hidden">
       {/* Decorative gradient orbs */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-highlight/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl pt-20 pb-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16 mb-16">
+      <div className="relative container mx-auto px-4 sm:px-5 md:px-8 lg:px-10 max-w-7xl pt-12 sm:pt-16 lg:pt-20 pb-8 sm:pb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-16 mb-12 sm:mb-16">
           
           {/* Brand */}
           <div className="lg:col-span-1 flex flex-col gap-5">
@@ -31,7 +34,7 @@ export const Footer: React.FC = () => {
                 <a 
                   key={social}
                   href="#" 
-                  className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-accent hover:border-accent hover:shadow-glow transition-all duration-normal group"
+                  className="w-10 h-10 min-w-[44px] min-h-[44px] rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-accent hover:border-accent hover:shadow-glow transition-all duration-normal group"
                   aria-label={social}
                 >
                   {social === 'facebook' && <FaFacebookF className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />}
@@ -90,9 +93,9 @@ export const Footer: React.FC = () => {
             <h3 className="font-bold text-base mb-6 text-white/90">Contato</h3>
             <ul className="flex flex-col gap-4 text-sm text-white/50">
               {[
-                { icon: <FaPhoneAlt className="w-4 h-4" />, text: '+258 84 123 4567' },
+                { icon: <FaPhoneAlt className="w-4 h-4" />, text: '+258 848083482' },
                 { icon: <FaEnvelope className="w-4 h-4" />, text: 'contato@iited.org' },
-                { icon: <FaMapMarkerAlt className="w-4 h-4" />, text: 'Av. Principal, 123 — Maputo, MZ' },
+                { icon: <FaMapMarkerAlt className="w-4 h-4" />, text: 'Matacuanne, Beira — Moçambique' },
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-3 group hover:text-white transition-colors">
                   <span className="mt-0.5 text-accent/60 group-hover:text-accent transition-colors shrink-0">{item.icon}</span>
@@ -105,13 +108,15 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/30">
-          <p>© {new Date().getFullYear()} I.I.T.E.D. Todos os direitos reservados.</p>
+          <p>© {new Date().getFullYear()} I.T.E.D. Todos os direitos reservados.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-white/70 transition-colors">Termos</a>
-            <a href="#" className="hover:text-white/70 transition-colors">Privacidade</a>
+            <button onClick={(e) => { e.preventDefault(); setModalState({ title: 'Termos de Uso', url: '/termos' }); }} className="hover:text-white/70 transition-colors">Termos</button>
+            <button onClick={(e) => { e.preventDefault(); setModalState({ title: 'Política de Privacidade', url: '/privacidade' }); }} className="hover:text-white/70 transition-colors">Privacidade</button>
           </div>
         </div>
       </div>
+      
+      <IframeModal isOpen={!!modalState} onClose={() => setModalState(null)} url={modalState?.url || ''} title={modalState?.title} />
     </footer>
   );
 };

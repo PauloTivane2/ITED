@@ -4,6 +4,7 @@ import { Button } from '../shared/Button';
 import { SectionContainer } from '../shared/SectionContainer';
 
 import { FaLock, FaPray, FaEnvelope } from 'react-icons/fa';
+import { MapContent } from '../widgets/sections/mapa/mapa';
 
 interface ContactData {
   name: string;
@@ -153,15 +154,15 @@ export const ContactForm: React.FC = () => {
             Seja para um pedido de oração, necessidade de apoio pastoral, dúvidas sobre os ministérios ou qualquer outra questão. Estamos aqui para ajudar.
           </p>
 
-          <div className="hidden lg:flex flex-col gap-4">
+          <div className="flex lg:flex flex-col gap-4">
             {[
               { icon: <FaLock />, text: 'Confidencialidade garantida em assuntos ministeriais.' },
               { icon: <FaPray />, text: 'Pedidos de oração encaminhados diretamente à intercessão.' },
               { icon: <FaEnvelope />, text: 'Respostas rápidas para todas as suas dúvidas.' },
             ].map((signal) => (
-              <div key={signal.text} className="flex items-center gap-4 p-4 rounded-xl bg-surface border border-muted/40">
-                <span className="text-2xl text-accent opacity-80">{signal.icon}</span>
-                <span className="text-sm text-secondary font-medium">{signal.text}</span>
+              <div key={signal.text} className="flex items-center gap-3 p-3.5 sm:p-4 rounded-xl bg-surface border border-muted/30">
+                <span className="text-xl sm:text-2xl text-accent opacity-80 shrink-0">{signal.icon}</span>
+                <span className="text-xs sm:text-sm text-secondary font-medium">{signal.text}</span>
               </div>
             ))}
           </div>
@@ -334,6 +335,19 @@ export const ContactForm: React.FC = () => {
             </form>
           </div>
         </div>
+      </div>
+
+      {/* Bottom Map Integration */}
+      <div className="w-full mt-12 pt-10 sm:mt-20 sm:pt-16 border-t border-muted/30">
+        <div className="max-w-4xl mx-auto text-center mb-10 sm:mb-12">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-primary mb-3 italic font-serif leading-tight px-4">
+            Venha nos <span className="text-accent underline decoration-accent/20 decoration-2 underline-offset-4">Visitar</span>
+          </h3>
+          <p className="text-secondary text-sm sm:text-base px-6 sm:px-0">
+            Será uma honra receber a sua visita na nossa sede em <span className="text-primary font-bold">Matacuanne</span>.
+          </p>
+        </div>
+        <MapContent />
       </div>
     </SectionContainer>
   );

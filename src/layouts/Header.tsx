@@ -28,10 +28,10 @@ export const Header: React.FC = () => {
         ? 'bg-white/80 backdrop-blur-2xl shadow-soft border-b border-muted/50' 
         : 'bg-transparent'
     }`}>
-      <div className="container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl h-20 flex items-center justify-between">
+      <div className="container mx-auto px-4 sm:px-5 md:px-8 lg:px-10 max-w-7xl h-16 sm:h-20 flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex items-center gap-3 group">
-          <div className={`w-11 h-11 rounded-xl flex items-center justify-center font-extrabold text-xl transition-all duration-normal ${
+          <div className={`w-9 h-9 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center font-extrabold text-lg sm:text-xl transition-all duration-normal ${
             isScrolled 
               ? 'bg-gradient-accent text-white shadow-glow' 
               : 'bg-white/10 text-white border border-white/20'
@@ -40,7 +40,7 @@ export const Header: React.FC = () => {
           </div>
           <div className="flex flex-col">
             <span className={`font-bold text-lg leading-tight tracking-tight transition-colors ${isScrolled ? 'text-primary' : 'text-white'}`}>
-              I.I.T.E.D
+              I.T.E.D
             </span>
             <span className={`text-xs font-medium transition-colors ${isScrolled ? 'text-secondary' : 'text-white/70'}`}>
               Tenda do Encontro com Deus
@@ -72,7 +72,7 @@ export const Header: React.FC = () => {
             </Button>
           </div>
           <button 
-            className={`lg:hidden p-2.5 rounded-xl transition-all duration-fast ${
+            className={`lg:hidden p-2.5 rounded-xl min-w-[48px] min-h-[48px] flex items-center justify-center transition-all duration-fast ${
               isScrolled 
                 ? 'text-secondary hover:text-primary hover:bg-surface' 
                 : 'text-white/80 hover:text-white hover:bg-white/10'
