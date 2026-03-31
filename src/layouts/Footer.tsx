@@ -57,7 +57,8 @@ export const Footer: React.FC = () => {
                 { label: 'Sobre Nós', href: '#sobre' },
                 { label: 'Nossos Ministérios', href: '#ministerios' },
                 { label: 'Eventos', href: '#eventos' },
-                { label: 'Galeria', href: '#galeria' },
+                { label: 'Galeria', href: '/galeria' },
+                { label: 'Paróquias', href: '/paroquias' },
                 { label: 'Contato', href: '#contato' },
               ].map((link) => (
                 <li key={link.label}>

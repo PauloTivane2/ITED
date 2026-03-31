@@ -348,6 +348,20 @@ export const ContactForm: React.FC = () => {
           </p>
         </div>
         <MapContent />
+        <div className="mt-12 text-center">
+          <p className="text-secondary text-base mb-6">
+            Procura por outra localização? Temos igrejas em Munhava, Mutindire e mais.
+          </p>
+          <a 
+            href="/paroquias" 
+            className="inline-flex items-center gap-2 text-accent font-bold hover:underline decoration-2 underline-offset-4"
+          >
+            Ver todas as Paróquias
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </a>
+        </div>
       </div>
     </SectionContainer>
   );

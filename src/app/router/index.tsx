@@ -5,6 +5,7 @@ import { CalendarPage } from '../../pages/calendar/Calendar.page';
 import { MinistriesPage } from '../../pages/ministries/Ministries.page';
 import { TermosPage } from '../../pages/termo/Termos.page';
 import { PrivacityPage } from '../../pages/privacity/Privacity.page';
+import { ParishesPage } from '../../pages/parishes/Parishes.page';
 import { ErrorPage } from '../../pages/error/Error.page';
 
 const router = createBrowserRouter([
@@ -16,6 +17,11 @@ const router = createBrowserRouter([
   { 
     path: '/galeria', 
     element: <GalleryPage />,
+    errorElement: <ErrorPage /> 
+  },
+  { 
+    path: '/paroquias', 
+    element: <ParishesPage />,
     errorElement: <ErrorPage /> 
   },
   { 
