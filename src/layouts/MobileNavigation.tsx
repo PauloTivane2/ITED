@@ -37,7 +37,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
         <div className="flex items-center justify-between p-5 border-b border-muted/50">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 bg-gradient-accent rounded-lg flex items-center justify-center text-white font-bold text-sm">I</div>
-            <span className="font-bold text-primary">I.I.T.E.D</span>
+            <span className="font-bold text-primary">ITED</span>
           </div>
           <button 
             onClick={onClose}

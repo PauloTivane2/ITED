@@ -22,8 +22,9 @@ export const Header: React.FC = () => {
   ];
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-slow ease-smooth ${
-      isScrolled 
+    <>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-slow ease-smooth ${
+        isScrolled 
         ? 'bg-white/80 backdrop-blur-2xl shadow-soft border-b border-muted/50' 
         : 'bg-transparent'
     }`}>
@@ -39,7 +40,7 @@ export const Header: React.FC = () => {
           </div>
           <div className="flex flex-col">
             <span className={`font-bold text-lg leading-tight tracking-tight transition-colors ${isScrolled ? 'text-primary' : 'text-white'}`}>
-              I.T.E.D
+              ITED
             </span>
             <span className={`text-xs font-medium transition-colors ${isScrolled ? 'text-secondary' : 'text-white/70'}`}>
               Tenda do Encontro com Deus
@@ -83,12 +84,13 @@ export const Header: React.FC = () => {
           </button>
         </div>
       </div>
+    </header>
 
-      <MobileNavigation 
+    <MobileNavigation 
         isOpen={isMobileMenuOpen} 
         onClose={() => setIsMobileMenuOpen(false)} 
         links={navLinks}
       />
-    </header>
+    </>
   );
 };

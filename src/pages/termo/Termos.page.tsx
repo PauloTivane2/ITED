@@ -7,7 +7,7 @@ const terms = [
     title: 'Aceitação dos Termos',
     icon: <FaBookOpen className="w-5 h-5" />,
     content:
-      'Ao acessar e utilizar o website da I.T.E.D (Igreja  Tenda do Encontro com Deus), você concorda em cumprir estes Termos de Uso, todas as leis e regulamentos aplicáveis e concorda que é responsável pelo cumprimento de todas as leis locais aplicáveis. Se você não concordar com algum destes termos, está proibido de acessar este site.',
+      'Ao acessar e utilizar o website da ITED (Igreja  Tenda do Encontro com Deus), você concorda em cumprir estes Termos de Uso, todas as leis e regulamentos aplicáveis e concorda que é responsável pelo cumprimento de todas as leis locais aplicáveis. Se você não concordar com algum destes termos, está proibido de acessar este site.',
   },
   {
     id: 2,
@@ -144,7 +144,7 @@ export const TermosPage = () => {
             <FaCross className="w-6 h-6 text-accent" />
           </div>
           <div>
-            <p className="font-semibold text-primary mb-1 text-base">Bem-vindo à I.I.T.E.D</p>
+            <p className="font-semibold text-primary mb-1 text-base">Bem-vindo à ITED</p>
             <p className="text-secondary text-sm leading-relaxed">
               Estes Termos de Uso foram elaborados para garantir um ambiente digital seguro e respeitoso, em harmonia com os valores cristãos que nos guiam. Ao navegar em nosso site, você faz parte da nossa comunidade digital.
             </p>
@@ -178,7 +178,7 @@ export const TermosPage = () => {
             .
           </p>
           <p className="text-muted text-xs mt-2 text-accentc">
-            © {new Date().getFullYear()} I.T.E.D — Todos os direitos reservados.
+            © {new Date().getFullYear()} ITED — Todos os direitos reservados.
           </p>
         </div>
       </div>

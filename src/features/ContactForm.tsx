@@ -5,6 +5,7 @@ import { SectionContainer } from '../shared/SectionContainer';
 
 import { FaLock, FaPray, FaEnvelope } from 'react-icons/fa';
 import { MapContent } from '../widgets/sections/mapa/mapa';
+import { emailApi } from '../services/email/email.service';
 
 interface ContactData {
   name: string;
@@ -33,6 +34,7 @@ export const ContactForm: React.FC = () => {
   });
 
   const [errors, setErrors] = useState<Partial<ContactData>>({});
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -91,13 +93,22 @@ export const ContactForm: React.FC = () => {
     }
 
     setIsSubmitting(true);
+    setSubmitError(null);
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await emailApi.sendEmail({
+        name: formData.name,
+        email: formData.email, // Deixa vazio se não tiver para usar o fallback backend
+        phone: formData.phone,
+        subject: formData.subject,
+        message: formData.message,
+      });
+
       setIsSuccess(true);
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao enviar contacto:', error);
+      setSubmitError('Ocorreu um problema ao enviar a mensagem. Por favor, tente novamente mais tarde.');
     } finally {
       setIsSubmitting(false);
     }
@@ -332,6 +343,12 @@ export const ContactForm: React.FC = () => {
               <p className="text-center text-xs text-secondary/50 mt-1">
                 A sua mensagem será tratada com todo o cuidado e privacidade.
               </p>
+
+              {submitError && (
+                <div className="mt-2 p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-600 font-medium text-center">
+                  {submitError}
+                </div>
+              )}
             </form>
           </div>
         </div>
@@ -350,7 +367,7 @@ export const ContactForm: React.FC = () => {
         <MapContent />
         <div className="mt-12 text-center">
           <p className="text-secondary text-base mb-6">
-            Procura por outra localização? Temos igrejas em Munhava, Mutindire e mais.
+            Procura por outra localização? Temos igrejas na  Munhava, Muthindire e mais.
           </p>
           <a 
             href="/paroquias" 

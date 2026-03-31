@@ -91,7 +91,7 @@ export const PrivacityPage = () => {
           <div>
             <p className="font-semibold text-primary mb-1 text-base">O seu bem-estar é a nossa prioridade</p>
             <p className="text-secondary text-sm leading-relaxed">
-              A I.I.T.E.D valoriza profundamente a sua confiança. Esta política explica de forma clara e transparente como tratamos os seus dados pessoais, em conformidade com a legislação vigente e com os princípios éticos que fundamentam o nosso ministério.
+              A ITED valoriza profundamente a sua confiança. Esta política explica de forma clara e transparente como tratamos os seus dados pessoais, em conformidade com a legislação vigente e com os princípios éticos que fundamentam o nosso ministério.
             </p>
           </div>
         </div>
@@ -131,7 +131,7 @@ export const PrivacityPage = () => {
           </div>
         
           <p className="text-muted text-xs mt-2">
-            © {new Date().getFullYear()} I.T.E.D — Todos os direitos reservados.
+            © {new Date().getFullYear()} ITED — Todos os direitos reservados.
           </p>
         </div>
       </div>

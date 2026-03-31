@@ -25,7 +25,7 @@ export const AboutSection: React.FC = () => {
             <FadeUp delay={0.1}>
               <div className="prose prose-lg text-secondary max-w-none">
                 <p className="text-lg lg:text-xl font-medium text-primary/80 mb-6 leading-relaxed">
-                  A <span className="text-accent font-bold">I.T.E.D</span> é mais do que uma instituição; é um refúgio espiritual dedicado à manifestação genuína do Reino de Deus em Moçambique.
+                  A <span className="text-accent font-bold">ITED</span> é mais do que uma instituição; é um refúgio espiritual dedicado à manifestação genuína do Reino de Deus em Moçambique.
                 </p>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm lg:text-base leading-relaxed text-secondary/70">
