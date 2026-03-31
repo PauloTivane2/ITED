@@ -15,10 +15,10 @@ export const Header: React.FC = () => {
 
   const navLinks = [
     { label: 'Início', href: '#' },
-    { label: 'Sobre Nós', href: '#sobre' },
-    { label: 'Ministérios', href: '#ministerios' },
-    { label: 'Eventos', href: '#eventos' },
-    { label: 'Galeria', href: '/galeria' },
+    { label: 'Sobre Nós', href: '/#sobre' },
+    { label: 'Ministérios', href: '/#ministerios' },
+    { label: 'Eventos', href: '/#eventos' },
+    { label: 'Galeria', href: '/#galeria' },
   ];
 
   return (
@@ -29,7 +29,7 @@ export const Header: React.FC = () => {
     }`}>
       <div className="container mx-auto px-4 sm:px-5 md:px-8 lg:px-10 max-w-7xl h-16 sm:h-20 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-3 group">
+        <a href="/" className="flex items-center gap-3 group">
           <div className={`w-9 h-9 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center font-extrabold text-lg sm:text-xl transition-all duration-normal ${
             isScrolled 
               ? 'bg-gradient-accent text-white shadow-glow' 

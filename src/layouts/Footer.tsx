@@ -16,7 +16,7 @@ export const Footer: React.FC = () => {
           
           {/* Brand */}
           <div className="lg:col-span-1 flex flex-col gap-5">
-            <div className="flex items-center gap-3">
+            <a href="/" className="flex items-center gap-3 group">
               <div className="w-12 h-12 bg-gradient-accent rounded-xl flex items-center justify-center text-white font-extrabold text-xl shadow-glow">
                 I
               </div>
@@ -24,7 +24,7 @@ export const Footer: React.FC = () => {
                 <span className="font-bold text-xl tracking-tight block">I.I.T.E.D</span>
                 <span className="text-white/50 text-xs">Tenda do Encontro com Deus</span>
               </div>
-            </div>
+            </a>
             <p className="text-white/60 text-sm leading-relaxed">
               Uma comunidade cristã dedicada à fé, comunhão e transformação espiritual. Nossa missão é aproximar pessoas de Deus através do amor e da palavra.
             </p>
@@ -54,12 +54,13 @@ export const Footer: React.FC = () => {
             <h3 className="font-bold text-base mb-6 text-white/90">Links Rápidos</h3>
             <ul className="flex flex-col gap-3.5">
               {[
-                { label: 'Sobre Nós', href: '#sobre' },
-                { label: 'Nossos Ministérios', href: '#ministerios' },
-                { label: 'Eventos', href: '#eventos' },
-                { label: 'Galeria', href: '/galeria' },
+                { label: 'Início', href: '/' },
+                { label: 'Sobre Nós', href: '/#sobre' },
+                { label: 'Nossos Ministérios', href: '/#ministerios' },
+                { label: 'Eventos', href: '/#eventos' },
+                { label: 'Galeria', href: '/#galeria' },
                 { label: 'Paróquias', href: '/paroquias' },
-                { label: 'Contato', href: '#contato' },
+                { label: 'Contato', href: '/#contato' },
               ].map((link) => (
                 <li key={link.label}>
                   <a href={link.href} className="text-white/50 hover:text-white text-sm transition-all duration-fast hover:translate-x-1 inline-flex items-center gap-2 group">
