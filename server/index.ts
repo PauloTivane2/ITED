@@ -55,5 +55,5 @@ app.post('/api/contact', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`✉️ Servidor de Email a aguardar mensagens na porta ${port}`);
+  console.log(`  Servidor de Email a aguardar mensagens na porta ${port}`);
 });

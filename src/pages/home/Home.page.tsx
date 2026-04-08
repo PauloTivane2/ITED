@@ -6,7 +6,7 @@ import { ServiceTimes } from '../../widgets/ServiceTimes';
 import { MinistriesList } from '../../widgets/MinistriesList';
 import { EventsSection } from '../../widgets/EventsSection';
 import { GallerySection } from '../../widgets/GallerySection';
-import { ContactForm } from '../../features/ContactForm';
+import { ContactForm } from '../../features/contact/ui/ContactForm';
 
 export const HomePage: React.FC = () => {
   return (
