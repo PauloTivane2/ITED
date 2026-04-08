@@ -1,28 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PageLayout } from '../../layouts/PageLayout';
 import { SectionContainer } from '../../shared/SectionContainer';
 import { motion } from 'framer-motion';
 import { FaMapMarkerAlt, FaUserTie, FaPhoneAlt } from 'react-icons/fa';
 import { MapContent } from '../../widgets/sections/mapa/mapa';
+import { sanityClient, queries } from '../../cms/sanity/client';
 
-const parishes = [
+const fallbackParishes = [
   {
+    _id: "p1",
     name: 'ITED Munhava',
     leader: 'Pastor Winn Pombo',
     location: 'Bairro da Munhava, Beira',
+    phone: '',
     image: 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1200&auto=format&fit=crop',
     description: 'Uma das nossas congregações mais vibrantes, focada no crescimento espiritual e social da comunidade da Munhava.'
   },
   {
+    _id: "p2",
     name: 'ITED Mutindire',
     leader: 'Liderança Local iTED',
     location: 'Mutindire, Manica',
+    phone: '',
     image: 'https://images.unsplash.com/photo-1544427920-c49ccfb85579?q=80&w=1200&auto=format&fit=crop',
     description: 'Dedicada a levar a mensagem do evangelho a todas as regiões, construindo pontes de fé e esperança em Mutindire.'
   }
 ];
 
 export const ParishesPage: React.FC = () => {
+  const [data, setData] = useState<any[]>(fallbackParishes);
+
+  useEffect(() => {
+    const fetchParishes = async () => {
+      try {
+        const result = await sanityClient.fetch(queries.parishes);
+        if (result && result.length > 0) {
+          setData(result);
+        }
+      } catch (error) {
+        console.error("Error fetching parishes:", error);
+      }
+    };
+    fetchParishes();
+  }, []);
+
   return (
     <PageLayout>
       {/* Hero Banner */}
@@ -57,9 +78,9 @@ export const ParishesPage: React.FC = () => {
       {/* Parishes Grid */}
       <SectionContainer background="surface">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {parishes.map((parish, index) => (
+          {data.map((parish, index) => (
             <motion.div
-              key={parish.name}
+              key={parish._id || parish.name}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -69,7 +90,7 @@ export const ParishesPage: React.FC = () => {
               {/* Image Container */}
               <div className="relative aspect-[16/9] overflow-hidden">
                 <img 
-                  src={parish.image} 
+                  src={parish.image || 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1200&auto=format&fit=crop'} 
                   alt={parish.name} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
@@ -107,10 +128,13 @@ export const ParishesPage: React.FC = () => {
                   </div>
                 </div>
 
-                <button className="w-full py-4 bg-surface hover:bg-muted/30 border border-muted/40 rounded-xl text-primary font-bold transition-colors flex items-center justify-center gap-2 mt-6">
+                <a 
+                  href={parish.phone ? `tel:${parish.phone.replace(/\D/g,'')}` : '#'} 
+                  className="w-full py-4 bg-surface hover:bg-muted/30 border border-muted/40 rounded-xl text-primary font-bold transition-colors flex items-center justify-center gap-2 mt-6"
+                >
                   <FaPhoneAlt className="text-accent text-sm" />
-                  Entrar em Contato
-                </button>
+                  {parish.phone ? `Ligar: ${parish.phone}` : 'Entrar em Contato'}
+                </a>
               </div>
             </motion.div>
           ))}

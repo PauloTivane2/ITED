@@ -1,17 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PageLayout } from '../../layouts/PageLayout';
 import { FaChevronLeft, FaChevronRight, FaClock, FaMapMarkerAlt } from 'react-icons/fa';
-
-const allEvents = [
-  { id: 1, date: '2026-04-15', title: 'Conferência de Jovens 2026', time: '14:00', location: 'Templo Principal', tag: 'Destaque', tagColor: 'bg-accent/10 text-accent', description: 'Um dia inteiro de adoração, ensinamento e comunhão para a juventude.' },
-  { id: 2, date: '2026-04-22', title: 'Café de Mulheres Virtuosas', time: '09:00', location: 'Salão de Eventos', tag: 'Inscrições abertas', tagColor: 'bg-highlight/10 text-highlight', description: 'Momento especial de comunhão, palavra e fortalecimento para as mulheres da igreja.' },
-  { id: 3, date: '2026-05-05', title: 'Batismo nas Águas e Confraternização', time: '09:00', location: 'Chácara Peniel', tag: 'Especial', tagColor: 'bg-warm/10 text-warm', description: 'Celebre junto conosco a decisão pública de fé dos nossos irmãos!' },
-  { id: 4, date: '2026-05-17', title: 'Seminário de Casais', time: '15:00', location: 'Salão Principal', tag: 'Inscrições abertas', tagColor: 'bg-highlight/10 text-highlight', description: 'Uma tarde de ensinamentos práticos para fortalecer o casamento.' },
-  { id: 5, date: '2026-05-31', title: 'Culto de Pentecoste', time: '09:00', location: 'Templo Principal', tag: 'Especial', tagColor: 'bg-warm/10 text-warm', description: 'Celebração especial de Pentecoste com louvores e ministração.' },
-  { id: 6, date: '2026-06-07', title: 'Dia da Criança — Festa de Encerramento', time: '10:00', location: 'Área Externa', tag: 'Crianças', tagColor: 'bg-pink-100 text-pink-600', description: 'Grande festa temática para as crianças do ministério infantil.' },
-  { id: 7, date: '2026-06-20', title: 'Congresso de Intercessão', time: '07:00', location: 'Templo Principal', tag: 'Destaque', tagColor: 'bg-accent/10 text-accent', description: 'Uma madrugada de oração e intercesão pela nação e pelas famílias.' },
-  { id: 8, date: '2026-07-04', title: 'Acampamento de Jovens', time: '08:00', location: 'Sítio das Palmeiras', tag: 'Jovens', tagColor: 'bg-orange-100 text-orange-600', description: 'Três dias de acampamento, louvor e experiências espirituais para jovens.' },
-];
+import { sanityClient, queries } from '../../cms/sanity/client';
 
 const MONTH_NAMES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DAY_NAMES = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
@@ -28,6 +18,23 @@ export const CalendarPage: React.FC = () => {
   const [viewYear, setViewYear] = useState(today.getFullYear());
   const [viewMonth, setViewMonth] = useState(today.getMonth());
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [events, setEvents] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        // Fetch events from a bit before today to show slightly past ones in the current month if needed
+        const startDate = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
+        const result = await sanityClient.fetch(queries.upcomingEvents, { today: startDate });
+        if (result) {
+          setEvents(result);
+        }
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+    fetchEvents();
+  }, []);
 
   const daysInMonth = getDaysInMonth(viewYear, viewMonth);
   const firstDay = getFirstDay(viewYear, viewMonth);
@@ -41,19 +48,19 @@ export const CalendarPage: React.FC = () => {
     else setViewMonth(m => m + 1);
   };
 
-  const eventsThisMonth = allEvents.filter(e => {
+  const eventsThisMonth = events.filter(e => {
     const d = new Date(e.date);
     return d.getFullYear() === viewYear && d.getMonth() === viewMonth;
   });
 
-  const eventsByDate: Record<string, typeof allEvents> = {};
-  allEvents.forEach(e => {
+  const eventsByDate: Record<string, any[]> = {};
+  events.forEach(e => {
     if (!eventsByDate[e.date]) eventsByDate[e.date] = [];
     eventsByDate[e.date].push(e);
   });
 
   const selectedEvents = selectedDate ? (eventsByDate[selectedDate] || []) : null;
-  const upcomingEvents = allEvents.filter(e => new Date(e.date) >= today).sort((a,b) => a.date.localeCompare(b.date));
+  const upcomingEvents = events.filter(e => new Date(e.date) >= today).sort((a,b) => a.date.localeCompare(b.date));
 
   const pad = (n: number) => String(n).padStart(2, '0');
   const dateStr = (day: number) => `${viewYear}-${pad(viewMonth + 1)}-${pad(day)}`;
@@ -164,7 +171,7 @@ export const CalendarPage: React.FC = () => {
                 ) : (
                   <div className="flex flex-col gap-4">
                     {selectedEvents.map(e => (
-                      <EventCard key={e.id} event={e} />
+                      <EventCard key={e._id} event={e} />
                     ))}
                   </div>
                 )}
@@ -176,7 +183,7 @@ export const CalendarPage: React.FC = () => {
               <div className="mt-8">
                 <h3 className="font-bold text-primary mb-4 text-lg">Eventos em {MONTH_NAMES[viewMonth]}</h3>
                 <div className="flex flex-col gap-4">
-                  {eventsThisMonth.map(e => <EventCard key={e.id} event={e} />)}
+                  {eventsThisMonth.map(e => <EventCard key={e._id} event={e} />)}
                 </div>
               </div>
             )}
@@ -193,7 +200,7 @@ export const CalendarPage: React.FC = () => {
                 const d = new Date(e.date + 'T12:00');
                 return (
                   <div
-                    key={e.id}
+                    key={e._id}
                     onClick={() => setSelectedDate(e.date)}
                     className="group bg-white rounded-2xl border border-muted/30 p-4 flex gap-4 items-start cursor-pointer hover:border-accent/20 hover:shadow-sm transition-all"
                   >
@@ -202,7 +209,7 @@ export const CalendarPage: React.FC = () => {
                       <span className="text-xs font-bold mt-0.5 tracking-wider group-hover:text-white/80 text-secondary transition-colors">{MONTH_NAMES[d.getMonth()].slice(0,3).toUpperCase()}</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${e.tagColor}`}>{e.tag}</span>
+                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${e.tagColor || 'bg-accent/10 text-accent'}`}>{e.tag}</span>
                       <h4 className="font-semibold text-sm text-primary mt-1 group-hover:text-accent transition-colors line-clamp-2">{e.title}</h4>
                       <div className="flex items-center gap-1 text-xs text-secondary mt-1">
                         <FaClock className="w-3 h-3" /> {e.time}
@@ -219,7 +226,7 @@ export const CalendarPage: React.FC = () => {
   );
 };
 
-function EventCard({ event }: { event: typeof allEvents[0] }) {
+function EventCard({ event }: { event: any }) {
   const d = new Date(event.date + 'T12:00');
   return (
     <div className="bg-white rounded-2xl border border-muted/30 p-5 flex gap-5 items-start hover:border-accent/20 hover:shadow-sm transition-all">
@@ -229,7 +236,7 @@ function EventCard({ event }: { event: typeof allEvents[0] }) {
       </div>
       <div className="flex-1">
         <div className="flex items-center gap-2 mb-1.5">
-          <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full ${event.tagColor}`}>{event.tag}</span>
+          <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full ${event.tagColor || 'bg-accent/10 text-accent'}`}>{event.tag}</span>
         </div>
         <h4 className="font-bold text-primary mb-1">{event.title}</h4>
         <p className="text-secondary text-sm leading-relaxed mb-2">{event.description}</p>

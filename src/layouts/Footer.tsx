@@ -1,9 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaFacebookF, FaInstagram, FaYoutube, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import { IframeModal } from '../shared/IframeModal';
+import { sanityClient, queries } from '../cms/sanity/client';
 
 export const Footer: React.FC = () => {
   const [modalState, setModalState] = useState<{ title: string; url: string } | null>(null);
+  const [config, setConfig] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const result = await sanityClient.fetch(queries.siteConfig);
+        if (result) {
+          setConfig(result);
+        }
+      } catch (error) {
+        console.error("Error fetching site config:", error);
+      }
+    };
+    fetchConfig();
+  }, []);
+
+  const phone = config?.phone || '+258 848083482';
+  const email = config?.email || 'itedmidia@gmail.com';
+  const address = config?.address || 'Matacuanne, Beira — Moçambique';
+  const facebookUrl = config?.socialLinks?.facebook || 'https://www.facebook.com/profile.php?id=61559318708114';
+  const instagramUrl = config?.socialLinks?.instagram || '#';
+  const youtubeUrl = config?.socialLinks?.youtube || 'https://www.youtube.com/@ITEDTV';
+  const tagline = config?.tagline || 'Tenda do Encontro com Deus';
+  const description = config?.metaDescription || 'Uma comunidade cristã dedicada à fé, comunhão e transformação espiritual. Nossa missão é aproximar pessoas de Deus através do amor e da palavra.';
 
   return (
     <footer className="relative bg-primary text-white overflow-hidden">
@@ -22,18 +47,18 @@ export const Footer: React.FC = () => {
               </div>
               <div>
                 <span className="font-bold text-xl tracking-tight block">ITED</span>
-                <span className="text-white/50 text-xs">Tenda do Encontro com Deus</span>
+                <span className="text-white/50 text-xs">{tagline}</span>
               </div>
             </a>
             <p className="text-white/60 text-sm leading-relaxed">
-              Uma comunidade cristã dedicada à fé, comunhão e transformação espiritual. Nossa missão é aproximar pessoas de Deus através do amor e da palavra.
+              {description}
             </p>
             {/* Social Icons */}
             <div className="flex gap-3 mt-2">
               {[
-                { label: 'facebook', icon: <FaFacebookF className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />, href: 'https://www.facebook.com/profile.php?id=61559318708114' },
-                { label: 'instagram', icon: <FaInstagram className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />, href: '#' },
-                { label: 'youtube', icon: <FaYoutube className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />, href: 'https://www.youtube.com/@ITEDTV' },
+                { label: 'facebook', icon: <FaFacebookF className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />, href: facebookUrl },
+                { label: 'instagram', icon: <FaInstagram className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />, href: instagramUrl },
+                { label: 'youtube', icon: <FaYoutube className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />, href: youtubeUrl },
               ].map((social) => (
                 <a 
                   key={social.label}
@@ -99,9 +124,9 @@ export const Footer: React.FC = () => {
             <h3 className="font-bold text-base mb-6 text-white/90">Contato</h3>
             <ul className="flex flex-col gap-4 text-sm text-white/50">
               {[
-                { icon: <FaPhoneAlt className="w-4 h-4" />, text: '+258 848083482', href: 'tel:+258848083482' },
-                { icon: <FaEnvelope className="w-4 h-4" />, text: 'itedmidia@gmail.com', href: 'mailto:itedmidia@gmail.com' },
-                { icon: <FaMapMarkerAlt className="w-4 h-4" />, text: 'Matacuanne, Beira — Moçambique', href: 'https://maps.app.goo.gl/Vn6iaZRVSL9f9Hg69' },
+                { icon: <FaPhoneAlt className="w-4 h-4" />, text: phone, href: `tel:${phone.replace(/\D/g, '')}` },
+                { icon: <FaEnvelope className="w-4 h-4" />, text: email, href: `mailto:${email}` },
+                { icon: <FaMapMarkerAlt className="w-4 h-4" />, text: address, href: 'https://maps.app.goo.gl/Vn6iaZRVSL9f9Hg69' },
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-3 group hover:text-white transition-colors">
                   <span className="mt-0.5 text-accent/60 group-hover:text-accent transition-colors shrink-0">{item.icon}</span>

@@ -1,42 +1,65 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SectionContainer } from '../shared/SectionContainer';
 import { Carousel, CarouselItem } from '../shared/Carousel';
+import { sanityClient, queries } from '../cms/sanity/client';
 
 
-const ministries = [
+const fallbackMinistries = [
   {
+    _id: "m1",
     title: 'Ministério Infantil',
     description: 'Cuidando da próxima geração com princípios bíblicos, amor e diversão segura.',
     image: '/images/ministries/ministry_children_1774776653967.png',
   },
   {
+    _id: "m2",
     title: 'Jovens e Adolescentes',
     description: 'Encontros dinâmicos para ajudar a juventude a enfrentar os desafios modernos com fé.',
     image: '/images/ministries/ministry_youth_1774776798722.png',
   },
   {
+    _id: "m3",
     title: 'Ação Social',
     description: 'Impactando a comunidade através de doações, voluntariado e apoio às famílias.',
     image: '/images/ministries/ministry_social_1774777423721.png',
   },
   {
+    _id: "m4",
     title: 'Louvor e Adoração',
     description: 'Conduzindo a igreja a um encontro profundo com Deus através da música e artes.',
     image: '/images/ministries/ministry_worship_1774776893962.png',
   },
   {
+    _id: "m5",
     title: 'Intercessão',
     description: 'Guerreiros de oração que levantam clamor diário pelas famílias e pela nação.',
     image: '/images/ministries/ministry_prayer_1774777667476.png',
   },
   {
+    _id: "m6",
     title: 'Casais e Família',
     description: 'Fortalecendo casamentos e lares na presença de Deus e com base na palavra.',
     image: '/images/ministries/ministry_worship_1774776893962.png',
-  },
+  }
 ];
 
 export const MinistriesList: React.FC = () => {
+  const [data, setData] = useState<any[]>(fallbackMinistries);
+
+  useEffect(() => {
+    const fetchMinistries = async () => {
+      try {
+        const result = await sanityClient.fetch(queries.ministries);
+        if (result && result.length > 0) {
+          setData(result);
+        }
+      } catch (error) {
+        console.error("Error fetching ministries:", error);
+      }
+    };
+    fetchMinistries();
+  }, []);
+
   return (
     <SectionContainer background="white" id="ministerios">
       {/* Section Header */}
@@ -55,15 +78,15 @@ export const MinistriesList: React.FC = () => {
 
       {/* Mobile: Horizontal Carousel */}
       <Carousel className="sm:hidden -mx-4 pb-4" gap="gap-4" padding="px-4">
-        {ministries.map((m) => (
+        {data.map((m) => (
           <CarouselItem
-            key={m.title}
+            key={m._id || m.title}
             className="min-w-[260px] max-w-[80vw]"
           >
             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden cursor-pointer shadow-lg">
               {/* Background Image */}
               <img 
-                src={m.image} 
+                src={m.image || '/images/ministries/ministry_worship_1774776893962.png'} 
                 alt={m.title}
                 className="absolute inset-0 w-full h-full object-cover" 
               />
@@ -87,14 +110,14 @@ export const MinistriesList: React.FC = () => {
 
       {/* Desktop: Grid */}
       <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {ministries.map((m) => (
+        {data.map((m) => (
           <div 
-            key={m.title} 
+            key={m._id || m.title} 
             className="group relative aspect-[3/4] rounded-3xl overflow-hidden cursor-pointer bg-primary shadow-xl"
           >
             {/* Background Image */}
             <img 
-              src={m.image} 
+              src={m.image || '/images/ministries/ministry_worship_1774776893962.png'} 
               alt={m.title}
               className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
             />

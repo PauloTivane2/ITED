@@ -1,20 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
 import { FaClock, FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import { MatrixRain } from '../styles/effect/MatrixRain';
 import { BibleVerse } from './BibleVerse';
+import { sanityClient, queries } from '../cms/sanity/client';
 
 const easeOut = 'easeOut' as const;
 
 export const HeroSection: React.FC = () => {
+  const [data, setData] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchHeroData = async () => {
+      try {
+        const result = await sanityClient.fetch(queries.hero);
+        if (result) {
+          setData(result);
+        }
+      } catch (error) {
+        console.error("Error fetching hero data:", error);
+      }
+    };
+    fetchHeroData();
+  }, []);
+
+  const typewriterWords = data?.typewriterWords || [
+    'fé, esperança',
+    'amor e propósito',
+    'comunidade e paz',
+    'graça e redenção',
+  ];
+
   const [typeText] = useTypewriter({
-    words: [
-      'fé, esperança',
-      'amor e propósito',
-      'comunidade e paz',
-      'graça e redenção',
-    ],
+    words: typewriterWords,
     loop: true,
     delaySpeed: 2400,
     deleteSpeed: 42,
@@ -66,7 +85,7 @@ export const HeroSection: React.FC = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-highlight opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-highlight shadow-[0_0_8px_rgba(109,255,179,0.8)]" />
               </span>
-              Seja bem-vindo à ITED • Baseados na fé
+              {data?.badge || 'Seja bem-vindo à ITED • Baseados na fé'}
             </div>
           </motion.div>
 
@@ -88,8 +107,8 @@ export const HeroSection: React.FC = () => {
 
           {/* Subtitle / Verse */}
           <BibleVerse 
-            reference="Êxodo 33:7-11"
-            text="Moisés montava a 'Tenda do Encontro' fora do arraial, longe do povo, para consultar a Deus. Quando Moisés entrava, a coluna de nuvem descia e Deus falava com ele face a face, como um homem fala com seu amigo."
+            reference={data?.bibleReference || "Êxodo 33:7-11"}
+            text={data?.bibleText || "Moisés montava a 'Tenda do Encontro' fora do arraial, longe do povo, para consultar a Deus. Quando Moisés entrava, a coluna de nuvem descia e Deus falava com ele face a face, como um homem fala com seu amigo."}
           />
 
           {/* CTAs */}
@@ -104,13 +123,13 @@ export const HeroSection: React.FC = () => {
               className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 sm:px-7 sm:py-4 rounded-xl font-semibold text-white bg-gradient-accent shadow-glow hover:shadow-glow-lg transition-all duration-normal hover:-translate-y-0.5 min-h-[48px] active:scale-95 active:translate-y-0"
             >
               <FaClock className="w-5 h-5" />
-              Nossos Horários
+              {data?.ctaPrimaryLabel || 'Nossos Horários'}
             </a>
             <a
               href="#sobre"
               className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 sm:px-7 sm:py-4 rounded-xl font-semibold text-white/80 hover:text-white border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-normal hover:-translate-y-0.5 min-h-[48px] active:scale-95 active:translate-y-0"
             >
-              Conheça a Igreja
+              {data?.ctaSecondaryLabel || 'Conheça a Igreja'}
               <FaChevronRight className="w-3.5 h-3.5" />
             </a>
           </motion.div>
@@ -122,10 +141,10 @@ export const HeroSection: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.6, ease: easeOut }}
           >
-            {[
+            {(data?.stats || [
               { number: '7+', label: 'Anos Manifestando o Reino' },
               { number: '500+', label: 'Vidas Edificadas no Altar' },
-            ].map((stat, i) => (
+            ]).map((stat: any, i: number) => (
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 16 }}

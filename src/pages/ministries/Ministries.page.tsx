@@ -1,106 +1,67 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { PageLayout } from '../../layouts/PageLayout';
 import { FaChild, FaFire, FaHandsHelping, FaMusic, FaPray, FaHeart, FaBible, FaUsers, FaChevronDown } from 'react-icons/fa';
+import { sanityClient, queries } from '../../cms/sanity/client';
 
-const ministries = [
-  {
-    id: 1,
-    title: 'Ministério Infantil',
-    description: 'Cuidando da próxima geração com princípios bíblicos, amor e diversão segura. Nossas crianças são o futuro da igreja.',
-    details: 'O Ministério Infantil é dedicado a crianças de 0 a 12 anos. Reuniões aos domingos durante o culto principal. Programação especial com histórias bíblicas, atividades artísticas e brincadeiras.',
-    schedule: 'Domingos às 09:00',
-    leader: 'Irmã Patricia',
-    icon: <FaChild />,
-    color: 'from-pink-500 to-rose-600',
-    category: 'Especial',
-  },
-  {
-    id: 2,
-    title: 'Jovens e Adolescentes',
-    description: 'Encontros dinâmicos para ajudar a juventude a enfrentar os desafios modernos com fé, propósito e identidade.',
-    details: 'O ministério de jovens é um espaço seguro para adolescentes e jovens adultos se conectarem, crescerem na fé e descobrirem seu propósito. Atividades dinâmicas, retiros anuais e células semanais.',
-    schedule: 'Sextas-feiras às 19:30',
-    leader: 'Pr. André',
-    icon: <FaFire />,
-    color: 'from-orange-500 to-amber-600',
-    category: 'Jovens',
-  },
-  {
-    id: 3,
-    title: 'Ação Social',
-    description: 'Impactando a comunidade através de doações, voluntariado e apoio às famílias em situação de vulnerabilidade.',
-    details: 'O braço social da igreja que arrecada alimentos, roupas e realiza ações em bairros carentes. Participe como voluntário e ajude a transformar vidas.',
-    schedule: 'Sábados às 08:00 (quinzenal)',
-    leader: 'Diác. Fátima',
-    icon: <FaHandsHelping />,
-    color: 'from-emerald-500 to-green-600',
-    category: 'Social',
-  },
-  {
-    id: 4,
-    title: 'Louvor e Adoração',
-    description: 'Conduzindo a igreja a um encontro profundo com Deus através da música, artes e adoração genuína.',
-    details: 'O ministério musical da igreja, composto por vocalistas, instrumentistas e equipe de som. Ensaios semanais e participação em todos os cultos e eventos.',
-    schedule: 'Treinos: Quartas às 19:00',
-    leader: 'Msc. Elias',
-    icon: <FaMusic />,
-    color: 'from-violet-500 to-purple-600',
-    category: 'Culto',
-  },
-  {
-    id: 5,
-    title: 'Intercessão',
-    description: 'Guerreiros de oração que levantam clamor diário pelas famílias, pela nação e pelas necessidades da comunidade.',
-    details: 'A equipe de intercessão se reúne para oração coletiva e cobertura espiritual de todas as atividades da igreja. Um ministério fundamental na vida da comunidade.',
-    schedule: 'Segundas às 17:00',
-    leader: 'Pbr. Maria',
-    icon: <FaPray />,
-    color: 'from-sky-500 to-blue-600',
-    category: 'Oração',
-  },
-  {
-    id: 6,
-    title: 'Casais e Família',
-    description: 'Fortalecendo casamentos e lares na presença de Deus e com base na palavra, gerando famílias saudáveis.',
-    details: 'Encontros mensais de casais com ensinamentos práticos, dinâmicas e momentos de comunhão. Seminários anuais e acompanhamento pastoral.',
-    schedule: 'Sábados às 15:00 (mensal)',
-    leader: 'Pr. Carlos & Pra. Ana',
-    icon: <FaHeart />,
-    color: 'from-red-500 to-pink-600',
-    category: 'Família',
-  },
-  {
-    id: 7,
-    title: 'Escola Bíblica',
-    description: 'Formação sólida na Palavra de Deus para todos os membros, com aulas, estudos e grupos de aprofundamento.',
-    details: 'A Escola Bíblica Dominical oferece aulas para todas as idades. Materiais apostilados e professores treinados garantem um aprendizado de qualidade.',
-    schedule: 'Domingos às 08:00',
-    leader: 'Pbr. João',
-    icon: <FaBible />,
-    color: 'from-teal-500 to-cyan-600',
-    category: 'Ensino',
-  },
-  {
-    id: 8,
-    title: 'Cuidado Pastoral',
-    description: 'Uma rede de amor, aconselhamento e cuidado para membros em momentos de necessidade, dor ou transição.',
-    details: 'O ministério de cuidado conecta pessoas em necessidade com líderes e conselheiros treinados para apoio emocional, espiritual e prático.',
-    schedule: 'Quintas às 17:30',
-    leader: 'Pr. Samuel',
-    icon: <FaUsers />,
-    color: 'from-slate-500 to-gray-600',
-    category: 'Cuidado',
-  },
-];
+const getIconForTitle = (title: string) => {
+  const t = title.toLowerCase();
+  if (t.includes('infantil') || t.includes('criança')) return <FaChild />;
+  if (t.includes('jovem') || t.includes('adolescente')) return <FaFire />;
+  if (t.includes('social') || t.includes('ajuda')) return <FaHandsHelping />;
+  if (t.includes('louvor') || t.includes('música') || t.includes('adoração')) return <FaMusic />;
+  if (t.includes('oração') || t.includes('intercessão')) return <FaPray />;
+  if (t.includes('casal') || t.includes('família')) return <FaHeart />;
+  if (t.includes('bíblia') || t.includes('ensino')) return <FaBible />;
+  return <FaUsers />;
+};
 
-const categories = ['Todos', ...Array.from(new Set(ministries.map(m => m.category)))];
+const getColorForTitle = (title: string) => {
+  const t = title.toLowerCase();
+  if (t.includes('infantil')) return 'from-pink-500 to-rose-600';
+  if (t.includes('jovem')) return 'from-orange-500 to-amber-600';
+  if (t.includes('social')) return 'from-emerald-500 to-green-600';
+  if (t.includes('louvor')) return 'from-violet-500 to-purple-600';
+  if (t.includes('oração')) return 'from-sky-500 to-blue-600';
+  if (t.includes('casal')) return 'from-red-500 to-pink-600';
+  if (t.includes('bíblia')) return 'from-teal-500 to-cyan-600';
+  return 'from-slate-500 to-gray-600';
+};
 
 export const MinistriesPage: React.FC = () => {
+  const [data, setData] = useState<any[]>([]);
   const [selected, setSelected] = useState('Todos');
-  const [expanded, setExpanded] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState<string | null>(null);
 
-  const filtered = selected === 'Todos' ? ministries : ministries.filter(m => m.category === selected);
+  useEffect(() => {
+    const fetchMinistries = async () => {
+      try {
+        const result = await sanityClient.fetch(queries.ministries);
+        if (result) {
+          setData(result);
+        }
+      } catch (error) {
+        console.error("Error fetching ministries:", error);
+      }
+    };
+    fetchMinistries();
+  }, []);
+
+  const categories = ['Todos', 'Especial', 'Jovens', 'Social', 'Culto', 'Oração', 'Família', 'Ensino', 'Cuidado'];
+  
+  // Since category is not in schema, we'll just show all or implement a heuristic if needed
+  // For now, let's just keep 'Todos' functional and others as empty or heuristic
+  const filtered = selected === 'Todos' ? data : data.filter(m => {
+      const t = m.title.toLowerCase();
+      if (selected === 'Especial') return t.includes('infantil');
+      if (selected === 'Jovens') return t.includes('jovem');
+      if (selected === 'Social') return t.includes('social');
+      if (selected === 'Culto') return t.includes('louvor');
+      if (selected === 'Oração') return t.includes('oração');
+      if (selected === 'Família') return t.includes('casal');
+      if (selected === 'Ensino') return t.includes('bíblia');
+      return false;
+  });
 
   return (
     <PageLayout>
@@ -132,7 +93,7 @@ export const MinistriesPage: React.FC = () => {
 
       {/* Filter */}
       <div className="sticky top-20 z-30 bg-white/80 backdrop-blur-xl border-b border-muted/40 shadow-sm">
-        <div className="container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl py-4 flex gap-2 overflow-x-auto">
+        <div className="container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl py-4 flex gap-2 overflow-x-auto scrollbar-hide">
           {categories.map(cat => (
             <button
               key={cat}
@@ -154,18 +115,15 @@ export const MinistriesPage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {filtered.map(m => (
             <div
-              key={m.id}
+              key={m._id}
               className="group bg-white rounded-3xl border border-muted/30 overflow-hidden hover:border-accent/20 hover:shadow-medium transition-all duration-300"
             >
               {/* Top color strip */}
-              <div className={`h-36 bg-gradient-to-br ${m.color} relative flex items-center justify-center`}>
+              <div className={`h-36 bg-gradient-to-br ${getColorForTitle(m.title)} relative flex items-center justify-center`}>
                 <span className="text-6xl text-white group-hover:scale-125 transition-transform duration-500 z-10 relative">
-                  {m.icon}
+                  {getIconForTitle(m.title)}
                 </span>
                 <div className="absolute inset-0 bg-white/5 backdrop-blur-[1px]" />
-                <span className="absolute top-4 right-4 text-xs font-bold text-white/70 bg-white/10 px-3 py-1 rounded-full">
-                  {m.category}
-                </span>
               </div>
 
               {/* Content */}
@@ -173,30 +131,30 @@ export const MinistriesPage: React.FC = () => {
                 <h2 className="text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">{m.title}</h2>
                 <p className="text-secondary text-sm leading-relaxed mb-4">{m.description}</p>
 
-                {/* Quick info */}
+                {/* Quick info Fallbacks */}
                 <div className="flex flex-col gap-1.5 mb-5 text-xs text-secondary">
                   <div className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-                    <span><strong className="text-primary">Horário:</strong> {m.schedule}</span>
+                    <span><strong className="text-primary">Participação:</strong> Aberta a todos</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-highlight" />
-                    <span><strong className="text-primary">Líder:</strong> {m.leader}</span>
+                    <span><strong className="text-primary">Status:</strong> Ativo</span>
                   </div>
                 </div>
 
                 {/* Expand button */}
                 <button
-                  onClick={() => setExpanded(expanded === m.id ? null : m.id)}
+                  onClick={() => setExpanded(expanded === m._id ? null : m._id)}
                   className="w-full flex items-center justify-between text-sm text-accent font-semibold border-t border-muted/30 pt-4 hover:text-accent-dark transition-colors"
                 >
-                  {expanded === m.id ? 'Ver menos' : 'Saiba mais'}
-                  <FaChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${expanded === m.id ? 'rotate-180' : ''}`} />
+                  {expanded === m._id ? 'Ver menos' : 'Saiba mais'}
+                  <FaChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${expanded === m._id ? 'rotate-180' : ''}`} />
                 </button>
 
-                {expanded === m.id && (
+                {expanded === m._id && (
                   <p className="text-secondary text-sm leading-relaxed mt-4 pt-4 border-t border-muted/30">
-                    {m.details}
+                    {m.description}
                   </p>
                 )}
               </div>
