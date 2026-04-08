@@ -5,7 +5,7 @@ export const siteConfigSchema = defineType({
   title: 'Configurações do Site',
   type: 'document',
   // Singleton — apenas 1 documento deste tipo deve existir
-  __experimental_actions: ['update', 'publish'],
+
   fields: [
     defineField({
       name: 'churchName',

@@ -75,7 +75,6 @@ const fallbackServices = [
 
 export const ServiceTimes: React.FC = () => {
   const [data, setData] = useState<any[]>(fallbackServices);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchServiceTimes = async () => {
@@ -86,8 +85,6 @@ export const ServiceTimes: React.FC = () => {
         }
       } catch (error) {
         console.error("Error fetching service times:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
