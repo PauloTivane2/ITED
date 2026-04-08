@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PageLayout } from '../../layouts/PageLayout';
 import { FaTimes, FaExpandAlt } from 'react-icons/fa';
 import { sanityClient, queries } from '../../cms/sanity/client';
+import { getYouTubeEmbedUrl } from '../../shared/lib/utils';
 
 export const GalleryPage: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
@@ -83,7 +84,7 @@ export const GalleryPage: React.FC = () => {
         <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
           {filtered.map((item, i) => {
             const displayUrl = item.imageUrl || item.thumbnailUrl || 'https://images.unsplash.com/photo-1544427920-c49ccfb85579?q=80&w=800&auto=format&fit=crop';
-            const modalUrl = item.type === 'youtube' ? item.youtubeUrl : (item.videoUrl || item.imageUrl);
+            const modalUrl = item.type === 'youtube' ? getYouTubeEmbedUrl(item.youtubeUrl) : (item.videoUrl || item.imageUrl);
 
             return (
               <div

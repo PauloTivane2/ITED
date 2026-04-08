@@ -5,6 +5,7 @@ import { IframeModal } from '../shared/IframeModal';
 import { FadeUp, StaggerContainer, StaggerItem } from '../styles/effect/motionVariants';
 import { FaExpandAlt, FaPlay } from 'react-icons/fa';
 import { sanityClient, queries } from '../cms/sanity/client';
+import { getYouTubeEmbedUrl } from '../shared/lib/utils';
 
 type GalleryItemType = 'image' | 'youtube' | 'video';
 
@@ -69,7 +70,7 @@ export const GallerySection: React.FC = () => {
   const openModal = (item: GalleryItem) => {
     let targetUrl = '';
     
-    if (item.type === 'youtube') targetUrl = item.youtubeUrl || '';
+    if (item.type === 'youtube') targetUrl = getYouTubeEmbedUrl(item.youtubeUrl || '');
     else if (item.type === 'video') targetUrl = item.videoUrl || '';
     else targetUrl = item.imageUrl || '';
 
