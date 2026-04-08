@@ -41,20 +41,20 @@ export const AboutSection: React.FC = () => {
             <FadeUp>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-[1.5px] bg-accent" />
-                <span className="text-accent font-bold text-xs sm:text-sm tracking-[0.3em] uppercase">{data?.kicker || 'Excelência & Fé'}</span>
+                <span className="text-kicker">{data?.kicker || 'Excelência & Fé'}</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary leading-[1.1] mb-6">
-                {data?.titleLine1 || 'Fundada na'} <span className="text-accent italic font-serif font-medium">{data?.titleHighlight1 || 'Palavra'}</span>,<br />
-                {data?.titleLine2 || 'Movida pelo'} <span className="text-accent italic font-serif font-medium">{data?.titleHighlight2 || 'Amor'}</span>.
+              <h2 className="text-h2 text-primary mb-6">
+                {data?.titleLine1 || 'Fundada na'} <span className="text-accent font-medium font-verse">{data?.titleHighlight1 || 'Palavra'}</span>,<br />
+                {data?.titleLine2 || 'Movida pelo'} <span className="text-accent font-medium font-verse">{data?.titleHighlight2 || 'Amor'}</span>.
               </h2>
               <div className="h-1 w-20 bg-gradient-accent rounded-full opacity-60" />
             </FadeUp>
             
             <FadeUp delay={0.1}>
               <div className="prose prose-lg text-secondary max-w-none">
-                <p className="text-lg lg:text-xl font-medium text-primary/80 mb-6 leading-relaxed bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60" style={{WebkitTextFillColor: 'initial'}}>
+                <p className="text-lg lg:text-xl text-primary/80 mb-6 leading-relaxed bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60 font-verse" style={{WebkitTextFillColor: 'initial'}}>
                   {data?.leadParagraph || (
-                    <>A <span className="text-accent font-bold">ITED</span> é mais do que uma instituição; é um refúgio espiritual dedicado à manifestação genuína do Reino de Deus em Moçambique.</>
+                    <>A <span className="text-accent font-bold not-italic">ITED</span> é mais do que uma instituição; é um refúgio espiritual dedicado à manifestação genuína do Reino de Deus em Moçambique.</>
                   )}
                 </p>
                 
@@ -109,7 +109,7 @@ export const AboutSection: React.FC = () => {
             </div>
             <div className="bg-gradient-accent rounded-2xl p-5 sm:p-6 md:p-8 text-white shadow-glow">
               <h4 className="text-3xl font-extrabold mb-1">{data?.statsNumber || '10+'}</h4>
-              <p className="text-sm text-white/80 font-medium">{data?.statsLabel || 'Anos transformando vidas em nossa comunidade.'}</p>
+              <p className="text-sm text-white/80 font-verse">{data?.statsLabel || 'Anos transformando vidas em nossa comunidade.'}</p>
             </div>
           </SlideIn>
         </div>

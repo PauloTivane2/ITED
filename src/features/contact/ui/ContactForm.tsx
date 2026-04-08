@@ -155,7 +155,7 @@ export const ContactForm: React.FC = () => {
           </h2>
 
           <div className="relative pl-6 border-l-4 border-accent/20 mb-8">
-            <p className="text-secondary text-lg leading-relaxed font-sans font-medium">
+            <p className="text-secondary text-lg leading-relaxed font-verse">
               "Alegrai-vos na esperança, sedes pacientes na tribulação, perseverai na oração"
             </p>
             <span className="text-accent text-sm font-semibold mt-3 block not-italic">— Romanos 12:12</span>

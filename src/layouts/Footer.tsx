@@ -47,10 +47,10 @@ export const Footer: React.FC = () => {
               </div>
               <div>
                 <span className="font-bold text-xl tracking-tight block">ITED</span>
-                <span className="text-white/50 text-xs">{tagline}</span>
+                <span className="text-white/50 text-xs font-verse">{tagline}</span>
               </div>
             </a>
-            <p className="text-white/60 text-sm leading-relaxed">
+            <p className="text-white/60 text-sm leading-relaxed font-verse">
               {description}
             </p>
             {/* Social Icons */}
@@ -141,7 +141,7 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/30">
-          <p>© {new Date().getFullYear()} ITED. Todos os direitos reservados.</p>
+          <p className="font-verse">© {new Date().getFullYear()} ITED. Todos os direitos reservados.</p>
           <div className="flex gap-6">
             <button onClick={(e) => { e.preventDefault(); setModalState({ title: 'Termos de Uso', url: '/termos' }); }} className="hover:text-white/70 transition-colors">Termos</button>
             <button onClick={(e) => { e.preventDefault(); setModalState({ title: 'Política de Privacidade', url: '/privacidade' }); }} className="hover:text-white/70 transition-colors">Privacidade</button>

@@ -80,7 +80,7 @@ export const EventsSection: React.FC = () => {
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-4 sm:mb-6 tracking-tight">
             Próximos <span className="font-serif italic font-medium text-accent">Eventos</span>
           </h2>
-          <p className="text-secondary text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed">
+          <p className="text-secondary text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed font-verse">
             Fique por dentro de tudo o que acontece na comunidade. Eventos são oportunidades para comunhão, crescimento e celebração.
           </p>
           <button 
@@ -114,7 +114,7 @@ export const EventsSection: React.FC = () => {
                   <div className="flex items-center gap-2 mb-2">
                     <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${getTagColorClass(event.tagColor)}`}>{event.tag || 'Evento'}</span>
                   </div>
-                  <h3 className="font-bold text-lg text-primary mb-2 group-hover:text-accent transition-colors truncate">
+                  <h3 className="font-bold text-lg text-primary mb-2 group-hover:text-accent transition-colors truncate font-verse">
                     {event.title}
                   </h3>
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-secondary">
