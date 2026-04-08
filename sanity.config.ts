@@ -3,8 +3,8 @@ import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
 import { schemaTypes } from './src/cms/sanity/schemaTypes';
 
-const PROJECT_ID = '8eg6szpi';
-const DATASET = 'production';
+const PROJECT_ID = import.meta.env.VITE_SANITY_PROJECT_ID || '8eg6szpi';
+const DATASET = import.meta.env.VITE_SANITY_DATASET || 'production';
 
 export default defineConfig({
   name: 'ited-studio',
