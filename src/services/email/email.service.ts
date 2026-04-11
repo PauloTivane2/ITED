@@ -1,6 +1,8 @@
 import { ContactFormData } from "../../features/contact/types/contact.types";
 
-const API_URL = import.meta.env.VITE_API_URL || '';
+const isProduction = import.meta.env.PROD;
+// Em produção (Vercel), usamos caminhos relativos. Em desenvolvimento, usamos o localhost se configurado.
+const API_URL = isProduction ? '' : (import.meta.env.VITE_API_URL || 'http://localhost:3001');
 
 export const emailApi = {
   sendEmail: async (data: ContactFormData): Promise<{ message?: string; error?: string }> => {
