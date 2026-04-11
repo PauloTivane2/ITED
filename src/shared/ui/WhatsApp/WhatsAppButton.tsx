@@ -1,13 +1,29 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaWhatsapp } from 'react-icons/fa';
+import { sanityClient, queries } from '@/cms/sanity/client';
 
 export const WhatsAppButton: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [whatsappInfo, setWhatsappInfo] = useState<{ number: string; message: string }>({
+    number: "258844203117", // Fallback
+    message: "Olá ITED! Gostaria de obter mais informações."
+  });
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Buscar configurações do Sanity
+  useEffect(() => {
+    sanityClient.fetch(queries.siteConfig).then((config) => {
+      if (config?.whatsapp) {
+        setWhatsappInfo(prev => ({
+          ...prev,
+          number: config.whatsapp.replace(/\D/g, '') // Remove caracteres não numéricos
+        }));
+      }
+    }).catch(err => console.error("Error fetching whatsapp config:", err));
+  }, []);
+
   const showButton = useCallback(() => {
-    // console.log("WhatsApp button showing...");
     setIsVisible(true);
     
     if (timeoutRef.current) {
@@ -15,13 +31,11 @@ export const WhatsAppButton: React.FC = () => {
     }
     
     timeoutRef.current = setTimeout(() => {
-      // console.log("WhatsApp button hiding...");
       setIsVisible(false);
     }, 4000);
   }, []);
 
   useEffect(() => {
-    // Mostrar por 3 segundos assim que o site carregar para confirmar que funciona
     const initialShow = setTimeout(() => {
       showButton();
     }, 1000);
@@ -30,7 +44,6 @@ export const WhatsAppButton: React.FC = () => {
       showButton();
     };
 
-    // Escutar scroll em qualquer direção de forma agressiva
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('wheel', handleScroll, { passive: true });
     window.addEventListener('touchmove', handleScroll, { passive: true });
@@ -44,8 +57,7 @@ export const WhatsAppButton: React.FC = () => {
     };
   }, [showButton]);
 
-  const phoneNumber = "258844203117"; 
-  const whatsappUrl = `https://wa.me/${phoneNumber}`;
+  const whatsappUrl = `https://wa.me/${whatsappInfo.number}?text=${encodeURIComponent(whatsappInfo.message)}`;
 
   return (
     <AnimatePresence>
