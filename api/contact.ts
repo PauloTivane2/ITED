@@ -134,11 +134,11 @@ export default async function handler(req: any, res: any) {
     });
 
     const mailOptions = {
-      from: \`"\${name}" <\${email || 'no-reply@ited.com'}>\`,
+      from: `"${name}" <${email || 'no-reply@ited.com'}>`,
       replyTo: email,
       to: emailUser,
-      subject: \`[Site Contacto] \${subject}\`,
-      text: \`Nome: \${name}\\nEmail: \${email}\\nTelefone: \${phone}\\n\\nMensagem:\\n\${message}\`,
+      subject: `[Site Contacto] ${subject}`,
+      text: `Nome: ${name}\nEmail: ${email}\nTelefone: ${phone}\n\nMensagem:\n${message}`,
       html: generatePremiumEmailTemplate({ name, email, phone, subject, message }),
     };
 
@@ -146,9 +146,9 @@ export default async function handler(req: any, res: any) {
 
     if (email) {
       const autoReplyOptions = {
-        from: \`"ITED (No-Reply)" <\${emailUser}>\`,
+        from: `"ITED (No-Reply)" <${emailUser}>`,
         to: email,
-        subject: \`Recebemos sua mensagem: \${subject}\`,
+        subject: `Recebemos sua mensagem: ${subject}`,
         html: generateAutoReplyTemplate(name, subject),
       };
       
