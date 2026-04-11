@@ -59,12 +59,21 @@ export const queries = {
     "image": image.asset->url
   }`,
 
-  /** Itens da galeria, ordenados */
-  galleryItems: `*[_type == "galleryItem"] | order(order asc) {
-    _id, title, type, youtubeUrl, featured,
-    "imageUrl": image.asset->url,
-    "thumbnailUrl": thumbnail.asset->url,
-    "videoUrl": videoFile.asset->url
+  /** Itens da galeria (Álbuns), ordenados */
+  galleryItems: `*[_type == "gallery"] | order(order asc) {
+    _id,
+    title,
+    featured,
+    items[] {
+      "id": _key,
+      title,
+      type,
+      featured,
+      youtubeUrl,
+      "imageUrl": image.asset->url,
+      "thumbnailUrl": thumbnail.asset->url,
+      "videoUrl": videoFile.asset->url
+    }
   }`,
 
   /** Paróquias, ordenadas */

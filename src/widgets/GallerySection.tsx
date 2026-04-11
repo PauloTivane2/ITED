@@ -45,10 +45,11 @@ const fallbackGalleryItems: GalleryItem[] = [
 ];
 
 export const GallerySection: React.FC = () => {
-  const [modalState, setModalState] = useState<{ isOpen: boolean; url: string; title: string }>({
+  const [modalState, setModalState] = useState<{ isOpen: boolean; url: string; title: string; poster?: string }>({
     isOpen: false,
     url: '',
     title: '',
+    poster: '',
   });
 
   const [data, setData] = useState<GalleryItem[]>(fallbackGalleryItems);
@@ -58,7 +59,19 @@ export const GallerySection: React.FC = () => {
       try {
         const result = await sanityClient.fetch(queries.galleryItems);
         if (result && result.length > 0) {
-          setData(result);
+          // Flatten albums into items
+          const flattenedItems = result.flatMap((album: any) => 
+            (album.items || []).map((item: any) => ({
+              ...item,
+              _id: item.id, // using the _key from sanity as _id
+              // Fallback to album featured status if not set on item
+              featured: item.featured || album.featured,
+              albumTitle: album.title,
+              // If item doesn't have a title, use album title
+              title: item.title || album.title
+            }))
+          );
+          setData(flattenedItems);
         }
       } catch (error) {
         console.error("Error fetching gallery items:", error);
@@ -74,7 +87,12 @@ export const GallerySection: React.FC = () => {
     else if (item.type === 'video') targetUrl = item.videoUrl || '';
     else targetUrl = item.imageUrl || '';
 
-    setModalState({ isOpen: true, url: targetUrl, title: item.title });
+    setModalState({ 
+      isOpen: true, 
+      url: targetUrl, 
+      title: item.title, 
+      poster: item.thumbnailUrl || item.imageUrl 
+    });
   };
 
   const closeModal = () => {
@@ -185,6 +203,7 @@ export const GallerySection: React.FC = () => {
         onClose={closeModal} 
         url={modalState.url} 
         title={modalState.title} 
+        poster={modalState.poster}
       />
     </SectionContainer>
   );

@@ -7,9 +7,10 @@ interface IframeModalProps {
   onClose: () => void;
   url: string;
   title?: string;
+  poster?: string;
 }
 
-export const IframeModal: React.FC<IframeModalProps> = ({ isOpen, onClose, url, title }) => {
+export const IframeModal: React.FC<IframeModalProps> = ({ isOpen, onClose, url, title, poster }) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -28,6 +29,10 @@ export const IframeModal: React.FC<IframeModalProps> = ({ isOpen, onClose, url, 
   }, [isOpen]);
 
   if (!mounted) return null;
+
+  const isVideo = url.match(/\.(mp4|webm|ogg)$/) || url.includes('video');
+  const isImage = url.match(/\.(jpeg|jpg|png|gif|webp|svg)$/) || url.includes('image');
+  const isYoutube = url.includes('youtube.com') || url.includes('youtu.be') || url.includes('embed');
 
   return (
     <AnimatePresence>
@@ -61,13 +66,37 @@ export const IframeModal: React.FC<IframeModalProps> = ({ isOpen, onClose, url, 
               </button>
             </div>
 
-            {/* Iframe */}
-            <div className="flex-1 w-full h-full bg-surface relative">
-              <iframe
-                src={url}
-                className="absolute inset-0 w-full h-full border-0"
-                title="Internal Page Content"
-              />
+            {/* Content Area */}
+            <div className="flex-1 w-full h-full bg-surface relative flex items-center justify-center overflow-hidden p-2 sm:p-4">
+              {isYoutube ? (
+                <iframe
+                  src={url}
+                  className="w-full h-full border-0 rounded-2xl"
+                  title="YouTube Video"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : isVideo ? (
+                <video
+                  src={url}
+                  poster={poster}
+                  controls
+                  autoPlay
+                  className="max-w-full max-h-full rounded-2xl shadow-lg"
+                />
+              ) : isImage ? (
+                <img
+                  src={url}
+                  alt={title}
+                  className="max-w-full max-h-full object-contain rounded-2xl"
+                />
+              ) : (
+                <iframe
+                  src={url}
+                  className="absolute inset-0 w-full h-full border-0"
+                  title="Content"
+                />
+              )}
             </div>
           </motion.div>
         </div>

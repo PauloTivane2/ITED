@@ -8,14 +8,25 @@ import { SEO } from '@/shared/ui/SEO/SEO';
 export const GalleryPage: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
   const [selected, setSelected] = useState('Todos');
-  const [lightbox, setLightbox] = useState<null | { url: string; title: string }>(null);
+  const [lightbox, setLightbox] = useState<null | { url: string; title: string; poster?: string }>(null);
 
   useEffect(() => {
     const fetchGallery = async () => {
       try {
         const result = await sanityClient.fetch(queries.galleryItems);
         if (result) {
-          setData(result);
+          // Flatten albums into items
+          const flattenedItems = result.flatMap((album: any) => 
+            (album.items || []).map((item: any) => ({
+              ...item,
+              _id: item.id || Math.random().toString(), 
+              // Fallback to album featured status if not set on item
+              featured: item.featured || album.featured,
+              albumTitle: album.title,
+              title: item.title || album.title
+            }))
+          );
+          setData(flattenedItems);
         }
       } catch (error) {
         console.error("Error fetching gallery:", error);
@@ -95,7 +106,11 @@ export const GalleryPage: React.FC = () => {
             return (
               <div
                 key={item._id || i}
-                onClick={() => setLightbox({ url: modalUrl, title: item.title })}
+                onClick={() => setLightbox({ 
+                  url: modalUrl, 
+                  title: item.title, 
+                  poster: item.thumbnailUrl || item.imageUrl 
+                })}
                 className="relative group rounded-2xl overflow-hidden cursor-pointer break-inside-avoid shadow-sm hover:shadow-medium transition-shadow duration-300"
               >
                 <img
@@ -104,6 +119,16 @@ export const GalleryPage: React.FC = () => {
                   className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
+                
+                {/* Play Button Overlay for Videos */}
+                {(item.type === 'video' || item.type === 'youtube') && (
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 text-white shadow-strong transition-all duration-300 group-hover:bg-accent/80 group-hover:scale-110">
+                      <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[14px] border-l-current border-b-[8px] border-b-transparent ml-1" />
+                    </div>
+                  </div>
+                )}
+
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-between">
                   <span className="text-white font-semibold text-sm">{item.title}</span>
@@ -141,7 +166,13 @@ export const GalleryPage: React.FC = () => {
                   ></iframe>
                </div>
             ) : lightbox.url.match(/\.(mp4|webm|ogg)$/) ? (
-              <video src={lightbox.url} controls className="w-full h-auto max-h-[80vh] rounded-2xl shadow-2xl" autoPlay />
+              <video 
+                src={lightbox.url} 
+                poster={lightbox.poster} 
+                controls 
+                className="w-full h-auto max-h-[80vh] rounded-2xl shadow-2xl" 
+                autoPlay 
+              />
             ) : (
               <img
                 src={lightbox.url}
