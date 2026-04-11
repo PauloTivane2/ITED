@@ -6,18 +6,17 @@ import { sanityClient, queries } from '@/cms/sanity/client';
 export const WhatsAppButton: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [whatsappInfo, setWhatsappInfo] = useState<{ number: string; message: string }>({
-    number: "258844203117", // Fallback
-    message: "Olá ITED! Gostaria de obter mais informações."
+    number: "258844203117", // Número de fallback
+    message: "A paz do Senhor! Gostaria de pedir uma oração ou obter mais informações sobre a ITED."
   });
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Buscar configurações do Sanity
   useEffect(() => {
     sanityClient.fetch(queries.siteConfig).then((config) => {
       if (config?.whatsapp) {
         setWhatsappInfo(prev => ({
           ...prev,
-          number: config.whatsapp.replace(/\D/g, '') // Remove caracteres não numéricos
+          number: config.whatsapp.replace(/\D/g, '') // Garante que só existam números
         }));
       }
     }).catch(err => console.error("Error fetching whatsapp config:", err));
