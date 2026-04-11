@@ -167,3 +167,108 @@ export const generatePremiumEmailTemplate = (data: EmailTemplateData): string =>
 </html>
   `;
 };
+
+export const generateAutoReplyTemplate = (name: string, subject: string): string => {
+  const currentYear = new Date().getFullYear();
+
+  return `
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recebemos sua mensagem - ITED</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e1e8ed;
+        }
+        .header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            padding: 35px 40px;
+            text-align: center;
+        }
+        .header h1 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .content {
+            padding: 40px;
+            text-align: center;
+        }
+        .welcome-text {
+            font-size: 18px;
+            color: #0f172a;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .message-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #475569;
+            margin-bottom: 30px;
+        }
+        .status-badge {
+            display: inline-block;
+            background-color: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: #0f172a;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        .footer {
+            background-color: #f8fafc;
+            padding: 24px 40px;
+            text-align: center;
+            border-top: 1px solid #e1e8ed;
+        }
+        .footer p {
+            margin: 0;
+            color: #64748b;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Recebemos seu Contacto</h1>
+        </div>
+        <div class="content">
+            <p class="welcome-text">Olá, ${name}!</p>
+            <p class="message-text">
+                Agradecemos por entrar em contacto conosco. Recebemos sua mensagem sobre o assunto <strong>"${subject}"</strong> e nossa equipe entrará em contacto o mais breve possível.
+            </p>
+            <div class="status-badge">
+                Status: Solicitação Recebida
+            </div>
+            <p class="message-text">
+                Que a paz do Senhor esteja com você!
+            </p>
+        </div>
+        <div class="footer">
+            <p>Este é um email automático, por favor não responda.</p>
+            <p style="margin-top: 8px;">&copy; ${currentYear} ITED Church. Todos os direitos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>
+  `;
+};

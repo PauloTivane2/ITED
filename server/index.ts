@@ -2,7 +2,7 @@ import express from 'express';
 import nodemailer from 'nodemailer';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { generatePremiumEmailTemplate } from './template';
+import { generatePremiumEmailTemplate, generateAutoReplyTemplate } from './template';
 
 dotenv.config();
 
@@ -47,6 +47,22 @@ app.post('/api/contact', async (req, res) => {
     };
 
     await transporter.sendMail(mailOptions);
+
+    // Enviar confirmação automática para o usuário (Auto-Reply)
+    if (email) {
+      const autoReplyOptions = {
+        from: `"ITED (No-Reply)" <${process.env.EMAIL_USER}>`,
+        to: email,
+        subject: `Recebemos sua mensagem: ${subject}`,
+        html: generateAutoReplyTemplate(name, subject),
+      };
+      
+      // Enviamos em segundo plano para não atrasar a resposta do administrador
+      transporter.sendMail(autoReplyOptions).catch(err => {
+        console.error('Erro ao enviar email de auto-resposta:', err);
+      });
+    }
+
     res.status(200).json({ message: 'Email enviado com sucesso!' });
   } catch (error) {
     console.error('Erro ao enviar email:', error);
