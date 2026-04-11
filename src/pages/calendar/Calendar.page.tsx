@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PageLayout } from '../../layouts/PageLayout';
 import { FaChevronLeft, FaChevronRight, FaClock, FaMapMarkerAlt } from 'react-icons/fa';
 import { sanityClient, queries } from '../../cms/sanity/client';
+import { SEO } from '@/shared/ui/SEO/SEO';
 
 const MONTH_NAMES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DAY_NAMES = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
@@ -67,6 +68,11 @@ export const CalendarPage: React.FC = () => {
 
   return (
     <PageLayout>
+      <SEO 
+        title="Calendário de Eventos" 
+        description="Fique por dentro de todos os eventos, cultos e programações especiais da ITED. Veja nossa agenda semanal e anual."
+        canonical="/calendario"
+      />
       {/* Hero */}
       <section className="relative bg-gradient-hero pt-36 pb-20 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.04]">

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { PageLayout } from '../../layouts/PageLayout';
 import { FaChild, FaFire, FaHandsHelping, FaMusic, FaPray, FaHeart, FaBible, FaUsers, FaChevronDown } from 'react-icons/fa';
 import { sanityClient, queries } from '../../cms/sanity/client';
+import { SEO } from '@/shared/ui/SEO/SEO';
 
 const getIconForTitle = (title: string) => {
   const t = title.toLowerCase();
@@ -65,6 +66,11 @@ export const MinistriesPage: React.FC = () => {
 
   return (
     <PageLayout>
+      <SEO 
+        title="Nossos Ministérios" 
+        description="Descubra onde você pode servir e crescer na ITED. Conheça nossos ministérios Infantil, Jovem, Louvor, Ação Social e muito mais."
+        canonical="/ministerios"
+      />
       {/* Hero */}
       <section className="relative bg-gradient-hero pt-36 pb-20 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.04]">

@@ -3,6 +3,7 @@ import { PageLayout } from '../../layouts/PageLayout';
 import { FaTimes, FaExpandAlt } from 'react-icons/fa';
 import { sanityClient, queries } from '../../cms/sanity/client';
 import { getYouTubeEmbedUrl } from '../../shared/lib/utils';
+import { SEO } from '@/shared/ui/SEO/SEO';
 
 export const GalleryPage: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
@@ -36,6 +37,11 @@ export const GalleryPage: React.FC = () => {
 
   return (
     <PageLayout>
+      <SEO 
+        title="Nossa Galeria" 
+        description="Explore as fotos e vídeos dos momentos especiais, cultos, eventos sociais e vida em comunidade na ITED."
+        canonical="/galeria"
+      />
       {/* Hero Banner */}
       <section className="relative bg-gradient-hero pt-36 pb-20 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.04]">

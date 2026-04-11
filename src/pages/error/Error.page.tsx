@@ -1,10 +1,15 @@
 import { useRouteError, isRouteErrorResponse } from 'react-router-dom';
+import { SEO } from '@/shared/ui/SEO/SEO';
 
 export const ErrorPage = () => {
   const error = useRouteError();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-surface p-4 text-center">
+      <SEO 
+        title="Erro" 
+        description="A página solicitada não foi encontrada."
+      />
       <div className="max-w-md w-full bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-md shadow-2xl">
         <div className="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
           <svg className="w-10 h-10 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">

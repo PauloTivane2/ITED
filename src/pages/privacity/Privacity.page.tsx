@@ -1,4 +1,5 @@
 import { FaShieldAlt, FaUserSecret, FaDatabase, FaEnvelope, FaLock } from 'react-icons/fa';
+import { SEO } from '@/shared/ui/SEO/SEO';
 
 const sections = [
   {
@@ -47,6 +48,11 @@ const sections = [
 export const PrivacityPage = () => {
   return (
     <div className="min-h-screen bg-surface">
+      <SEO 
+        title="Política de Privacidade" 
+        description="Saiba como a ITED protege e trata os seus dados pessoais com respeito e transparência."
+        canonical="/privacidade"
+      />
       {/* Hero */}
       <div className="relative bg-primary overflow-hidden">
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl pointer-events-none" />

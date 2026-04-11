@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { FaMapMarkerAlt, FaUserTie, FaPhoneAlt } from 'react-icons/fa';
 import { MapContent } from '../../widgets/sections/mapa/mapa';
 import { sanityClient, queries } from '../../cms/sanity/client';
+import { SEO } from '@/shared/ui/SEO/SEO';
 
 const fallbackParishes = [
   {
@@ -46,6 +47,11 @@ export const ParishesPage: React.FC = () => {
 
   return (
     <PageLayout>
+      <SEO 
+        title="Nossas Paróquias" 
+        description="Conheça as congregações da ITED em Munhava, Mutindire e outras localidades. Encontre a igreja mais próxima de você."
+        canonical="/paroquias"
+      />
       {/* Hero Banner */}
       <section className="relative bg-gradient-hero pt-36 pb-20 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.04]">

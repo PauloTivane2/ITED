@@ -1,5 +1,6 @@
 import { FaScroll, FaChevronDown, FaChevronUp, FaBookOpen, FaFileAlt, FaLink, FaBalanceScale, FaEnvelope, FaSyncAlt, FaCross } from 'react-icons/fa';
 import { useState } from 'react';
+import { SEO } from '@/shared/ui/SEO/SEO';
 
 const terms = [
   {
@@ -101,6 +102,11 @@ export const TermosPage = () => {
 
   return (
     <div className="min-h-screen bg-surface">
+      <SEO 
+        title="Termos de Uso" 
+        description="Termos e condições de uso do website e serviços da ITED (Igreja Internacional Tenda do Encontro com Deus)."
+        canonical="/termos"
+      />
       {/* Hero */}
       <div className="relative bg-primary overflow-hidden">
         {/* Decorative orbs */}
