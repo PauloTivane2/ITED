@@ -11,7 +11,8 @@ export const MapContent: React.FC = () => {
   const mapsUrl = "https://maps.app.goo.gl/Vn6iaZRVSL9f9Hg69";
   
   // Custom Google Maps Embed URL using Church Name + Coordinates and reduced zoom
-  const embedUrl = `https://maps.google.com/maps?q=ITED - Igreja Tenda do Encontro com Deus, Matacuane, Beira@${coordinates.lat},${coordinates.lng}&t=k&z=16&ie=UTF8&iwloc=&output=embed`;
+  const churchName = "ITED - Igreja Tenda do Encontro com Deus";
+  const embedUrl = `https://maps.google.com/maps?q=${coordinates.lat},${coordinates.lng}+(${encodeURIComponent(churchName)})&t=k&z=17&ie=UTF8&iwloc=A&output=embed`;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
