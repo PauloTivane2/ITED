@@ -1,6 +1,7 @@
 import React, { ReactNode, useState, useEffect } from 'react';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { WhatsAppButton } from '@/shared/ui/WhatsApp/WhatsAppButton';
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -20,6 +21,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
         {children}
       </main>
       {!isIframe && <Footer />}
+      <WhatsAppButton />
     </div>
   );
 };
