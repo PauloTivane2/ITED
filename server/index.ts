@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import nodemailer from 'nodemailer';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -29,7 +29,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-app.post('/api/contact', async (req, res) => {
+app.post('/api/contact', async (req: Request, res: Response) => {
   const { name, email, subject, message, phone } = req.body;
 
   if (!name || !subject || !message) {
@@ -58,13 +58,13 @@ app.post('/api/contact', async (req, res) => {
       };
       
       // Enviamos em segundo plano para não atrasar a resposta do administrador
-      transporter.sendMail(autoReplyOptions).catch(err => {
+      transporter.sendMail(autoReplyOptions).catch((err: any) => {
         console.error('Erro ao enviar email de auto-resposta:', err);
       });
     }
 
     res.status(200).json({ message: 'Email enviado com sucesso!' });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Erro ao enviar email:', error);
     res.status(500).json({ error: 'Falha ao enviar o email. Verifique as credenciais.' });
   }
