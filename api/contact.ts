@@ -152,7 +152,11 @@ export default async function handler(req: any, res: any) {
         html: generateAutoReplyTemplate(name, subject),
       };
       
-      transporter.sendMail(autoReplyOptions).catch(err => console.error('Erro auto-resposta:', err));
+      try {
+        await transporter.sendMail(autoReplyOptions);
+      } catch (err) {
+        console.error('Erro auto-resposta:', err);
+      }
     }
 
     return res.status(200).json({ message: 'Email enviado com sucesso!' });
