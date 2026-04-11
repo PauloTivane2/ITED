@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar } from '@/widgets/navbar/Navbar';
 import { Footer } from '@/widgets/footer/Footer';
+import { WhatsAppButton } from '@/shared/ui/WhatsApp/WhatsAppButton';
 
 export const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -8,6 +9,7 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
       <Navbar />
       <main className="flex-1">{children}</main>
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 };
