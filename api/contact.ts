@@ -2,22 +2,30 @@ import nodemailer from 'nodemailer';
 import { generatePremiumEmailTemplate, generateAutoReplyTemplate } from '../server/template';
 
 export default async function handler(req: any, res: any) {
-  // Configurar CORS
+  // CORS
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  );
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
+    return res.status(200).end();
   }
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método não permitido' });
+  }
+
+  // 1. Verificar Variáveis de Ambiente
+  const emailUser = process.env.EMAIL_USER;
+  const emailPass = process.env.EMAIL_PASS;
+
+  if (!emailUser || !emailPass) {
+    console.error('ERRO: Variáveis EMAIL_USER ou EMAIL_PASS não configuradas no Vercel.');
+    return res.status(500).json({ 
+      error: 'Erro de configuração no servidor (Variáveis de ambiente ausentes).',
+      debug: 'Verifique o painel do Vercel em Settings -> Environment Variables'
+    });
   }
 
   const { name, email, subject, message, phone } = req.body;
@@ -26,19 +34,19 @@ export default async function handler(req: any, res: any) {
     return res.status(400).json({ error: 'Os campos nome, assunto e mensagem são obrigatórios' });
   }
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-
   try {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: emailUser,
+        pass: emailPass,
+      },
+    });
+
     const mailOptions = {
       from: `"${name}" <${email || 'no-reply@ited.com'}>`,
       replyTo: email,
-      to: process.env.EMAIL_USER,
+      to: emailUser,
       subject: `[Site Contacto] ${subject}`,
       text: `Nome: ${name}\nEmail: ${email}\nTelefone: ${phone}\n\nMensagem:\n${message}`,
       html: generatePremiumEmailTemplate({ name, email, phone, subject, message }),
@@ -46,22 +54,24 @@ export default async function handler(req: any, res: any) {
 
     await transporter.sendMail(mailOptions);
 
-    // Enviar confirmação automática (Auto-Reply)
     if (email) {
       const autoReplyOptions = {
-        from: `"ITED (No-Reply)" <${process.env.EMAIL_USER}>`,
+        from: `"ITED (No-Reply)" <${emailUser}>`,
         to: email,
         subject: `Recebemos sua mensagem: ${subject}`,
         html: generateAutoReplyTemplate(name, subject),
       };
       
-      // Enviamos sem esperar para acelerar a resposta
-      transporter.sendMail(autoReplyOptions).catch(err => console.error('Auto-reply error:', err));
+      // Envio em background (não aguardamos o 'await' aqui para ser mais rápido)
+      transporter.sendMail(autoReplyOptions).catch(err => console.error('Erro na auto-resposta:', err));
     }
 
     return res.status(200).json({ message: 'Email enviado com sucesso!' });
-  } catch (error) {
-    console.error('Erro ao enviar email:', error);
-    return res.status(500).json({ error: 'Falha ao enviar o email.' });
+  } catch (error: any) {
+    console.error('Erro detalhado no envio:', error);
+    return res.status(500).json({ 
+      error: 'Falha ao enviar o email através do serviço.',
+      message: error.message 
+    });
   }
 }
