@@ -50,7 +50,7 @@ export default defineConfig({
             S.documentTypeListItem('ministry').title('Minist\u00E9rios'),
             S.documentTypeListItem('serviceTime').title('Hor\u00E1rios de Culto'),
             S.documentTypeListItem('event').title('Eventos'),
-            S.documentTypeListItem('galleryItem').title('Galeria'),
+            S.documentTypeListItem('gallery').title('Galeria'),
             S.documentTypeListItem('parish').title('Par\u00F3quias'),
           ]),
     }),

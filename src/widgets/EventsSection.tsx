@@ -13,6 +13,7 @@ const fallbackEvents = [
     location: 'Templo Principal',
     tag: 'Destaque',
     tagColor: 'accent',
+    image: '',
   },
   {
     _id: "e2",
@@ -22,6 +23,7 @@ const fallbackEvents = [
     location: 'Salão de Eventos',
     tag: 'Inscrições abertas',
     tagColor: 'highlight',
+    image: '',
   },
   {
     _id: "e3",
@@ -31,6 +33,7 @@ const fallbackEvents = [
     location: 'Chácara Peniel',
     tag: 'Especial',
     tagColor: 'warm',
+    image: '',
   }
 ];
 
@@ -132,6 +135,22 @@ export const EventsSection: React.FC = () => {
                       {event.location}
                     </div>
                   </div>
+                </div>
+
+                {/* Event Image */}
+                <div className="hidden md:block w-24 h-24 rounded-xl overflow-hidden bg-surface border border-muted/30 shrink-0">
+                  {event.image ? (
+                    <img
+                      src={event.image}
+                      alt={event.title || 'Imagem do evento'}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-[10px] font-semibold text-secondary/70 px-2 text-center">
+                      Sem imagem
+                    </div>
+                  )}
                 </div>
                 
                 {/* Arrow */}

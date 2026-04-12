@@ -50,7 +50,8 @@ export const queries = {
 
   /** Eventos em destaque na home (máx 3, ordenados por data) */
   featuredEvents: `*[_type == "event" && featured == true] | order(date asc)[0..2] {
-    _id, title, date, time, location, tag, tagColor
+    _id, title, date, time, location, tag, tagColor,
+    "image": image.asset->url
   }`,
 
   /** Todos os eventos futuros */
