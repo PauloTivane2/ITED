@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { PageLayout } from '../../layouts/PageLayout';
-import { FaChild, FaFire, FaHandsHelping, FaMusic, FaPray, FaHeart, FaBible, FaUsers, FaChevronDown } from 'react-icons/fa';
+import { FaChild, FaFire, FaHandsHelping, FaMusic, FaPray, FaHeart, FaBible, FaUsers } from 'react-icons/fa';
 import { sanityClient, queries } from '../../cms/sanity/client';
 import { SEO } from '@/shared/ui/SEO/SEO';
 
@@ -32,7 +32,6 @@ const getColorForTitle = (title: string) => {
 export const MinistriesPage: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
   const [selected, setSelected] = useState('Todos');
-  const [expanded, setExpanded] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchMinistries = async () => {
@@ -72,21 +71,8 @@ export const MinistriesPage: React.FC = () => {
         canonical="/ministerios"
       />
       {/* Hero */}
-      <section className="relative bg-gradient-hero pt-36 pb-20 overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.04]">
-          <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="grid-m" width="60" height="60" patternUnits="userSpaceOnUse">
-                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="white" strokeWidth="0.5" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid-m)" />
-          </svg>
-        </div>
-        <div className="absolute top-1/3 -left-20 w-80 h-80 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-60 h-60 bg-highlight/8 rounded-full blur-3xl pointer-events-none" />
-        <div className="relative container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl">
-
+      <section className="bg-gradient-hero pt-36 pb-20">
+        <div className="container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl">
           <span className="inline-block text-accent font-semibold text-sm tracking-widest uppercase mb-4">Servir é adorar</span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-5">
             Todos os <span className="font-serif italic font-medium text-accent">Ministérios</span>
@@ -134,62 +120,23 @@ export const MinistriesPage: React.FC = () => {
 
               {/* Content */}
               <div className="p-6 lg:p-7">
-                <h2 className="text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">{m.title}</h2>
-                <p className="text-secondary text-sm leading-relaxed mb-4">{m.description}</p>
-
-                {/* Quick info Fallbacks */}
-                <div className="flex flex-col gap-1.5 mb-5 text-xs text-secondary">
-                  <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-                    <span><strong className="text-primary">Participação:</strong> Aberta a todos</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-highlight" />
-                    <span><strong className="text-primary">Status:</strong> Ativo</span>
-                  </div>
-                </div>
-
-                {/* Expand button */}
-                <button
-                  onClick={() => setExpanded(expanded === m._id ? null : m._id)}
-                  className="w-full flex items-center justify-between text-sm text-accent font-semibold border-t border-muted/30 pt-4 hover:text-accent-dark transition-colors"
-                >
-                  {expanded === m._id ? 'Ver menos' : 'Saiba mais'}
-                  <FaChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${expanded === m._id ? 'rotate-180' : ''}`} />
-                </button>
-
-                {expanded === m._id && (
-                  <p className="text-secondary text-sm leading-relaxed mt-4 pt-4 border-t border-muted/30">
-                    {m.description}
-                  </p>
-                )}
+                <h2 className="text-xl font-bold text-primary mb-3 group-hover:text-accent transition-colors">{m.title}</h2>
+                <p className="text-secondary text-sm leading-relaxed">{m.description}</p>
               </div>
             </div>
           ))}
         </div>
 
         {/* CTA Banner */}
-        <div className="mt-20 rounded-3xl bg-gradient-hero p-10 md:p-14 text-center relative overflow-hidden">
-          <div className="absolute inset-0 opacity-[0.05]">
-            <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="grid-cta" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid-cta)" />
-            </svg>
-          </div>
-          <div className="relative">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Pronto para servir?</h2>
-            <p className="text-white/60 mb-8 max-w-lg mx-auto">Entre em contato conosco e descubra o ministério certo para você.</p>
-            <Link
-              to="/#contato"
-              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl font-semibold text-white bg-gradient-accent shadow-glow hover:shadow-glow-lg transition-shadow"
-            >
-              Fale Conosco
-            </Link>
-          </div>
+        <div className="mt-20 rounded-3xl bg-gradient-hero p-10 md:p-14 text-center">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Pronto para servir?</h2>
+          <p className="text-white/60 mb-8 max-w-lg mx-auto">Entre em contato conosco e descubra o ministério certo para você.</p>
+          <Link
+            to="/#contato"
+            className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl font-semibold text-white bg-gradient-accent shadow-glow hover:shadow-glow-lg transition-shadow"
+          >
+            Fale Conosco
+          </Link>
         </div>
       </section>
     </PageLayout>

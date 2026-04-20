@@ -83,23 +83,22 @@ export const MinistriesList: React.FC = () => {
             key={m._id || m.title}
             className="min-w-[260px] max-w-[80vw]"
           >
-            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden cursor-pointer shadow-lg">
-              {/* Background Image */}
-              <img 
-                src={m.image || '/images/ministries/ministry_worship_1774776893962.png'} 
-                alt={m.title}
-                className="absolute inset-0 w-full h-full object-cover" 
-              />
-              
-              {/* Permanent dark gradient for readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-              
-              {/* Static Content for Mobile */}
-              <div className="absolute bottom-0 left-0 right-0 p-5 flex flex-col justify-end">
-                <h3 className="text-lg font-bold text-white mb-2">
+            <div className="rounded-2xl overflow-hidden shadow-lg bg-white border border-gray-100 flex flex-col">
+              {/* Image */}
+              <div className="relative h-44">
+                <img
+                  src={m.image || '/images/ministries/ministry_worship_1774776893962.png'}
+                  alt={m.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Text below image — no clamp, no overlap */}
+              <div className="p-4 flex flex-col">
+                <h3 className="text-base font-bold text-primary mb-1.5">
                   {m.title}
                 </h3>
-                <p className="text-white/80 text-sm leading-relaxed line-clamp-3">
+                <p className="text-secondary text-sm leading-relaxed">
                   {m.description}
                 </p>
               </div>

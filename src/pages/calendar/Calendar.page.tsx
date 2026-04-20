@@ -74,17 +74,7 @@ export const CalendarPage: React.FC = () => {
         canonical="/calendario"
       />
       {/* Hero */}
-      <section className="relative bg-gradient-hero pt-36 pb-20 overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.04]">
-          <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="grid-c" width="60" height="60" patternUnits="userSpaceOnUse">
-                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="white" strokeWidth="0.5" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid-c)" />
-          </svg>
-        </div>
+      <section className="bg-gradient-hero pt-36 pb-20 relative">
         <div className="relative container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl">
 
           <span className="inline-block text-accent font-semibold text-sm tracking-widest uppercase mb-4">Agenda</span>

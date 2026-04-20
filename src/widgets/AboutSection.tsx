@@ -95,7 +95,6 @@ export const AboutSection: React.FC = () => {
 
         {/* Image Grid */}
         <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:gap-6 relative">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-accent/5 rounded-full blur-[100px] -z-10" />
           
           <SlideIn direction="left" className="flex flex-col gap-3 sm:gap-4 lg:gap-6 pt-8 sm:pt-12 lg:pt-20">
             <div className="rounded-2xl overflow-hidden aspect-[4/5] relative shadow-strong">
