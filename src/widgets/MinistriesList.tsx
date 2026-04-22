@@ -81,24 +81,25 @@ export const MinistriesList: React.FC = () => {
         {data.map((m) => (
           <CarouselItem
             key={m._id || m.title}
-            className="min-w-[260px] max-w-[80vw]"
+            className="w-[280px] max-w-[80vw] h-auto flex"
           >
-            <div className="rounded-2xl overflow-hidden shadow-lg bg-white border border-gray-100 flex flex-col">
+            <div className="relative w-full min-h-[380px] rounded-2xl overflow-hidden shadow-lg bg-primary flex flex-col justify-end flex-1">
               {/* Image */}
-              <div className="relative h-44">
-                <img
-                  src={m.image || '/images/ministries/ministry_worship_1774776893962.png'}
-                  alt={m.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              <img
+                src={m.image || '/images/ministries/ministry_worship_1774776893962.png'}
+                alt={m.title}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
 
-              {/* Text below image — no clamp, no overlap */}
-              <div className="p-4 flex flex-col">
-                <h3 className="text-base font-bold text-primary mb-1.5">
+              {/* Content over image */}
+              <div className="relative p-6 mt-auto">
+                <h3 className="text-xl font-bold text-white mb-2 tracking-tight">
                   {m.title}
                 </h3>
-                <p className="text-secondary text-sm leading-relaxed">
+                <p className="text-white/90 text-sm leading-relaxed">
                   {m.description}
                 </p>
               </div>

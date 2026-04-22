@@ -23,7 +23,7 @@ export const Footer: React.FC = () => {
 
   const phone = config?.phone || '+258 848083482';
   const email = config?.email || 'itedmidia@gmail.com';
-  const address = config?.address || 'Matacuanne, Beira — Moçambique';
+  const address = config?.address || 'Matacuane, Beira — Moçambique';
   const facebookUrl = config?.socialLinks?.facebook || 'https://www.facebook.com/profile.php?id=61559318708114';
   const instagramUrl = config?.socialLinks?.instagram || '#';
   const youtubeUrl = config?.socialLinks?.youtube || 'https://www.youtube.com/@ITEDTV';
