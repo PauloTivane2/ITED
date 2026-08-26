@@ -59,8 +59,8 @@ export const ServiceTimes: React.FC = () => {
                 <CarouselItem key={service._id || service.name} className="min-w-[300px] max-w-[88vw]">
               <div className={`relative rounded-3xl p-7 flex flex-col justify-between h-full overflow-hidden transition-all duration-300 border ${
                 isFeatured
-                  ? 'bg-gradient-to-b from-[#111A30] to-[#0B101D] border-accent/40 shadow-glow'
-                  : 'bg-[#0B101D] border-white/[0.08] shadow-dark-card'
+                  ? 'bg-[#0B132B]/75 backdrop-blur-xl border-accent/50 shadow-[0_0_25px_rgba(197,155,39,0.15)]'
+                  : 'bg-[#080D1A]/70 backdrop-blur-xl border-[#C59B27]/15 shadow-dark-card'
               }`}>
                 {/* Ambient Top Glow */}
                 <div className="absolute top-0 right-0 w-36 h-36 bg-accent/[0.07] rounded-full blur-2xl pointer-events-none" />
@@ -114,10 +114,10 @@ export const ServiceTimes: React.FC = () => {
           const isFeatured = (service.day || '').toLowerCase().includes('domingo');
           return (
             <StaggerItem key={service._id || service.name} className="h-full">
-              <div className={`relative group h-full rounded-3xl p-8 lg:p-9 flex flex-col justify-between overflow-hidden transition-all duration-500 hover:-translate-y-1.5 border ${
+              <div className={`group relative rounded-3xl p-8 lg:p-9 flex flex-col justify-between h-full overflow-hidden transition-all duration-500 hover:-translate-y-2 border ${
                 isFeatured
-                  ? 'bg-gradient-to-b from-[#111A30] to-[#0B101D] border-accent/35 hover:border-accent shadow-dark-card hover:shadow-glow-lg'
-                  : 'bg-gradient-to-b from-[#0E1528] to-[#0B101D] border-white/[0.08] hover:border-accent/40 shadow-dark-card hover:shadow-glow'
+                  ? 'bg-[#0B132B]/75 backdrop-blur-xl border-accent/50 hover:border-accent shadow-[0_12px_40px_rgba(0,0,0,0.6),0_0_30px_rgba(197,155,39,0.2)]'
+                  : 'bg-[#080D1A]/70 backdrop-blur-xl border-[#C59B27]/15 hover:border-[#C59B27]/50 shadow-dark-card hover:shadow-[0_12px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(197,155,39,0.12)]'
               }`}>
                 {/* Ambient Glow Orbs */}
                 <div className="absolute top-0 right-0 w-44 h-44 bg-accent/[0.06] rounded-full blur-3xl group-hover:bg-accent/[0.14] transition-all duration-700 pointer-events-none" />

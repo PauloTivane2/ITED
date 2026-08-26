@@ -85,9 +85,9 @@ export const Header: React.FC = () => {
             <div className="hidden sm:block">
               <Link 
                 to="/#contato"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-accent text-white text-xs font-bold uppercase tracking-wider border border-accent/40 shadow-glow hover:shadow-glow-lg active:scale-95 transition-all duration-200 group"
+                className="inline-flex items-center gap-2 px-4.5 py-2 rounded-xl bg-[#D4AF37] hover:bg-[#E2BE4B] text-[#070C18] text-xs font-bold tracking-wide border border-[#FFF5DC]/50 shadow-[0_1px_2px_rgba(0,0,0,0.4),0_0_14px_rgba(212,175,55,0.22)] hover:shadow-[0_0_22px_rgba(212,175,55,0.38)] active:scale-[0.98] transition-all duration-200"
               >
-                <Mail className="w-3.5 h-3.5" />
+                <Mail className="w-3.5 h-3.5 text-[#070C18]" />
                 <span>Fale Conosco</span>
               </Link>
             </div>

@@ -183,7 +183,7 @@ export const ContactForm: React.FC = () => {
 
         {/* Right Side: Form (7 cols) */}
         <div className="lg:col-span-7 w-full">
-          <div className="bg-[#0B101D] rounded-3xl p-7 sm:p-10 shadow-dark-card border border-white/[0.08] relative overflow-hidden">
+          <div className="bg-[#080E1C]/65 backdrop-blur-xl rounded-2xl p-6 sm:p-9 shadow-[0_4px_24px_rgba(0,0,0,0.4)] border border-white/[0.08] relative overflow-hidden">
             <form onSubmit={handleSubmit} className="relative flex flex-col gap-5">
               <Input
                 label="Nome Completo *"
@@ -195,7 +195,7 @@ export const ContactForm: React.FC = () => {
                 disabled={isSubmitting}
               />
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                 <Input
                   label="E-mail"
                   name="email"
@@ -219,7 +219,7 @@ export const ContactForm: React.FC = () => {
 
               {/* Assunto Combobox */}
               <div className="flex flex-col gap-1.5 w-full group relative" ref={dropdownRef}>
-                <label htmlFor="subject" className="text-xs font-semibold uppercase tracking-wider text-slate-300">
+                <label htmlFor="subject" className="text-2xs font-semibold uppercase tracking-[0.14em] text-slate-400 group-focus-within:text-[#D4AF37] transition-colors duration-150">
                   Assunto *
                 </label>
                 <div className="relative">
@@ -234,12 +234,14 @@ export const ContactForm: React.FC = () => {
                     disabled={isSubmitting}
                     autoComplete="off"
                     className={`
-                      w-full rounded-xl border text-sm px-4 py-3.5 pr-10
-                      bg-[#060911] text-white transition-all duration-normal
-                      focus:outline-none focus:ring-1 focus:ring-accent/30 focus:border-accent
-                      placeholder:text-slate-500
-                      ${errors.subject ? 'border-red-400' : 'border-white/10'}
+                      w-full rounded-xl border text-sm px-4 py-3 pr-10 min-h-[44px]
+                      bg-[#070C18]/85 backdrop-blur-md text-slate-100 placeholder:text-slate-500
+                      transition-all duration-200 ease-out
+                      focus:outline-none focus:ring-1 focus:ring-[#D4AF37]/50 focus:border-[#D4AF37]
+                      hover:border-white/[0.18]
+                      ${errors.subject ? 'border-red-400/80' : 'border-white/[0.09]'}
                       disabled:opacity-50 disabled:cursor-not-allowed
+                      shadow-[inset_0_1px_2px_rgba(0,0,0,0.4)]
                     `}
                   />
                   <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
@@ -247,13 +249,13 @@ export const ContactForm: React.FC = () => {
                   </div>
                 </div>
                 {errors.subject && (
-                  <span className="text-xs font-medium text-red-400">{errors.subject}</span>
+                  <span className="text-xs font-medium text-red-400 mt-0.5">{errors.subject}</span>
                 )}
 
                 {/* Dropdown Menu */}
                 <div className={`
-                  absolute z-20 top-[calc(100%+0.5rem)] left-0 right-0 bg-[#0B101D] rounded-xl shadow-dark-card border border-white/10 overflow-hidden text-sm font-medium
-                  transition-all duration-normal origin-top
+                  absolute z-20 top-[calc(100%+0.5rem)] left-0 right-0 bg-[#0A1020] rounded-xl shadow-2xl border border-white/[0.12] overflow-hidden text-sm font-medium
+                  transition-all duration-200 origin-top backdrop-blur-2xl
                   ${isDropdownOpen ? 'opacity-100 scale-y-100 pointer-events-auto' : 'opacity-0 scale-y-95 pointer-events-none'}
                 `}>
                   <div className="max-h-56 overflow-y-auto w-full flex flex-col p-1.5">
@@ -265,7 +267,7 @@ export const ContactForm: React.FC = () => {
                         key={sub}
                         type="button"
                         onClick={() => handleSubjectSelect(sub)}
-                        className="text-left px-3.5 py-2.5 rounded-lg hover:bg-accent/10 hover:text-accent transition-colors text-xs font-medium text-slate-200"
+                        className="text-left px-3.5 py-2.5 rounded-lg hover:bg-white/[0.06] hover:text-[#D4AF37] transition-colors text-xs font-medium text-slate-200"
                       >
                         {sub}
                       </button>
@@ -274,9 +276,9 @@ export const ContactForm: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => handleSubjectSelect(formData.subject)}
-                        className="text-left px-3.5 py-2.5 rounded-lg bg-[#060911] hover:bg-accent/10 hover:text-accent transition-colors text-xs border border-accent/20 mt-1"
+                        className="text-left px-3.5 py-2.5 rounded-lg bg-[#070C18] hover:bg-white/[0.06] hover:text-[#D4AF37] transition-colors text-xs border border-[#D4AF37]/30 mt-1"
                       >
-                        Usar assunto: <span className="font-bold text-accent">"{formData.subject}"</span>
+                        Usar assunto: <span className="font-bold text-[#D4AF37]">"{formData.subject}"</span>
                       </button>
                     )}
                   </div>
@@ -285,20 +287,22 @@ export const ContactForm: React.FC = () => {
 
               {/* Descrição Textarea */}
               <div className="flex flex-col gap-1.5 w-full group">
-                <label htmlFor="message" className="text-xs font-semibold uppercase tracking-wider text-slate-300">
+                <label htmlFor="message" className="text-2xs font-semibold uppercase tracking-[0.14em] text-slate-400 group-focus-within:text-[#D4AF37] transition-colors duration-150">
                   Mensagem / Descrição *
                 </label>
                 <textarea
                   id="message"
                   name="message"
-                  rows={5}
+                  rows={4}
                   className={`
-                    w-full rounded-xl border text-sm px-4 py-3.5
-                    bg-[#060911] text-white transition-all duration-normal resize-none
-                    focus:outline-none focus:ring-1 focus:ring-accent/30 focus:border-accent
-                    placeholder:text-slate-500
-                    ${errors.message ? 'border-red-400' : 'border-white/10'}
+                    w-full rounded-xl border text-sm px-4 py-3
+                    bg-[#070C18]/85 backdrop-blur-md text-slate-100 placeholder:text-slate-500
+                    transition-all duration-200 ease-out resize-none
+                    focus:outline-none focus:ring-1 focus:ring-[#D4AF37]/50 focus:border-[#D4AF37]
+                    hover:border-white/[0.18]
+                    ${errors.message ? 'border-red-400/80' : 'border-white/[0.09]'}
                     disabled:opacity-50 disabled:cursor-not-allowed
+                    shadow-[inset_0_1px_2px_rgba(0,0,0,0.4)]
                   `}
                   placeholder="Escreva sua mensagem com detalhes..."
                   value={formData.message}
@@ -306,14 +310,14 @@ export const ContactForm: React.FC = () => {
                   disabled={isSubmitting}
                 />
                 {errors.message && (
-                  <span className="text-xs font-medium text-red-400">{errors.message}</span>
+                  <span className="text-xs font-medium text-red-400 mt-0.5">{errors.message}</span>
                 )}
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="mt-2 h-12 px-8 rounded-xl font-semibold text-white bg-gradient-accent shadow-glow hover:shadow-glow-lg transition-all duration-normal flex items-center justify-center gap-2.5 active:scale-98 text-sm"
+                className="mt-2 h-11 px-6 rounded-xl font-semibold text-[#070C18] bg-[#D4AF37] hover:bg-[#E2BE4B] border border-[#FFF5DC]/50 shadow-[0_1px_2px_rgba(0,0,0,0.4),0_0_16px_rgba(212,175,55,0.22)] hover:shadow-[0_0_24px_rgba(212,175,55,0.38)] transition-all duration-200 flex items-center justify-center gap-2 active:scale-[0.98] text-sm"
               >
                 {isSubmitting ? (
                   <span>Enviando mensagem...</span>
@@ -325,7 +329,7 @@ export const ContactForm: React.FC = () => {
                 )}
               </button>
 
-              <p className="text-center text-2xs text-slate-500 mt-1">
+              <p className="text-center text-2xs text-slate-500 mt-0.5">
                 Todas as informações são confidenciais e protegidas.
               </p>
 

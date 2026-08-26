@@ -58,7 +58,7 @@ export const IframeModal: React.FC<IframeModalProps> = ({ isOpen, onClose, url, 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/85 backdrop-blur-xl cursor-pointer"
+            className="absolute inset-0 bg-[#05070E]/85 backdrop-blur-2xl cursor-pointer"
             onClick={onClose}
           />
 
@@ -69,12 +69,15 @@ export const IframeModal: React.FC<IframeModalProps> = ({ isOpen, onClose, url, 
             exit={{ opacity: 0, scale: 0.96, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full h-full max-w-6xl max-h-[92vh] rounded-3xl overflow-hidden shadow-2xl bg-[#0B101D] border border-white/10 flex flex-col z-10"
+            className="relative w-full h-full max-w-6xl max-h-[92vh] rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_35px_rgba(197,155,39,0.15)] bg-[#080D1A]/95 backdrop-blur-2xl border border-[#C59B27]/30 flex flex-col z-10"
           >
+            {/* Top Light Accent Hairline */}
+            <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#E5C368] to-transparent z-20" />
+
             {/* Header with Prominent Exit Actions */}
-            <div className="flex items-center justify-between px-5 sm:px-7 py-4 bg-[#060911] border-b border-white/[0.08] shrink-0">
+            <div className="flex items-center justify-between px-5 sm:px-7 py-4 bg-[#05070E]/90 backdrop-blur-xl border-b border-[#C59B27]/15 shrink-0">
               <div className="flex items-center gap-3">
-                <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse shadow-[0_0_8px_#C59B27]" />
                 <h3 className="font-bold text-sm sm:text-base text-white truncate max-w-[200px] sm:max-w-md">
                   {title || 'Visualização'}
                 </h3>
@@ -85,7 +88,7 @@ export const IframeModal: React.FC<IframeModalProps> = ({ isOpen, onClose, url, 
                 {isInternalRoute && (
                   <a
                     href={url}
-                    className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.05] hover:bg-white/10 border border-white/10 text-xs font-semibold text-slate-300 hover:text-white transition-all"
+                    className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.05] hover:bg-accent/15 border border-white/10 hover:border-accent/40 text-xs font-semibold text-slate-300 hover:text-white transition-all"
                   >
                     <span>Abrir Página Completa</span>
                     <ExternalLink className="w-3.5 h-3.5 text-accent" />
@@ -95,17 +98,17 @@ export const IframeModal: React.FC<IframeModalProps> = ({ isOpen, onClose, url, 
                 {/* Primary Close Button */}
                 <button
                   onClick={onClose}
-                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white/[0.08] hover:bg-accent hover:text-primary text-white border border-white/10 font-semibold text-xs transition-all active:scale-95 shadow-subtle group"
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.08] hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#B3881E] hover:text-[#05070E] text-white border border-[#C59B27]/25 font-bold text-xs transition-all duration-300 active:scale-95 shadow-subtle group"
                   aria-label="Fechar Modal"
                 >
                   <span>Fechar</span>
-                  <X className="w-4 h-4" />
+                  <X className="w-4 h-4 transition-transform group-hover:rotate-90" />
                 </button>
               </div>
             </div>
 
             {/* Content Area */}
-            <div className="flex-1 w-full h-full bg-[#060911]/90 relative flex items-center justify-center overflow-hidden p-2 sm:p-4">
+            <div className="flex-1 w-full h-full bg-[#05070E]/70 relative flex items-center justify-center overflow-hidden p-2 sm:p-4">
               {isYoutube ? (
                 <iframe
                   src={url}

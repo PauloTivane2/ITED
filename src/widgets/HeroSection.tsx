@@ -75,24 +75,24 @@ export const HeroSection: React.FC = () => {
 
           {/* CTAs */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 pt-2"
+            className="flex flex-col sm:flex-row gap-3.5 pt-2"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.35, ease: easeOut }}
           >
             <a
               href="#horarios"
-              className="inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl font-semibold text-white bg-gradient-accent shadow-glow hover:shadow-glow-lg transition-all duration-normal hover:-translate-y-0.5 min-h-[48px] active:scale-98 text-sm sm:text-base tracking-wide"
+              className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl font-semibold text-[#070C18] bg-[#D4AF37] hover:bg-[#E2BE4B] border border-[#FFF5DC]/50 shadow-[0_1px_2px_rgba(0,0,0,0.4),0_0_18px_rgba(212,175,55,0.22)] hover:shadow-[0_0_26px_rgba(212,175,55,0.38)] transition-all duration-200 active:scale-[0.98] text-sm tracking-wide"
             >
-              <Clock className="w-4 h-4" />
-              {heroData?.ctaPrimaryLabel || 'Nossos Horários'}
+              <Clock className="w-4 h-4 text-[#070C18]" />
+              <span>{heroData?.ctaPrimaryLabel || 'Nossos Horários'}</span>
             </a>
             <a
               href="#sobre"
-              className="inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl font-semibold text-white/85 hover:text-white border border-white/15 hover:border-white/30 hover:bg-white/[0.08] transition-all duration-normal hover:-translate-y-0.5 min-h-[48px] active:scale-98 text-sm sm:text-base tracking-wide backdrop-blur-sm"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-medium text-slate-200 hover:text-white border border-white/[0.12] hover:border-[#D4AF37]/50 bg-[#0A1020]/80 hover:bg-[#121B32]/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-all duration-200 active:scale-[0.98] text-sm tracking-wide backdrop-blur-md"
             >
-              {heroData?.ctaSecondaryLabel || 'Conheça a Igreja'}
-              <ChevronRight className="w-4 h-4" />
+              <span>{heroData?.ctaSecondaryLabel || 'Conheça a Igreja'}</span>
+              <ChevronRight className="w-4 h-4 text-[#D4AF37]" />
             </a>
           </motion.div>
 

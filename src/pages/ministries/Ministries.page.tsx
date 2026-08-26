@@ -64,16 +64,16 @@ export const MinistriesPage: React.FC = () => {
       </section>
 
       {/* Filter */}
-      <div className="sticky top-16 sm:top-20 z-30 bg-[#060911]/90 backdrop-blur-2xl border-b border-white/[0.08] shadow-dark-card">
-        <div className="container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl py-3.5 flex gap-2 overflow-x-auto scrollbar-none">
+      <div className="sticky top-16 sm:top-20 z-30 bg-[#05070E]/90 backdrop-blur-2xl border-b border-white/[0.08] shadow-dark-card">
+        <div className="container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl py-3 flex gap-2 overflow-x-auto scrollbar-none">
           {categories.map(cat => (
             <button
               key={cat}
               onClick={() => setSelected(cat)}
-              className={`shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-normal ${
+              className={`shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200 ${
                 selected === cat
-                  ? 'bg-gradient-accent text-white shadow-glow'
-                  : 'bg-[#0B101D] text-slate-400 hover:text-white hover:bg-white/[0.06] border border-white/[0.08]'
+                  ? 'bg-[#D4AF37] text-[#070C18] shadow-[0_0_14px_rgba(212,175,55,0.25)] border border-[#FFF5DC]/50'
+                  : 'bg-[#080E1C]/80 text-slate-400 hover:text-white hover:bg-[#121B32]/90 border border-white/[0.08]'
               }`}
             >
               {cat}
@@ -98,37 +98,52 @@ export const MinistriesPage: React.FC = () => {
           {filtered.map(m => (
             <div
               key={m._id}
-              className="group bg-[#0B101D] rounded-3xl border border-white/[0.08] overflow-hidden hover:border-accent/40 hover:shadow-glow transition-all duration-normal flex flex-col"
+              className="group relative min-h-[440px] aspect-[4/5] rounded-2xl overflow-hidden cursor-pointer bg-[#080E1C]/80 shadow-[0_4px_24px_rgba(0,0,0,0.4)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.6),0_0_24px_rgba(212,175,55,0.14)] border border-white/[0.10] hover:border-[#D4AF37]/50 transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
             >
-              {/* Image & Overlay */}
-              <div className="relative aspect-[16/10] overflow-hidden bg-[#060911]">
-                <img
-                  src={m.image || '/images/ministries/ministry_worship_1774776893962.png'}
-                  alt={m.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/30 to-transparent" />
-                
-                {/* Icon Badge */}
-                <div className="absolute bottom-4 left-6 flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-accent text-xl shadow-subtle">
-                    {getIconForTitle(m.title)}
-                  </div>
-                  <h2 className="text-xl font-bold text-white tracking-tight">{m.title}</h2>
+              {/* Background Image with Smooth Zoom */}
+              <img
+                src={m.image || '/images/ministries/ministry_worship_1774776893962.png'}
+                alt={m.title}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 brightness-[0.80] group-hover:brightness-90"
+              />
+              
+              {/* Ambient Multi-Stop Vignette */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#060A14] via-[#060A14]/75 to-transparent/10 group-hover:from-[#060A14]/95 group-hover:via-[#060A14]/80 group-hover:to-transparent/20 transition-all duration-300 pointer-events-none" />
+              
+              {/* Top Badge */}
+              <div className="relative p-6 z-10 flex items-center justify-between">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#05070E]/80 backdrop-blur-md border border-white/[0.12] text-[#D4AF37] text-2xs font-semibold uppercase tracking-[0.14em] shadow-subtle group-hover:border-[#D4AF37]/40 transition-colors">
+                  {getIconForTitle(m.title)}
+                  <span>Ministério</span>
                 </div>
               </div>
 
-              {/* Content */}
-              <div className="p-6 lg:p-7 flex-1 flex flex-col justify-between">
-                <p className="text-slate-400 text-sm leading-relaxed mb-6">{m.description}</p>
-                <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between">
-                  <span className="text-2xs font-semibold text-accent uppercase tracking-wider">Saiba Mais</span>
-                  <Link
-                    to="/#contato"
-                    className="text-xs font-bold text-white group-hover:text-accent flex items-center gap-1.5 transition-colors"
-                  >
-                    Quero Servir →
-                  </Link>
+              {/* Bottom Content Container */}
+              <div className="relative p-6 lg:p-7 z-10 mt-auto flex flex-col">
+                <div className="transform transition-all duration-300 group-hover:-translate-y-0.5">
+                  {/* Ministry Title */}
+                  <h3 className="text-xl lg:text-2xl font-bold text-white mb-2 tracking-tight group-hover:text-[#D4AF37] transition-colors duration-200 leading-snug">
+                    {m.title}
+                  </h3>
+                  
+                  {/* Description */}
+                  <div className="relative overflow-hidden transition-all duration-300 mb-4">
+                    <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-normal line-clamp-3 group-hover:line-clamp-none transition-all duration-300">
+                      {m.description}
+                    </p>
+                  </div>
+
+                  {/* Sub-Action Bar */}
+                  <div className="pt-3.5 border-t border-white/[0.08] flex items-center justify-between text-xs font-medium">
+                    <span className="text-2xs font-semibold text-slate-400 uppercase tracking-[0.12em]">Servir & Comunhão</span>
+                    <Link
+                      to="/#contato"
+                      className="text-slate-200 group-hover:text-[#D4AF37] group-hover:translate-x-0.5 transition-all flex items-center gap-1.5 font-semibold"
+                    >
+                      <span>Quero Servir</span>
+                      <span className="text-xs">→</span>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

@@ -36,15 +36,15 @@ export const EventsSection: React.FC = () => {
               Acompanhe as conferências, seminários e celebrações especiais agendadas na nossa comunidade. Reserve as datas e participe.
             </p>
 
-            {/* Info Card Pill */}
-            <div className="bg-[#0B101D] border border-white/[0.08] rounded-3xl p-5 sm:p-6 mb-6 relative overflow-hidden shadow-dark-card">
+            {/* Notice Card */}
+            <div className="bg-[#080D1A]/70 backdrop-blur-xl border border-[#C59B27]/20 rounded-3xl p-5 sm:p-6 mb-6 relative overflow-hidden shadow-dark-card">
               <div className="flex items-start gap-3.5">
-                <div className="w-9 h-9 rounded-xl bg-accent/10 flex items-center justify-center text-accent shrink-0 mt-0.5">
+                <div className="w-9 h-9 rounded-xl bg-accent/15 border border-accent/30 flex items-center justify-center text-accent shrink-0 mt-0.5 shadow-subtle">
                   <Bell className="w-4 h-4" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-white mb-1">Avisos & Inscrições</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">
+                  <p className="text-xs text-slate-300 leading-relaxed">
                     Para conferências e retiros, entre em contato com a liderança ou através dos nossos canais oficiais.
                   </p>
                 </div>
@@ -54,10 +54,10 @@ export const EventsSection: React.FC = () => {
 
           <a 
             href="/calendario" 
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-xl border border-accent/40 bg-gradient-accent text-white font-semibold shadow-glow hover:shadow-glow-lg transition-all duration-normal group self-start active:scale-98 text-sm"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-xl border border-[#FFF5DC]/30 bg-gradient-to-r from-[#D4AF37] via-[#C59B27] to-[#B3881E] text-[#05070E] font-bold shadow-[0_0_20px_rgba(212,175,55,0.25)] hover:shadow-[0_0_30px_rgba(212,175,55,0.45)] hover:-translate-y-0.5 transition-all duration-normal group self-start active:scale-98 text-sm"
           >
             <span>Ver Calendário Completo</span>
-            <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-4 h-4 text-[#05070E] group-hover:translate-x-1 transition-transform" />
           </a>
         </div>
 
@@ -81,7 +81,7 @@ export const EventsSection: React.FC = () => {
                 <a 
                   key={event._id || title}
                   href="/calendario"
-                  className="group bg-[#0B101D] rounded-3xl border border-white/[0.08] p-5 sm:p-6 flex gap-4 sm:gap-6 items-center hover:border-accent/40 hover:shadow-glow cursor-pointer transition-all duration-300 active:scale-[0.99]"
+                  className="group bg-[#080D1A]/70 backdrop-blur-xl rounded-3xl border border-[#C59B27]/15 p-5 sm:p-6 flex gap-4 sm:gap-6 items-center hover:border-[#C59B27]/50 hover:shadow-[0_8px_30px_rgba(0,0,0,0.5),0_0_20px_rgba(197,155,39,0.15)] cursor-pointer transition-all duration-300 active:scale-[0.99]"
                 >
                 {/* Metallic Date Badge - Fixed Compact Dimensions */}
                 <div className="flex flex-col items-center justify-center bg-white/[0.04] border border-white/10 group-hover:border-accent/30 group-hover:bg-accent/10 rounded-2xl w-16 h-16 min-w-[64px] sm:w-20 sm:h-20 sm:min-w-[80px] transition-all duration-normal shrink-0">

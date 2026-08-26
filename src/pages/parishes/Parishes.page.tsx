@@ -53,37 +53,39 @@ export const ParishesPage: React.FC = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-            {parishes.map((parish, index) => (
+            {parishes.map((parish) => (
             <motion.div
               key={parish._id || parish.name}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-[#0B101D] rounded-3xl overflow-hidden border border-white/[0.08] shadow-dark-card hover:shadow-glow hover:border-accent/40 transition-all duration-normal group flex flex-col"
+              className="bg-[#080D1A]/70 backdrop-blur-xl rounded-3xl border border-[#C59B27]/15 overflow-hidden shadow-dark-card hover:border-[#C59B27]/50 hover:shadow-[0_12px_40px_rgba(0,0,0,0.6),0_0_25px_rgba(197,155,39,0.15)] transition-all duration-500 flex flex-col group"
             >
-              {/* Image Container */}
-              <div className="relative aspect-[16/9] overflow-hidden bg-[#060911]">
+              <div className="relative h-60 overflow-hidden">
                 <img 
-                  src={parish.image || 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1200&auto=format&fit=crop'} 
+                  src={parish.image || 'https://images.unsplash.com/photo-1548625361-195982f6e987?q=80&w=800&auto=format&fit=crop'} 
                   alt={parish.name} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/30 to-transparent" />
-                <div className="absolute bottom-5 left-6 right-6">
-                  <h3 className="text-2xl font-bold text-white tracking-tight">{parish.name}</h3>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#080D1A] via-transparent to-transparent" />
+                <div className="absolute top-4 right-4 bg-[#05070E]/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#C59B27]/30 text-2xs font-bold text-accent uppercase tracking-wider">
+                  Congregação
                 </div>
               </div>
 
-              {/* Content */}
-              <div className="p-7 sm:p-8 space-y-6 flex-1 flex flex-col justify-between">
-                <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-                  {parish.description}
-                </p>
+              <div className="p-7 sm:p-8 flex-1 flex flex-col justify-between gap-6">
+                <div>
+                  <h3 className="text-2xl font-bold text-white mb-2 tracking-tight group-hover:text-accent transition-colors">
+                    {parish.name}
+                  </h3>
+                  <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+                    {parish.description}
+                  </p>
+                </div>
 
                 <div className="grid grid-cols-1 gap-3.5 pt-5 border-t border-white/[0.06]">
                   <div className="flex items-center gap-3 text-slate-300">
-                    <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent shrink-0 shadow-subtle">
                       <UserCheck className="w-5 h-5" />
                     </div>
                     <div>
@@ -93,7 +95,7 @@ export const ParishesPage: React.FC = () => {
                   </div>
 
                   <div className="flex items-center gap-3 text-slate-300">
-                    <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent shrink-0 shadow-subtle">
                       <MapPin className="w-5 h-5" />
                     </div>
                     <div>
@@ -105,7 +107,7 @@ export const ParishesPage: React.FC = () => {
 
                 <a 
                   href={parish.phone ? `tel:${parish.phone.replace(/\D/g,'')}` : '/#contato'} 
-                  className="w-full py-3.5 bg-[#060911] hover:bg-accent/10 border border-white/10 hover:border-accent/40 rounded-xl text-white font-semibold transition-all flex items-center justify-center gap-2 mt-4 text-sm active:scale-98"
+                  className="w-full py-3.5 bg-[#05070E]/80 hover:bg-[#C59B27]/15 border border-[#C59B27]/25 hover:border-[#C59B27]/60 rounded-xl text-white font-semibold transition-all flex items-center justify-center gap-2 mt-2 text-sm active:scale-98"
                 >
                   <Phone className="text-accent w-4 h-4" />
                   <span>{parish.phone ? `Ligar: ${parish.phone}` : 'Entrar em Contato'}</span>
