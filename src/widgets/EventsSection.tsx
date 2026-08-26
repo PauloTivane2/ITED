@@ -1,44 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { SectionContainer } from '../shared/SectionContainer';
-import { IframeModal } from '../shared/IframeModal';
 import { sanityClient, queries } from '../cms/sanity/client';
+import { Calendar, Clock, MapPin, ArrowRight, Sparkles, Bell } from 'lucide-react';
 
-// Initial fallback mock data
 const fallbackEvents = [
   {
     _id: "e1",
     date: '2026-04-15',
-    title: 'Conferência de Jovens 2026',
-    time: '14:00',
-    location: 'Templo Principal',
+    title: 'Conferência Anual de Avivamento & Fé',
+    time: '17:30 — 20:30',
+    location: 'Templo Principal, Matacuane',
     tag: 'Destaque',
-    tagColor: 'accent',
-    image: '',
+    description: 'Três dias de ministração intensiva, louvor profético e renovação espiritual para toda a comunidade.',
+    featured: true
   },
   {
     _id: "e2",
     date: '2026-04-22',
-    title: 'Café de Mulheres Virtuosas',
-    time: '09:00',
-    location: 'Salão de Eventos',
-    tag: 'Inscrições abertas',
-    tagColor: 'highlight',
-    image: '',
+    title: 'Encontro Nacional de Mulheres & Famílias',
+    time: '09:00 — 13:00',
+    location: 'Auditório ITED Central',
+    tag: 'Família',
+    description: 'Palestra, aconselhamento bíblico e comunhão para edificação dos lares cristãos.',
+    featured: false
   },
   {
     _id: "e3",
     date: '2026-05-05',
-    title: 'Batismo nas Águas e Confraternização',
-    time: '09:00',
-    location: 'Chácara Peniel',
-    tag: 'Especial',
-    tagColor: 'warm',
-    image: '',
+    title: 'Solene Batismo nas Águas & Ação de Graças',
+    time: '08:30 — 12:00',
+    location: 'Sede ITED, Beira',
+    tag: 'Celebração',
+    description: 'Ato de fé pública, batismo de novos convertidos e celebração da Ceia do Senhor.',
+    featured: false
   }
 ];
 
 export const EventsSection: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState<any[]>(fallbackEvents);
 
   useEffect(() => {
@@ -56,115 +54,121 @@ export const EventsSection: React.FC = () => {
   }, []);
 
   const formatDateInfo = (dateString: string) => {
-    if (!dateString) return { day: '00', month: '---' };
+    if (!dateString) return { day: '15', month: 'ABR' };
     const dateObj = new Date(dateString);
-    const day = String(dateObj.getDate() + 1).padStart(2, '0'); // +1 to offset general timezone issues if just YYYY-MM-DD
+    if (isNaN(dateObj.getTime())) return { day: '15', month: 'ABR' };
+    const day = String(dateObj.getDate() + 1).padStart(2, '0');
     const month = dateObj.toLocaleDateString('pt-BR', { month: 'short' }).toUpperCase().replace('.', '');
     return { day, month };
   };
 
-  const getTagColorClass = (color: string) => {
-    switch (color) {
-      case 'accent': return 'bg-accent/10 text-accent';
-      case 'highlight': return 'bg-highlight/10 text-highlight';
-      case 'warm': return 'bg-warm/10 text-warm';
-      case 'primary': return 'bg-primary/10 text-primary';
-      default: return 'bg-accent/10 text-accent';
-    }
-  };
-
   return (
-    <SectionContainer background="surface" id="eventos">
-      <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
+    <SectionContainer background="dark" id="eventos">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
         
-        {/* Left: Content */}
-        <div className="flex-1 lg:max-w-md">
-          <span className="inline-block text-accent font-semibold text-sm tracking-widest uppercase mb-4">Agenda</span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-4 sm:mb-6 tracking-tight">
-            Próximos <span className="font-serif italic font-medium text-accent">Eventos</span>
-          </h2>
-          <p className="text-secondary text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed font-verse">
-            Fique por dentro de tudo o que acontece na comunidade. Eventos são oportunidades para comunhão, crescimento e celebração.
-          </p>
-          <button 
-            onClick={() => setIsModalOpen(true)} 
-            className="inline-flex items-center gap-3 px-6 py-3.5 sm:px-7 sm:py-4 rounded-xl border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-normal hover:shadow-medium group min-h-[48px] active:scale-95"
+        {/* Left: Content & Context (5 cols) */}
+        <div className="lg:col-span-5 flex flex-col justify-between h-full gap-6 sm:gap-8">
+          <div>
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-2xs uppercase tracking-[0.22em] font-bold text-accent bg-accent/10 border border-accent/25 mb-4 shadow-subtle">
+              <Calendar className="w-3.5 h-3.5" />
+              <span>Agenda Ministerial</span>
+            </div>
+            
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.15] mb-4">
+              Próximos <span className="font-serif italic font-normal text-accent">Eventos</span>
+            </h2>
+            
+            <p className="text-slate-400 text-base sm:text-lg leading-relaxed mb-6">
+              Acompanhe as conferências, seminários e celebrações especiais agendadas na nossa comunidade. Reserve as datas e participe.
+            </p>
+
+            {/* Info Card Pill */}
+            <div className="bg-[#0B101D] border border-white/[0.08] rounded-3xl p-5 sm:p-6 mb-6 relative overflow-hidden shadow-dark-card">
+              <div className="flex items-start gap-3.5">
+                <div className="w-9 h-9 rounded-xl bg-accent/10 flex items-center justify-center text-accent shrink-0 mt-0.5">
+                  <Bell className="w-4 h-4" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-white mb-1">Avisos & Inscrições</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Para conferências e retiros, entre em contato com a liderança ou através dos nossos canais oficiais.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a 
+            href="/calendario" 
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-xl border border-accent/40 bg-gradient-accent text-white font-semibold shadow-glow hover:shadow-glow-lg transition-all duration-normal group self-start active:scale-98 text-sm"
           >
-            Ver Calendário Completo
-            <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-            </svg>
-          </button>
+            <span>Ver Calendário Completo</span>
+            <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
+          </a>
         </div>
 
-        {/* Right: Event List */}
-        <div className="flex-1 flex flex-col gap-4">
+        {/* Right: Event List Cards (7 cols) */}
+        <div className="lg:col-span-7 flex flex-col gap-4">
           {data.map((event) => {
             const { day, month } = formatDateInfo(event.date);
+            const title = event.title || 'Evento Especial ITED';
+            const time = event.time || '17:30';
+            const location = event.location || 'Sede Matacuane, Beira';
+            const tag = event.tag || 'Destaque';
+            
             return (
-              <div 
-                key={event._id}
-                className="group bg-white rounded-2xl border border-muted/40 p-4 sm:p-5 md:p-6 flex gap-4 sm:gap-5 md:gap-6 items-start hover:border-accent/20 hover:shadow-medium cursor-pointer transition-all duration-normal active:scale-[0.98]"
+              <a 
+                key={event._id || title}
+                href="/calendario"
+                className="group bg-[#0B101D] rounded-3xl border border-white/[0.08] p-5 sm:p-6 flex gap-4 sm:gap-6 items-center hover:border-accent/40 hover:shadow-glow cursor-pointer transition-all duration-300 active:scale-[0.99]"
               >
-                {/* Date Badge */}
-                <div className="flex flex-col items-center justify-center bg-surface group-hover:bg-gradient-accent group-hover:text-white rounded-2xl w-[60px] h-[60px] min-w-[60px] sm:w-[72px] sm:h-[72px] sm:min-w-[72px] transition-all duration-normal">
-                  <span className="font-extrabold text-2xl leading-none group-hover:text-white text-primary transition-colors">{day}</span>
-                  <span className="text-xs font-bold mt-1 tracking-wider group-hover:text-white/80 text-secondary transition-colors">{month}</span>
+                {/* Metallic Date Badge - Fixed Compact Dimensions */}
+                <div className="flex flex-col items-center justify-center bg-white/[0.04] border border-white/10 group-hover:border-accent/30 group-hover:bg-accent/10 rounded-2xl w-16 h-16 min-w-[64px] sm:w-20 sm:h-20 sm:min-w-[80px] transition-all duration-normal shrink-0">
+                  <span className="font-extrabold text-2xl sm:text-3xl leading-none text-white group-hover:text-accent font-mono transition-colors">
+                    {day}
+                  </span>
+                  <span className="text-[10px] sm:text-xs font-bold mt-1 tracking-wider text-accent uppercase font-sans">
+                    {month}
+                  </span>
                 </div>
                 
                 {/* Event Details */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${getTagColorClass(event.tagColor)}`}>{event.tag || 'Evento'}</span>
+                  <div className="mb-1.5 flex items-center gap-2">
+                    <span className="inline-flex items-center gap-1 text-2xs font-bold px-2.5 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20 uppercase tracking-wider">
+                      <Sparkles className="w-3 h-3 text-accent" />
+                      {tag}
+                    </span>
                   </div>
-                  <h3 className="font-bold text-lg text-primary mb-2 group-hover:text-accent transition-colors truncate font-verse">
-                    {event.title}
+
+                  <h3 className="font-bold text-base sm:text-lg text-white mb-2 group-hover:text-accent transition-colors truncate">
+                    {title}
                   </h3>
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-secondary">
+
+                  <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs text-slate-400 font-medium">
                     <div className="flex items-center gap-1.5">
-                      <svg className="w-4 h-4 text-secondary/50" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      {event.time}
+                      <Clock className="w-3.5 h-3.5 text-accent shrink-0" />
+                      <span>{time}</span>
                     </div>
-                    <span className="hidden sm:block w-1 h-1 rounded-full bg-muted" />
-                    <div className="flex items-center gap-1.5">
-                      <svg className="w-4 h-4 text-secondary/50" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 0115 0z" />
-                      </svg>
-                      {event.location}
+                    <span className="hidden sm:block w-1 h-1 rounded-full bg-white/20" />
+                    <div className="flex items-center gap-1.5 truncate">
+                      <MapPin className="w-3.5 h-3.5 text-accent shrink-0" />
+                      <span className="truncate">{location}</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Event Image */}
-                <div className="hidden md:block w-24 h-24 rounded-xl overflow-hidden bg-surface border border-muted/30 shrink-0">
-                  {event.image ? (
-                    <img
-                      src={event.image}
-                      alt={event.title || 'Imagem do evento'}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-[10px] font-semibold text-secondary/70 px-2 text-center">
-                      Sem imagem
-                    </div>
-                  )}
+                {/* Arrow Action */}
+                <div className="w-9 h-9 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center text-slate-400 group-hover:text-accent group-hover:border-accent/40 transition-all shrink-0">
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </div>
-                
-                {/* Arrow */}
-                <div className="hidden sm:flex items-center text-muted group-hover:text-accent transition-all duration-fast pr-1 self-center">
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                  </svg>
-                </div>
-              </div>
+              </a>
             );
           })}
         </div>
       </div>
-      <IframeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} url="/calendario" title="Calendário de Eventos" />
     </SectionContainer>
   );
 };
+
+export default EventsSection;

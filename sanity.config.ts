@@ -16,7 +16,7 @@ export default defineConfig({
 
   plugins: [
     structureTool({
-      structure: (S) =>
+      structure: (S: any) =>
         S.list()
           .title('Painel ITED')
           .items([

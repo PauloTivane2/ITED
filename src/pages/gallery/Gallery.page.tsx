@@ -1,14 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { PageLayout } from '../../layouts/PageLayout';
-import { FaTimes, FaExpandAlt } from 'react-icons/fa';
+import { X, Maximize2 } from 'lucide-react';
 import { sanityClient, queries } from '../../cms/sanity/client';
 import { getYouTubeEmbedUrl } from '../../shared/lib/utils';
 import { SEO } from '@/shared/ui/SEO/SEO';
+import { Breadcrumbs } from '@/shared/ui/Navigation/Breadcrumbs';
 
 export const GalleryPage: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
   const [selected, setSelected] = useState('Todos');
   const [lightbox, setLightbox] = useState<null | { url: string; title: string; poster?: string }>(null);
+
+  // Close lightbox on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        setLightbox(null);
+      }
+    };
+    if (lightbox) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [lightbox]);
 
   useEffect(() => {
     const fetchGallery = async () => {
@@ -54,30 +74,35 @@ export const GalleryPage: React.FC = () => {
         canonical="/galeria"
       />
       {/* Hero Banner */}
-      <section className="bg-gradient-hero pt-36 pb-20 relative">
-        <div className="relative container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl">
+      <section className="bg-[#060911] pt-32 sm:pt-36 pb-16 relative overflow-hidden border-b border-white/[0.06]">
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-accent/[0.08] rounded-full blur-3xl pointer-events-none" />
+        <div className="relative container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl z-10">
+          <Breadcrumbs items={[{ label: 'Galeria' }]} />
 
-          <span className="inline-block text-accent font-semibold text-sm tracking-widest uppercase mb-4">Nossa Vivência</span>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-5">
-            Álbum <span className="font-serif italic font-medium text-accent">Completo</span>
+          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-2xs uppercase tracking-[0.22em] font-bold text-accent bg-accent/10 border border-accent/25 mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+            Galeria & Multimídia
+          </span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-4">
+            Álbum <span className="font-serif italic font-normal text-accent">Completo</span>
           </h1>
-          <p className="text-white/60 text-lg max-w-xl leading-relaxed">
-            Reviva cada momento especial da nossa comunidade — adoração, serviço, alegria e vida em comunhão.
+          <p className="text-slate-400 text-base sm:text-lg max-w-xl leading-relaxed">
+            Reviva cada momento especial da nossa comunidade — adoração, serviço, comunhão e vida na presença de Deus.
           </p>
         </div>
       </section>
 
       {/* Filter Bar */}
-      <div className="sticky top-20 z-30 bg-white/80 backdrop-blur-xl border-b border-muted/40 shadow-sm">
-        <div className="container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl py-4 flex gap-2 overflow-x-auto scrollbar-hide">
+      <div className="sticky top-16 sm:top-20 z-30 bg-[#060911]/90 backdrop-blur-2xl border-b border-white/[0.08] shadow-dark-card">
+        <div className="container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl py-3.5 flex gap-2 overflow-x-auto scrollbar-none">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelected(cat)}
-              className={`shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+              className={`shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-normal ${
                 selected === cat
                   ? 'bg-gradient-accent text-white shadow-glow'
-                  : 'bg-surface text-secondary hover:text-accent border border-muted/40 hover:border-accent/30'
+                  : 'bg-[#0B101D] text-slate-400 hover:text-white hover:bg-white/[0.06] border border-white/[0.08]'
               }`}
             >
               {cat}
@@ -101,7 +126,7 @@ export const GalleryPage: React.FC = () => {
                   title: item.title, 
                   poster: item.thumbnailUrl || item.imageUrl 
                 })}
-                className="relative group rounded-2xl overflow-hidden cursor-pointer break-inside-avoid shadow-sm hover:shadow-medium transition-shadow duration-300"
+                className="relative group rounded-3xl overflow-hidden cursor-pointer break-inside-avoid shadow-dark-card border border-white/[0.08] hover:border-accent/40 transition-all duration-300"
               >
                 <img
                   src={displayUrl}
@@ -113,17 +138,17 @@ export const GalleryPage: React.FC = () => {
                 {/* Play Button Overlay for Videos */}
                 {(item.type === 'video' || item.type === 'youtube') && (
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 text-white shadow-strong transition-all duration-300 group-hover:bg-accent/80 group-hover:scale-110">
-                      <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[14px] border-l-current border-b-[8px] border-b-transparent ml-1" />
+                    <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 text-white shadow-strong transition-all duration-300 group-hover:bg-accent group-hover:text-primary group-hover:scale-110">
+                      <div className="w-0 h-0 border-t-[7px] border-t-transparent border-l-[12px] border-l-current border-b-[7px] border-b-transparent ml-0.5" />
                     </div>
                   </div>
                 )}
 
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-between">
-                  <span className="text-white font-semibold text-sm">{item.title}</span>
-                  <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
-                    <FaExpandAlt className="w-3.5 h-3.5 text-white" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/90 via-[#060911]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-between">
+                  <span className="text-white font-semibold text-xs sm:text-sm">{item.title}</span>
+                  <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
+                    <Maximize2 className="w-3.5 h-3.5" />
                   </div>
                 </div>
               </div>
@@ -139,10 +164,12 @@ export const GalleryPage: React.FC = () => {
           onClick={() => setLightbox(null)}
         >
           <button
-            className="absolute top-5 right-5 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+            className="absolute top-5 right-5 flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-accent hover:text-primary text-white border border-white/20 text-xs font-bold transition-all shadow-glow"
             onClick={() => setLightbox(null)}
+            aria-label="Fechar Visualização"
           >
-            <FaTimes className="w-5 h-5" />
+            <span>Fechar</span>
+            <X className="w-4 h-4" />
           </button>
           <div className="max-w-5xl w-full" onClick={(e) => e.stopPropagation()}>
             {lightbox.url.includes('youtube.com') || lightbox.url.includes('embed') ? (

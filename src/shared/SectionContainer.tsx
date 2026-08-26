@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 export interface SectionContainerProps extends HTMLAttributes<HTMLElement> {
   as?: React.ElementType;
   containerClass?: string;
-  background?: 'white' | 'surface' | 'primary' | 'muted';
+  background?: 'dark' | 'surface' | 'primary' | 'card' | 'white' | 'muted';
   animate?: boolean;
 }
 
@@ -15,27 +15,29 @@ export const SectionContainer: React.FC<SectionContainerProps> = ({
   className = '', 
   containerClass = '',
   as: Component = 'section',
-  background = 'white',
+  background = 'dark',
   animate = true,
   ...props 
 }) => {
   const backgrounds = {
-    white: 'bg-white',
-    surface: 'bg-surface',
-    primary: 'bg-gradient-hero text-white',
-    muted: 'bg-muted/50',
+    dark: 'bg-transparent border-b border-white/[0.04]',
+    surface: 'bg-white/[0.015] border-b border-white/[0.04]',
+    primary: 'bg-transparent border-b border-white/[0.04]',
+    card: 'bg-white/[0.02] border-b border-white/[0.04]',
+    white: 'bg-transparent border-b border-white/[0.04]',
+    muted: 'bg-transparent border-b border-white/[0.04]',
   };
 
   return (
     <Component 
-      className={`py-12 sm:py-16 md:py-20 lg:py-28 ${backgrounds[background]} ${className}`}
+      className={`py-16 sm:py-20 md:py-24 lg:py-28 relative overflow-hidden text-slate-200 ${backgrounds[background]} ${className}`}
       {...props}
     >
       <motion.div
-        className={`container mx-auto px-4 sm:px-5 md:px-8 lg:px-10 max-w-7xl ${containerClass}`}
-        initial={animate ? { opacity: 0, y: 36 } : false}
+        className={`container mx-auto px-5 sm:px-8 lg:px-12 max-w-7xl relative z-10 ${containerClass}`}
+        initial={animate ? { opacity: 0, y: 28 } : false}
         whileInView={animate ? { opacity: 1, y: 0 } : undefined}
-        viewport={{ once: true, margin: '-80px' }}
+        viewport={{ once: true, margin: '-60px' }}
         transition={{ duration: 0.7, ease: easeOut }}
       >
         {children}

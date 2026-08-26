@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SectionContainer } from '../shared/SectionContainer';
 import { FadeUp, SlideIn } from '../styles/effect/motionVariants';
-import { FaChurch, FaGlobe, FaHeart } from 'react-icons/fa';
+import { Church, Globe, Heart } from 'lucide-react';
 import { sanityClient, queries, urlFor } from '../cms/sanity/client';
 
 export const AboutSection: React.FC = () => {
@@ -22,93 +22,94 @@ export const AboutSection: React.FC = () => {
   }, []);
 
   const getIcon = (title: string) => {
-    const t = title.toLowerCase();
-    if (t.includes('visão')) return <FaChurch />;
-    if (t.includes('valor')) return <FaHeart />;
-    if (t.includes('missão')) return <FaGlobe />;
-    return <FaChurch />;
+    const t = (title || '').toLowerCase();
+    if (t.includes('visão')) return <Church className="w-5 h-5" />;
+    if (t.includes('valor')) return <Heart className="w-5 h-5" />;
+    if (t.includes('missão')) return <Globe className="w-5 h-5" />;
+    return <Church className="w-5 h-5" />;
   };
 
   const image1 = data?.images?.[0] ? urlFor(data.images[0]).url() : "https://images.unsplash.com/photo-1437603568260-1950d3c00cb5?q=80&w=600&auto=format&fit=crop";
   const image2 = data?.images?.[1] ? urlFor(data.images[1]).url() : "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=600&auto=format&fit=crop";
 
   return (
-    <SectionContainer background="white" id="sobre">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-        {/* Text Content */}
-          {/* Main Content Cluster */}
-          <div className="flex flex-col gap-10">
-            <FadeUp>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-[1.5px] bg-accent" />
-                <span className="text-kicker">{data?.kicker || 'Excelência & Fé'}</span>
-              </div>
-              <h2 className="text-h2 text-primary mb-6">
-                {data?.titleLine1 || 'Fundada na'} <span className="text-accent font-medium font-verse">{data?.titleHighlight1 || 'Palavra'}</span>,<br />
-                {data?.titleLine2 || 'Movida pelo'} <span className="text-accent font-medium font-verse">{data?.titleHighlight2 || 'Amor'}</span>.
-              </h2>
-              <div className="h-1 w-20 bg-gradient-accent rounded-full opacity-60" />
-            </FadeUp>
-            
-            <FadeUp delay={0.1}>
-              <div className="prose prose-lg text-secondary max-w-none">
-                <p className="text-lg lg:text-xl text-primary/80 mb-6 leading-relaxed bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60 font-verse" style={{WebkitTextFillColor: 'initial'}}>
-                  {data?.leadParagraph || (
-                    <>A <span className="text-accent font-bold not-italic">ITED</span> é mais do que uma instituição; é um refúgio espiritual dedicado à manifestação genuína do Reino de Deus em Moçambique.</>
+    <SectionContainer background="dark" id="sobre">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        
+        {/* Main Content Cluster (7 cols) */}
+        <div className="lg:col-span-7 flex flex-col gap-8">
+          <FadeUp>
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1 rounded-full text-2xs uppercase tracking-[0.22em] font-bold text-accent bg-accent/10 border border-accent/25 mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+              {data?.kicker || 'Nossa Trajetória & Fé'}
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.12] mb-5">
+              {data?.titleLine1 || 'Fundada na'} <span className="text-accent font-serif italic font-normal">{data?.titleHighlight1 || 'Palavra'}</span>,<br />
+              {data?.titleLine2 || 'Movida pelo'} <span className="text-accent font-serif italic font-normal">{data?.titleHighlight2 || 'Amor'}</span>.
+            </h2>
+            <div className="h-0.5 w-16 bg-gradient-accent rounded-full opacity-70" />
+          </FadeUp>
+          
+          <FadeUp delay={0.1}>
+            <div className="flex flex-col gap-5 text-slate-300">
+              <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
+                {data?.leadParagraph || (
+                  <>A <span className="text-accent font-bold">ITED</span> é um altar de adoração genuína e transformação espiritual dedicado a aproximar pessoas de Deus e manifestar o Seu Reino em Moçambique.</>
+                )}
+              </p>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm leading-relaxed text-slate-400">
+                <p>
+                  {data?.paragraph1 || (
+                    <>Sediada no <span className="font-semibold text-slate-200">Matacuane, Beira</span>, nossa congregação nasceu de um chamado profético. Sob a liderança do <span className="font-semibold text-slate-200">Apóstolo Rev. Clemente Raiva</span>, vivemos uma fé prática e acolhedora.</>
                   )}
                 </p>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm lg:text-base leading-relaxed text-secondary/70">
-                  <p>
-                    {data?.paragraph1 || (
-                      <>Sediada no coração do <span className="font-semibold text-primary">Matacuanne, Beira</span>, nossa congregação nasceu de um chamado para a restauração. Sob a visão do <span className="font-semibold text-primary">Apóstolo Rev. Clemente Raiva</span>, cultivamos um ambiente onde a fé se traduz em atos práticos de serviço e comunhão.</>
-                    )}
-                  </p>
-                  <p>
-                    {data?.paragraph2 || (
-                      <>Acreditamos em uma espiritualidade que transforma realidades. Nossa jornada é centrada na verdade bíblica, acolhendo cada pessoa como parte de uma família unida pelo propósito eterno de glorificar ao Senhor em todas as esferas da vida.</>
-                    )}
-                  </p>
-                </div>
+                <p>
+                  {data?.paragraph2 || (
+                    <>Acreditamos no poder restaurador do Evangelho. Nossa comunidade oferece um ambiente onde cada vida encontra acolhimento pastoral, ensino edificante e direção divina.</>
+                  )}
+                </p>
               </div>
-            </FadeUp>
-
-            {/* Pillar Cards (Vision, Values, Mission) */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-4">
-              {(data?.pillars || [
-                { title: 'Visão', description: 'Ser casa de adoração para as nações.' },
-                { title: 'Valores', description: 'Comunhão, Ensino e Amor Próximo.' },
-                { title: 'Missão', description: 'Levar o Evangelho e transformar vidas.' }
-              ]).map((item: any, idx: number) => (
-                <FadeUp key={idx} delay={0.2 + idx * 0.1}>
-                  <div className="p-6 rounded-2xl bg-surface border border-muted/30 hover:border-accent/40 transition-all duration-medium group hover:shadow-soft">
-                    <div className="w-10 h-10 rounded-xl bg-accent/5 flex items-center justify-center text-accent mb-4 group-hover:bg-accent group-hover:text-white transition-all">
-                      {getIcon(item.title)}
-                    </div>
-                    <h3 className="text-sm font-black text-primary uppercase tracking-wider mb-2">{item.title}</h3>
-                    <p className="text-xs lg:text-sm text-secondary leading-snug">{item.description}</p>
-                  </div>
-                </FadeUp>
-              ))}
             </div>
-          </div>
+          </FadeUp>
 
-        {/* Image Grid */}
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:gap-6 relative">
-          
-          <SlideIn direction="left" className="flex flex-col gap-3 sm:gap-4 lg:gap-6 pt-8 sm:pt-12 lg:pt-20">
-            <div className="rounded-2xl overflow-hidden aspect-[4/5] relative shadow-strong">
-              <img src={image1} alt="Igreja adoração" className="w-full h-full object-cover" />
+          {/* Pillar Cards (Vision, Values, Mission) */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+            {(data?.pillars || [
+              { title: 'Visão', description: 'Ser casa de adoração e restauração espiritual.' },
+              { title: 'Valores', description: 'Comunhão, Santidade e Amor ao Próximo.' },
+              { title: 'Missão', description: 'Edificar vidas e expandir o Reino de Deus.' }
+            ]).map((item: any, idx: number) => (
+              <FadeUp key={idx} delay={0.2 + idx * 0.08}>
+                <div className="p-6 rounded-2xl bg-[#0B101D] border border-white/[0.08] hover:border-accent/40 transition-all duration-normal group hover:shadow-glow flex flex-col justify-between h-full">
+                  <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent mb-4 group-hover:bg-accent group-hover:text-primary transition-all shrink-0">
+                    {getIcon(item.title)}
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-1.5">{item.title}</h3>
+                    <p className="text-xs text-slate-400 leading-relaxed">{item.description}</p>
+                  </div>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+
+        {/* Image Grid (5 cols) */}
+        <div className="lg:col-span-5 grid grid-cols-2 gap-4 relative">
+          <SlideIn direction="left" className="flex flex-col gap-4 pt-8">
+            <div className="rounded-3xl overflow-hidden aspect-[4/5] relative shadow-dark-card border border-white/[0.08]">
+              <img src={image1} alt="Igreja adoração" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
             </div>
           </SlideIn>
           
-          <SlideIn direction="right" className="flex flex-col gap-3 sm:gap-4 lg:gap-6">
-            <div className="rounded-2xl overflow-hidden aspect-[4/5] relative shadow-strong">
-              <img src={image2} alt="Comunidade unida" className="w-full h-full object-cover" />
+          <SlideIn direction="right" className="flex flex-col gap-4">
+            <div className="rounded-3xl overflow-hidden aspect-[4/5] relative shadow-dark-card border border-white/[0.08]">
+              <img src={image2} alt="Comunidade unida" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
             </div>
-            <div className="bg-gradient-accent rounded-2xl p-5 sm:p-6 md:p-8 text-white shadow-glow">
-              <h4 className="text-3xl font-extrabold mb-1">{data?.statsNumber || '10+'}</h4>
-              <p className="text-sm text-white/80 font-verse">{data?.statsLabel || 'Anos transformando vidas em nossa comunidade.'}</p>
+            <div className="bg-[#0B101D] border border-white/[0.08] rounded-3xl p-6 text-white shadow-dark-card">
+              <h4 className="text-2xl font-black text-white tracking-tight mb-1">{data?.statsNumber || '7+'}</h4>
+              <p className="text-xs text-slate-400 leading-snug">{data?.statsLabel || 'Anos manifestando o amor de Deus e transformando vidas.'}</p>
             </div>
           </SlideIn>
         </div>

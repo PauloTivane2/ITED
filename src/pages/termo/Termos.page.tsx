@@ -1,49 +1,50 @@
-import { FaScroll, FaChevronDown, FaChevronUp, FaBookOpen, FaFileAlt, FaLink, FaBalanceScale, FaEnvelope, FaSyncAlt, FaCross } from 'react-icons/fa';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { PageLayout } from '../../layouts/PageLayout';
+import { ScrollText, ChevronDown, ChevronUp, BookOpen, FileText, Link2, Scale, Mail, RefreshCw, Cross } from 'lucide-react';
 import { SEO } from '@/shared/ui/SEO/SEO';
 
 const terms = [
   {
     id: 1,
     title: 'Aceitação dos Termos',
-    icon: <FaBookOpen className="w-5 h-5" />,
+    icon: <BookOpen className="w-5 h-5" />,
     content:
-      'Ao acessar e utilizar o website da ITED (Igreja  Tenda do Encontro com Deus), você concorda em cumprir estes Termos de Uso, todas as leis e regulamentos aplicáveis e concorda que é responsável pelo cumprimento de todas as leis locais aplicáveis. Se você não concordar com algum destes termos, está proibido de acessar este site.',
+      'Ao acessar e utilizar o website da ITED (Igreja Internacional Tenda do Encontro com Deus), você concorda em cumprir estes Termos de Uso, todas as leis e regulamentos aplicáveis. Caso discorde de algum termo, solicitamos que não utilize esta plataforma.',
   },
   {
     id: 2,
-    title: 'Uso do Conteúdo',
-    icon: <FaFileAlt className="w-5 h-5" />,
+    title: 'Uso do Conteúdo Institucional',
+    icon: <FileText className="w-5 h-5" />,
     content:
-      'É concedida permissão para acessar e utilizar os materiais (informações, textos e multimídia) presentes no website da ITED apenas para fins informativos e espirituais pessoais. Esta permissão não inclui a modificação ou cópia dos materiais, uso para fins comerciais ou a reprodução pública sem prévia autorização escrita da liderança da igreja.',
+      'É concedida permissão para acessar os materiais (textos bíblicos, avisos, artigos e multimídia) presentes no website da ITED para fins estritamente pessoais e de edificação espiritual. É vedada a reprodução comercial sem prévia autorização.',
   },
   {
     id: 3,
-    title: 'Conteúdo de Terceiros',
-    icon: <FaLink className="w-5 h-5" />,
+    title: 'Links e Recursos Externos',
+    icon: <Link2 className="w-5 h-5" />,
     content:
-      'Nossa plataforma pode conter links para sites de terceiros ou recursos externos. Esses links são fornecidos apenas para sua conveniência. A ITED não tem controle sobre o conteúdo desses sites e não assume qualquer responsabilidade por eles ou por quaisquer perdas ou danos que possam surgir do seu uso.',
+      'Nossa plataforma pode conter links para serviços externos (como transmissões no YouTube ou mapas). A ITED não se responsabiliza pelo conteúdo ou práticas de privacidade desses serviços.',
   },
   {
     id: 4,
-    title: 'Responsabilidade',
-    icon: <FaBalanceScale className="w-5 h-5" />,
+    title: 'Responsabilidade e Integridade',
+    icon: <Scale className="w-5 h-5" />,
     content:
-      'Os materiais presentes no website da ITED são fornecidos "como estão". A ITED não oferece garantias, expressas ou implícitas, e por este meio renuncia e nega todas as outras garantias. Além disso, a ITED não garante nem faz quaisquer representações relativas à precisão, aos resultados prováveis ou à confiabilidade do uso dos materiais em seu website.',
+      'Empenhamo-nos em manter todas as informações atualizadas e precisas. As informações sobre horários de cultos e eventos são fornecidas para benefício da comunidade e podem sofrer alterações conforme programação ministerial.',
   },
   {
     id: 5,
-    title: 'Comunicações e Privacidade',
-    icon: <FaEnvelope className="w-5 h-5" />,
+    title: 'Comunicações e Pedidos de Oração',
+    icon: <Mail className="w-5 h-5" />,
     content:
-      'Ao se inscrever em nossas comunicações ou preencher formulários de contato, você consente em receber comunicações da ITED, incluindo boletins informativos, avisos de eventos e outras mensagens relacionadas às atividades da igreja. Você pode cancelar sua inscrição a qualquer momento.',
+      'Ao enviar mensagens através do formulário de contato ou pedidos de oração, você consente com o contato de retorno da equipe pastoral. Todas as solicitações são tratadas com sigilo e respeito.',
   },
   {
     id: 6,
-    title: 'Alterações nos Termos',
-    icon: <FaSyncAlt className="w-5 h-5" />,
+    title: 'Atualizações dos Termos',
+    icon: <RefreshCw className="w-5 h-5" />,
     content:
-      'A ITED reserva-se o direito de revisar estes termos de uso a qualquer momento sem aviso prévio. Ao usar este website, você concorda em ficar vinculado à versão atual destes Termos de Uso. Encorajamos você a verificar esta página periodicamente para quaisquer alterações.',
+      'A ITED reserva-se o direito de atualizar estes termos periodicamente para refletir melhorias no site ou adequações legais.',
   },
 ];
 
@@ -58,30 +59,30 @@ function AccordionItem({
 }) {
   return (
     <div
-      className={`rounded-2xl border transition-all duration-normal overflow-hidden ${
+      className={`rounded-3xl border transition-all duration-normal overflow-hidden ${
         isOpen
-          ? 'border-accent/40 shadow-glow bg-white'
-          : 'border-muted bg-white hover:border-accent/20 hover:shadow-soft'
+          ? 'border-accent/40 shadow-glow bg-[#0B101D]'
+          : 'border-white/[0.08] bg-[#0B101D] hover:border-accent/30'
       }`}
     >
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between px-6 py-5 text-left group"
+        className="w-full flex items-center justify-between px-6 sm:px-8 py-5 text-left group"
       >
         <div className="flex items-center gap-4">
           <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-normal ${
-            isOpen ? 'bg-accent/10 text-accent' : 'bg-surface text-secondary group-hover:text-accent'
+            isOpen ? 'bg-accent text-primary font-bold' : 'bg-white/[0.04] text-slate-400 group-hover:bg-accent/10 group-hover:text-accent'
           }`}>
             {item.icon}
           </div>
-          <span className="font-semibold text-primary text-base">{item.title}</span>
+          <span className="font-bold text-white text-base sm:text-lg">{item.title}</span>
         </div>
         <span
           className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-normal ${
-            isOpen ? 'bg-accent text-white' : 'bg-surface text-secondary group-hover:bg-accent/10 group-hover:text-accent'
+            isOpen ? 'bg-accent/10 text-accent' : 'bg-white/[0.04] text-slate-400 group-hover:text-accent'
           }`}
         >
-          {isOpen ? <FaChevronUp className="w-3 h-3" /> : <FaChevronDown className="w-3 h-3" />}
+          {isOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
         </span>
       </button>
       <div
@@ -89,7 +90,7 @@ function AccordionItem({
           isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <p className="px-6 pb-6 text-secondary text-sm leading-relaxed border-t border-muted/40 pt-4">
+        <p className="px-6 sm:px-8 pb-6 text-slate-400 text-sm sm:text-base leading-relaxed border-t border-white/[0.06] pt-4">
           {item.content}
         </p>
       </div>
@@ -97,47 +98,36 @@ function AccordionItem({
   );
 }
 
-export const TermosPage = () => {
+export const TermosPage: React.FC = () => {
   const [openId, setOpenId] = useState<number | null>(1);
 
   return (
-    <div className="min-h-screen bg-surface">
+    <PageLayout>
       <SEO 
         title="Termos de Uso" 
         description="Termos e condições de uso do website e serviços da ITED (Igreja Internacional Tenda do Encontro com Deus)."
         canonical="/termos"
       />
       {/* Hero */}
-      <div className="relative bg-primary overflow-hidden">
-        {/* Decorative orbs */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-highlight/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative container mx-auto px-5 md:px-10 max-w-4xl py-16 md:py-24 text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-full px-4 py-1.5 mb-6">
-            <FaScroll className="w-3.5 h-3.5 text-accent-light" />
-            <span className="text-accent-light text-xs font-semibold uppercase tracking-widest">
-              Documentos Legais
+      <div className="relative bg-[#060911] pt-36 pb-20 overflow-hidden border-b border-white/[0.06]">
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-accent/[0.08] rounded-full blur-3xl pointer-events-none" />
+        <div className="relative container mx-auto px-5 md:px-10 max-w-4xl text-center z-10">
+          <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/25 rounded-full px-4 py-1.5 mb-6">
+            <ScrollText className="w-3.5 h-3.5 text-accent" />
+            <span className="text-accent text-2xs font-bold uppercase tracking-widest">
+              Documentos Institucionais
             </span>
           </div>
 
-          <h1 className="font-serif text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
-            Termos de Uso
+          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-5 leading-tight">
+            Termos de <span className="text-accent italic">Uso</span>
           </h1>
-          <p className="text-white/60 text-base md:text-lg leading-relaxed max-w-xl mx-auto">
-            Leia com atenção as condições que regem o uso do nosso website e serviços digitais.
+          <p className="text-slate-400 text-base md:text-lg leading-relaxed max-w-xl mx-auto">
+            Diretrizes e princípios para uma convivência digital edificante, segura e respeitosa.
           </p>
 
-          {/* Divider ornament */}
-          <div className="flex items-center justify-center gap-3 mt-8">
-            <div className="h-px w-16 bg-gradient-to-r from-transparent to-accent/50" />
-            <div className="w-2 h-2 rounded-full bg-accent" />
-            <div className="h-px w-16 bg-gradient-to-l from-transparent to-accent/50" />
-          </div>
-
-          <p className="text-white/30 text-xs mt-4">
-            Última atualização: Março de 2026
+          <p className="text-slate-500 text-xs mt-6">
+            Última atualização: {new Date().getFullYear()}
           </p>
         </div>
       </div>
@@ -145,20 +135,20 @@ export const TermosPage = () => {
       {/* Content */}
       <div className="container mx-auto px-5 md:px-10 max-w-3xl py-14 md:py-20">
         {/* Intro card */}
-        <div className="bg-accent/5 border border-accent/20 rounded-3xl p-6 md:p-8 mb-10 flex gap-4 items-start">
-          <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center shrink-0">
-            <FaCross className="w-6 h-6 text-accent" />
+        <div className="bg-[#0B101D] rounded-3xl border border-white/[0.08] p-6 md:p-8 mb-10 flex gap-4 items-start shadow-dark-card">
+          <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center shrink-0 text-accent">
+            <Cross className="w-6 h-6" />
           </div>
           <div>
-            <p className="font-semibold text-primary mb-1 text-base">Bem-vindo à ITED</p>
-            <p className="text-secondary text-sm leading-relaxed">
-              Estes Termos de Uso foram elaborados para garantir um ambiente digital seguro e respeitoso, em harmonia com os valores cristãos que nos guiam. Ao navegar em nosso site, você faz parte da nossa comunidade digital.
+            <p className="font-bold text-white mb-1 text-base">Bem-vindo à ITED</p>
+            <p className="text-slate-400 text-sm leading-relaxed">
+              Estes termos visam assegurar um ambiente digital de respeito, transparência e fé mútua ao navegar em nossa plataforma.
             </p>
           </div>
         </div>
 
         {/* Accordion */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3.5">
           {terms.map((item) => (
             <AccordionItem
               key={item.id}
@@ -168,26 +158,7 @@ export const TermosPage = () => {
             />
           ))}
         </div>
-
-        {/* Footer Note */}
-        <div className="mt-12 text-center">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="h-px flex-1 bg-muted" />
-            <span className="text-muted text-lg">✦</span>
-            <div className="h-px flex-1 bg-muted" />
-          </div>
-          <p className="text-secondary text-sm">
-            Dúvidas? Entre em contato conosco através do{' '}
-            <a href="/#contato" className="text-accent font-medium hover:underline">
-              formulário de contato
-            </a>
-            .
-          </p>
-          <p className="text-muted text-xs mt-2 text-accentc">
-            © {new Date().getFullYear()} ITED — Todos os direitos reservados.
-          </p>
-        </div>
       </div>
-    </div>
+    </PageLayout>
   );
 };

@@ -1,75 +1,55 @@
 import React, { useEffect, useState } from 'react';
 import { SectionContainer } from '../shared/SectionContainer';
-import { Card } from '../shared/Card';
 import { Carousel, CarouselItem } from '../shared/Carousel';
 import { FadeUp, StaggerContainer, StaggerItem } from '../styles/effect/motionVariants';
 import { sanityClient, queries } from '../cms/sanity/client';
+import { Clock, Calendar, Users, BookOpen, Flame, Heart, Sparkles, MapPin, ArrowRight } from 'lucide-react';
 
-// Keep icons mapping since Sanity doesn't store the exact SVG component
 const getIconForDay = (day: string) => {
-  const lowerDay = day.toLowerCase();
-  if (lowerDay.includes('segunda') || lowerDay.includes('intercess')) {
-    return (
-      <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253" />
-      </svg>
-    );
+  const lowerDay = (day || '').toLowerCase();
+  if (lowerDay.includes('segunda') || lowerDay.includes('intercess') || lowerDay.includes('oração')) {
+    return <Flame className="w-5 h-5" />;
   }
-  if (lowerDay.includes('quinta') || lowerDay.includes('ensino')) {
-    return (
-      <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-      </svg>
-    );
+  if (lowerDay.includes('quinta') || lowerDay.includes('ensino') || lowerDay.includes('doutrina')) {
+    return <BookOpen className="w-5 h-5" />;
   }
-  if (lowerDay.includes('sexta') || lowerDay.includes('mulher')) {
-    return (
-      <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-      </svg>
-    );
+  if (lowerDay.includes('sexta') || lowerDay.includes('mulher') || lowerDay.includes('família')) {
+    return <Heart className="w-5 h-5" />;
   }
-  if (lowerDay.includes('sábado') || lowerDay.includes('jejum')) {
-    return (
-      <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-      </svg>
-    );
+  if (lowerDay.includes('sábado') || lowerDay.includes('jejum') || lowerDay.includes('jovem')) {
+    return <Sparkles className="w-5 h-5" />;
   }
-  return (
-    <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-    </svg>
-  );
+  return <Users className="w-5 h-5" />;
 };
 
-const getColorClass = (theme: string, type: 'gradient' | 'text') => {
-  if (type === 'gradient') {
-    switch (theme) {
-      case 'accent': return 'from-accent/10 to-accent/5';
-      case 'warm': return 'from-warm/10 to-warm/5';
-      case 'highlight': return 'from-highlight/10 to-highlight/5';
-      default: return 'from-accent/10 to-accent/5';
-    }
-  } else {
-    switch (theme) {
-      case 'accent': return 'text-accent';
-      case 'warm': return 'text-warm';
-      case 'highlight': return 'text-highlight';
-      default: return 'text-accent';
-    }
-  }
-}
-
-// Fallback initial data
 const fallbackServices = [
   {
     _id: 'fallback-1',
+    day: 'Segunda-feira',
+    name: 'Oração & Intercessão Profética',
+    time: '17:00 — 18:30',
+    description: 'Momento solene de clamor contínuo, oração congregacional e intercessão pelas famílias, enfermos e pela nação.',
+    modality: 'Presencial & Transmissão',
+    tag: 'Clamor & Avivamento'
+  },
+  {
+    _id: 'fallback-2',
+    day: 'Quinta-feira',
+    name: 'Culto de Ensino & Doutrina',
+    time: '17:30 — 19:30',
+    description: 'Exposição bíblica sistemática e aprofundamento das escrituras sagradas para edificação e maturidade na fé.',
+    modality: 'Presencial',
+    tag: 'Estudo Bíblico'
+  },
+  {
+    _id: 'fallback-3',
     day: 'Domingo',
-    name: 'Culto de Adoração',
+    name: 'Celebração da Família & Adoração',
     time: '09:00 — 12:30',
-    description: 'Momento especial de adoração, louvor e ministração da palavra.',
-    colorTheme: 'accent',
+    description: 'Grande celebração dominical com louvor congregacional, ministração apostólica da palavra e comunhão fraterna.',
+    modality: 'Presencial & Ao Vivo',
+    tag: 'Culto Principal',
+    featured: true
   }
 ];
 
@@ -92,84 +72,165 @@ export const ServiceTimes: React.FC = () => {
   }, []);
 
   return (
-    <SectionContainer background="surface" id="horarios">
+    <SectionContainer background="dark" id="horarios">
       {/* Section Header */}
-      <FadeUp className="text-center max-w-2xl mx-auto mb-8 sm:mb-12 md:mb-16">
-        <span className="inline-block text-accent font-semibold text-sm tracking-widest uppercase mb-3 sm:mb-4">Programação</span>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-4 sm:mb-5 tracking-tight">
-          Nossos <span className="font-serif italic font-medium text-accent">Horários</span>
+      <FadeUp className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-2xs uppercase tracking-[0.22em] font-bold text-accent bg-accent/10 border border-accent/25 mb-4 shadow-subtle">
+          <Calendar className="w-3.5 h-3.5" />
+          <span>Programação Semanal</span>
+        </div>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.15] mb-4">
+          Nossos <span className="font-serif italic font-normal text-accent">Cultos & Encontros</span>
         </h2>
-        <p className="text-secondary text-base sm:text-lg leading-relaxed">
-          Temos encontros semanais pensados para edificar sua vida. Escolha o melhor horário e venha estar conosco.
+        <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
+          Encontros estruturados para o fortalecimento espiritual, adoração genuína e comunhão fraterna na Tenda do Encontro.
         </p>
       </FadeUp>
 
-      {/* Mobile: Horizontal Carousel | Desktop: Grid */}
+      {/* Mobile: Horizontal Carousel */}
       <Carousel className="md:hidden -mx-4 pb-4" gap="gap-4" padding="px-4">
-        {data.map((service) => (
-          <CarouselItem key={service._id} className="min-w-[280px] max-w-[85vw]">
-            <Card hoverable glowing className="group p-0 h-full">
-              <div className={`h-1.5 bg-gradient-to-r ${getColorClass(service.colorTheme, 'gradient')}`} />
-              <div className="p-6 flex flex-col gap-4 h-full">
-                <div className={`w-12 h-12 bg-gradient-to-br ${getColorClass(service.colorTheme, 'gradient')} rounded-2xl flex items-center justify-center ${getColorClass(service.colorTheme, 'text')} group-hover:scale-110 transition-transform duration-normal`}>
-                  {getIconForDay(service.day)}
-                </div>
-                <div>
-                  <div className={`text-xs font-bold tracking-[0.2em] uppercase mb-2 ${getColorClass(service.colorTheme, 'text')}`}>{service.day}</div>
-                  <h3 className="text-lg font-bold text-primary mb-2 group-hover:text-accent transition-colors">{service.name}</h3>
-                  <p className="text-secondary leading-relaxed text-sm">{service.description}</p>
-                </div>
-                <div className="mt-auto pt-4 border-t border-muted/50 flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-surface flex items-center justify-center">
-                    <svg className="w-4 h-4 text-secondary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <span className="font-bold text-primary">{service.time}</span>
-                </div>
-              </div>
-            </Card>
-          </CarouselItem>
-        ))}
-      </Carousel>
+        {data.map((service) => {
+          const isFeatured = service.featured || (service.day || '').toLowerCase().includes('domingo');
+          return (
+            <CarouselItem key={service._id} className="min-w-[300px] max-w-[88vw]">
+              <div className={`relative rounded-3xl p-7 flex flex-col justify-between h-full overflow-hidden transition-all duration-300 border ${
+                isFeatured
+                  ? 'bg-gradient-to-b from-[#111A30] to-[#0B101D] border-accent/40 shadow-glow'
+                  : 'bg-[#0B101D] border-white/[0.08] shadow-dark-card'
+              }`}>
+                {/* Ambient Top Glow */}
+                <div className="absolute top-0 right-0 w-36 h-36 bg-accent/[0.07] rounded-full blur-2xl pointer-events-none" />
 
-      {/* Desktop: Grid */}
-      <StaggerContainer className="hidden md:grid md:grid-cols-3 gap-5 lg:gap-8">
-        {data.map((service) => (
-          <StaggerItem key={service._id}>
-            <Card hoverable glowing className="group p-0 h-full">
-              {/* Gradient top bar */}
-              <div className={`h-1.5 bg-gradient-to-r ${getColorClass(service.colorTheme, 'gradient')}`} />
-              
-              <div className="p-6 lg:p-10 flex flex-col gap-5 h-full">
-                {/* Icon */}
-                <div className={`w-14 h-14 bg-gradient-to-br ${getColorClass(service.colorTheme, 'gradient')} rounded-2xl flex items-center justify-center ${getColorClass(service.colorTheme, 'text')} group-hover:scale-110 transition-transform duration-normal`}>
-                  {getIconForDay(service.day)}
-                </div>
-                
-                {/* Content */}
                 <div>
-                  <div className={`text-xs font-bold tracking-[0.2em] uppercase mb-2 ${getColorClass(service.colorTheme, 'text')}`}>{service.day}</div>
-                  <h3 className="text-xl font-bold text-primary mb-3 group-hover:text-accent transition-colors">{service.name}</h3>
-                  <p className="text-secondary leading-relaxed text-sm">
+                  {/* Top Meta Row */}
+                  <div className="flex items-center justify-between gap-3 mb-5">
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${
+                      isFeatured ? 'bg-accent text-primary font-bold shadow-glow' : 'bg-accent/10 text-accent border border-accent/20'
+                    }`}>
+                      {getIconForDay(service.day)}
+                    </div>
+                    <span className={`inline-flex items-center gap-1.5 text-2xs font-bold uppercase tracking-[0.2em] px-3.5 py-1.5 rounded-full border ${
+                      isFeatured ? 'bg-accent/15 text-accent-light border-accent/40' : 'bg-white/[0.04] text-slate-300 border-white/10'
+                    }`}>
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                      {service.day}
+                    </span>
+                  </div>
+
+                  {/* Title & Tag */}
+                  <h3 className="text-xl font-bold text-white mb-2.5 tracking-tight leading-snug">
+                    {service.name}
+                  </h3>
+                  <p className="text-slate-400 text-sm leading-relaxed mb-6 font-normal">
                     {service.description}
                   </p>
                 </div>
-                
-                {/* Time footer */}
-                <div className="mt-auto pt-6 border-t border-muted/50 flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-surface flex items-center justify-center">
-                    <svg className="w-4 h-4 text-secondary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+
+                {/* Bottom Time Capsule */}
+                <div className="pt-4 border-t border-white/[0.06] flex flex-col gap-3">
+                  <div className="flex items-center justify-between bg-[#060911]/80 border border-white/[0.08] rounded-2xl px-4 py-3">
+                    <div className="flex items-center gap-2.5">
+                      <Clock className="w-4 h-4 text-accent shrink-0" />
+                      <span className="text-sm font-bold text-white tracking-wide">{service.time}</span>
+                    </div>
+                    <span className="text-2xs font-semibold text-slate-400 uppercase tracking-wider">
+                      {service.modality || 'Presencial'}
+                    </span>
                   </div>
-                  <span className="font-bold text-primary">{service.time}</span>
                 </div>
               </div>
-            </Card>
-          </StaggerItem>
-        ))}
+            </CarouselItem>
+          );
+        })}
+      </Carousel>
+
+      {/* Desktop: Enterprise Luxury Grid */}
+      <StaggerContainer className="hidden md:grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+        {data.map((service) => {
+          const isFeatured = service.featured || (service.day || '').toLowerCase().includes('domingo');
+          return (
+            <StaggerItem key={service._id} className="h-full">
+              <div className={`relative group h-full rounded-3xl p-8 lg:p-9 flex flex-col justify-between overflow-hidden transition-all duration-500 hover:-translate-y-1.5 border ${
+                isFeatured
+                  ? 'bg-gradient-to-b from-[#111A30] to-[#0B101D] border-accent/35 hover:border-accent shadow-dark-card hover:shadow-glow-lg'
+                  : 'bg-gradient-to-b from-[#0E1528] to-[#0B101D] border-white/[0.08] hover:border-accent/40 shadow-dark-card hover:shadow-glow'
+              }`}>
+                {/* Ambient Glow Orbs */}
+                <div className="absolute top-0 right-0 w-44 h-44 bg-accent/[0.06] rounded-full blur-3xl group-hover:bg-accent/[0.14] transition-all duration-700 pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-32 h-32 bg-accent/[0.03] rounded-full blur-2xl pointer-events-none" />
+
+                {/* Top Section */}
+                <div className="relative z-10">
+                  {/* Top Meta Bar */}
+                  <div className="flex items-center justify-between gap-3 mb-6">
+                    <div className={`w-13 h-13 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                      isFeatured
+                        ? 'bg-accent text-primary shadow-glow group-hover:scale-105'
+                        : 'bg-accent/10 text-accent border border-accent/20 group-hover:bg-accent group-hover:text-primary group-hover:border-accent group-hover:shadow-glow'
+                    }`}>
+                      {getIconForDay(service.day)}
+                    </div>
+                    
+                    <span className={`inline-flex items-center gap-1.5 text-2xs font-bold uppercase tracking-[0.2em] px-3.5 py-1.5 rounded-full border transition-colors ${
+                      isFeatured
+                        ? 'bg-accent/15 text-accent-light border-accent/40'
+                        : 'bg-white/[0.04] text-slate-300 border-white/10 group-hover:border-accent/30 group-hover:text-accent'
+                    }`}>
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                      {service.day}
+                    </span>
+                  </div>
+
+                  {/* Service Title */}
+                  <h3 className="text-xl lg:text-2xl font-bold text-white mb-3.5 tracking-tight group-hover:text-accent transition-colors duration-300">
+                    {service.name}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-slate-400 text-sm leading-relaxed mb-8 font-normal line-clamp-3">
+                    {service.description}
+                  </p>
+                </div>
+
+                {/* Bottom Time Capsule & Location Badge */}
+                <div className="relative z-10 pt-6 border-t border-white/[0.06] flex flex-col gap-3">
+                  <div className="flex items-center justify-between bg-[#060911]/90 border border-white/[0.08] group-hover:border-accent/30 group-hover:bg-[#060911] rounded-2xl px-5 py-3.5 transition-all duration-300 shadow-inner">
+                    <div className="flex items-center gap-3">
+                      <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center text-accent">
+                        <Clock className="w-4 h-4" />
+                      </div>
+                      <span className="text-sm font-bold text-white tracking-wide font-mono">
+                        {service.time}
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center gap-1 text-2xs font-semibold text-slate-400 uppercase tracking-wider">
+                      <span>{service.modality || 'Presencial'}</span>
+                    </div>
+                  </div>
+
+                  {/* Subtle Sub-Footer Info */}
+                  <div className="flex items-center justify-between text-2xs text-slate-500 px-1 pt-1">
+                    <span className="flex items-center gap-1.5">
+                      <MapPin className="w-3 h-3 text-accent/80" />
+                      Sede Matacuane
+                    </span>
+                    <a
+                      href="#contato"
+                      className="inline-flex items-center gap-1 text-accent hover:text-accent-light font-semibold transition-colors"
+                    >
+                      <span>Participar</span>
+                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </StaggerItem>
+          );
+        })}
       </StaggerContainer>
     </SectionContainer>
   );
 };
+
+export default ServiceTimes;

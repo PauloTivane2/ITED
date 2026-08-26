@@ -9,37 +9,61 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    background-color: #060911;
   }
 
   body {
-    @apply bg-surface text-primary font-sans;
+    @apply bg-[#060911] text-slate-200 font-sans selection:bg-accent/30 selection:text-white overflow-x-hidden;
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  /* 🏷️ LEAD EYEBROW TAG */
+  .eyebrow-tag {
+    @apply inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-2xs uppercase tracking-[0.22em] font-bold text-accent bg-accent/10 border border-accent/25 mb-4;
   }
 
-  ::selection {
-    @apply bg-accent/20 text-primary;
+  /* 💎 LUXURY SECTION TITLES */
+  .section-title {
+    @apply text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-[1.15] mb-5;
+  }
+
+  .section-subtitle {
+    @apply text-slate-400 text-base sm:text-lg leading-relaxed max-w-2xl font-normal;
+  }
+
+  /* 🏛️ ENTERPRISE OBSIDIAN CARD */
+  .card-luxury {
+    @apply bg-[#0B101D]/90 rounded-3xl border border-white/[0.08] shadow-dark-card hover:border-accent/40 hover:shadow-glow transition-all duration-normal backdrop-blur-xl;
   }
 }
 
 @layer utilities {
   .text-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, #6366F1 0%, #818CF8 50%, #22C55E 100%);
+    background-image: linear-gradient(135deg, #FAF0D7 0%, #E5C368 45%, #C59B27 80%, #9E7A16 100%);
   }
 
   .bg-gradient-hero {
-    background: linear-gradient(135deg, #0F172A 0%, #1E293B 40%, #0F172A 100%);
+    background: radial-gradient(ellipse at 50% -10%, #162238 0%, #0B101D 50%, #060911 100%);
   }
 
   .bg-gradient-accent {
-    background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+    background: linear-gradient(135deg, #D4AF37 0%, #B3881E 60%, #946E13 100%);
   }
 
-  .glass {
-    @apply bg-white/70 backdrop-blur-xl border border-white/20;
+  .bg-gradient-gold {
+    background: linear-gradient(135deg, #F7EEDB 0%, #D4AF37 50%, #9E7A16 100%);
   }
 
   .glass-dark {
-    @apply bg-primary/60 backdrop-blur-xl border border-white/10;
+    @apply bg-[#080C15]/85 backdrop-blur-2xl border border-white/[0.08];
+  }
+
+  .glass-gold {
+    @apply bg-[#C59B27]/10 backdrop-blur-xl border border-[#C59B27]/25;
   }
 
   .scrollbar-none {

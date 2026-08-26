@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaTimes } from 'react-icons/fa';
+import { X, ExternalLink } from 'lucide-react';
 
 interface IframeModalProps {
   isOpen: boolean;
@@ -17,57 +17,95 @@ export const IframeModal: React.FC<IframeModalProps> = ({ isOpen, onClose, url, 
     setMounted(true);
   }, []);
 
+  // Listen to ESC key to close modal
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        onClose();
+      }
+    };
+
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
     } else {
       document.body.style.overflow = '';
     }
+
     return () => {
       document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   if (!mounted) return null;
 
   const isVideo = url.match(/\.(mp4|webm|ogg)$/) || url.includes('video');
   const isImage = url.match(/\.(jpeg|jpg|png|gif|webp|svg)$/) || url.includes('image');
   const isYoutube = url.includes('youtube.com') || url.includes('youtu.be') || url.includes('embed');
+  const isInternalRoute = url.startsWith('/');
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-8">
-          {/* Blurred background */}
+        <div 
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-6 md:p-8"
+          role="dialog"
+          aria-modal="true"
+        >
+          {/* Backdrop with Click-to-Close */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/60 backdrop-blur-md"
+            className="absolute inset-0 bg-black/85 backdrop-blur-xl cursor-pointer"
             onClick={onClose}
           />
 
-          {/* Modal Box */}
+          {/* Modal Container */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            initial={{ opacity: 0, scale: 0.96, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 30 }}
+            exit={{ opacity: 0, scale: 0.96, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full h-full max-w-7xl rounded-3xl overflow-hidden shadow-2xl bg-white flex flex-col z-10"
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full h-full max-w-6xl max-h-[92vh] rounded-3xl overflow-hidden shadow-2xl bg-[#0B101D] border border-white/10 flex flex-col z-10"
           >
-            {/* Header / close bar */}
-            <div className="flex items-center justify-between px-6 py-4 bg-surface border-b border-muted/20 shrink-0">
-              <span className="font-semibold text-primary">{title || 'Navegação'}</span>
-              <button
-                onClick={onClose}
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-muted/30 text-secondary hover:text-accent hover:border-accent hover:bg-accent/5 transition-all shadow-sm"
-              >
-                <FaTimes className="w-5 h-5" />
-              </button>
+            {/* Header with Prominent Exit Actions */}
+            <div className="flex items-center justify-between px-5 sm:px-7 py-4 bg-[#060911] border-b border-white/[0.08] shrink-0">
+              <div className="flex items-center gap-3">
+                <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                <h3 className="font-bold text-sm sm:text-base text-white truncate max-w-[200px] sm:max-w-md">
+                  {title || 'Visualização'}
+                </h3>
+              </div>
+
+              <div className="flex items-center gap-2">
+                {/* Optional Open in Full Page Link if Internal Route */}
+                {isInternalRoute && (
+                  <a
+                    href={url}
+                    className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.05] hover:bg-white/10 border border-white/10 text-xs font-semibold text-slate-300 hover:text-white transition-all"
+                  >
+                    <span>Abrir Página Completa</span>
+                    <ExternalLink className="w-3.5 h-3.5 text-accent" />
+                  </a>
+                )}
+
+                {/* Primary Close Button */}
+                <button
+                  onClick={onClose}
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white/[0.08] hover:bg-accent hover:text-primary text-white border border-white/10 font-semibold text-xs transition-all active:scale-95 shadow-subtle group"
+                  aria-label="Fechar Modal"
+                >
+                  <span>Fechar</span>
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
             {/* Content Area */}
-            <div className="flex-1 w-full h-full bg-surface relative flex items-center justify-center overflow-hidden p-2 sm:p-4">
+            <div className="flex-1 w-full h-full bg-[#060911]/90 relative flex items-center justify-center overflow-hidden p-2 sm:p-4">
               {isYoutube ? (
                 <iframe
                   src={url}
@@ -82,7 +120,7 @@ export const IframeModal: React.FC<IframeModalProps> = ({ isOpen, onClose, url, 
                   poster={poster}
                   controls
                   autoPlay
-                  className="max-w-full max-h-full rounded-2xl shadow-lg"
+                  className="max-w-full max-h-full rounded-2xl shadow-2xl"
                 />
               ) : isImage ? (
                 <img
@@ -93,7 +131,7 @@ export const IframeModal: React.FC<IframeModalProps> = ({ isOpen, onClose, url, 
               ) : (
                 <iframe
                   src={url}
-                  className="absolute inset-0 w-full h-full border-0"
+                  className="absolute inset-0 w-full h-full border-0 rounded-b-2xl bg-[#060911]"
                   title="Content"
                 />
               )}

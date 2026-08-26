@@ -19,38 +19,33 @@ export const BibleVerse: React.FC<BibleVerseProps> = ({
   
   return (
     <motion.div
-      className={`relative py-2 ${className}`}
+      className={`relative py-3 px-5 sm:px-6 rounded-2xl bg-white/[0.04] border border-accent/20 backdrop-blur-md max-w-2xl shadow-subtle ${className}`}
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.8, delay: 0.35 }}
     >
       {/* Reference Header */}
-      <div className="flex items-center gap-3 mb-4">
-        <div className="h-px w-8 bg-highlight/30" />
-        <span className="text-highlight font-bold text-xs sm:text-sm tracking-[0.2em] uppercase">
+      <div className="flex items-center gap-2.5 mb-2.5">
+        <div className="h-0.5 w-6 bg-accent rounded-full" />
+        <span className="text-accent-light font-bold text-xs sm:text-sm tracking-[0.2em] uppercase font-sans">
           {reference}
         </span>
       </div>
       
       {/* Verse Content */}
-      <div className="relative pl-0 sm:pl-2">
-        {/* Decorative opening quote */}
-        <span className="absolute -left-4 -top-6 text-white/10 text-7xl font-serif pointer-events-none select-none">“</span>
-        
-        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/70 leading-relaxed max-w-2xl font-verse italic">
-          {text.includes(highlightedWord) ? (
+      <div className="relative">
+        <p className="text-sm sm:text-base md:text-lg text-white/85 leading-relaxed font-verse italic">
+          “{text.includes(highlightedWord) ? (
             <>
               {text.split(highlightedWord)[0]}
-              <span className="text-white font-bold not-italic tracking-wide bg-white/5 px-1.5 py-0.5 rounded-md mx-0.5 border border-white/10 shadow-sm">
+              <span className="text-accent font-semibold not-italic tracking-wide bg-accent/10 px-2 py-0.5 rounded-md mx-1 border border-accent/20">
                 {highlightedWord}
               </span>
               {text.split(highlightedWord)[1]}
             </>
           ) : (
             text
-          )}
-          {/* Decorative closing quote */}
-          <span className="inline-block translate-y-2 ml-1 text-white/10 text-4xl font-serif select-none">”</span>
+          )}”
         </p>
       </div>
     </motion.div>

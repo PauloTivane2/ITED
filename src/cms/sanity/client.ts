@@ -8,7 +8,7 @@ import type { SanityImageSource } from '@sanity/image-url';
 //   VITE_SANITY_DATASET=production
 //   VITE_SANITY_API_VERSION=2024-01-01
 
-const projectId = import.meta.env.VITE_SANITY_PROJECT_ID as string;
+const projectId = (import.meta.env.VITE_SANITY_PROJECT_ID as string) || '8eg6szpi';
 const dataset = (import.meta.env.VITE_SANITY_DATASET as string) || 'production';
 const apiVersion = (import.meta.env.VITE_SANITY_API_VERSION as string) || '2024-01-01';
 

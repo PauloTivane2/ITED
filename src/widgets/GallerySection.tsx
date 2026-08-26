@@ -3,7 +3,7 @@ import { SectionContainer } from '../shared/SectionContainer';
 import { Carousel, CarouselItem } from '../shared/Carousel';
 import { IframeModal } from '../shared/IframeModal';
 import { FadeUp, StaggerContainer, StaggerItem } from '../styles/effect/motionVariants';
-import { FaExpandAlt, FaPlay } from 'react-icons/fa';
+import { Maximize2, Play } from 'lucide-react';
 import { sanityClient, queries } from '../cms/sanity/client';
 import { getYouTubeEmbedUrl } from '../shared/lib/utils';
 
@@ -114,7 +114,7 @@ export const GallerySection: React.FC = () => {
             {/* Play Button Overlay */}
             <div className="absolute inset-0 flex items-center justify-center z-10">
               <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 text-white shadow-strong group-hover:scale-110 group-hover:bg-accent/80 transition-all duration-normal">
-                <FaPlay className="w-5 h-5 ml-1" />
+                <Play className="w-5 h-5 ml-1 fill-white" />
               </div>
             </div>
           </>
@@ -133,14 +133,17 @@ export const GallerySection: React.FC = () => {
   };
 
   return (
-    <SectionContainer background="surface" id="galeria">
-      <FadeUp className="text-center max-w-2xl mx-auto mb-8 sm:mb-12 md:mb-16">
-        <span className="inline-block text-accent font-semibold text-sm tracking-widest uppercase mb-4">Nossa Vivência</span>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-4 sm:mb-5 tracking-tight">
-          Momentos da <span className="font-serif italic font-medium text-accent">Comunidade</span>
+    <SectionContainer background="dark" id="galeria">
+      <FadeUp className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+        <div className="inline-flex items-center gap-2.5 px-3.5 py-1 rounded-full text-2xs uppercase tracking-[0.22em] font-bold text-accent bg-accent/10 border border-accent/25 mb-4">
+          <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+          Registros & Memória
+        </div>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.15] mb-4">
+          Momentos da <span className="font-serif italic font-normal text-accent">Comunidade</span>
         </h2>
-        <p className="text-secondary text-base sm:text-lg leading-relaxed">
-          Um vislumbre da nossa caminhada juntos. Adoração, serviço, alegria e vida em comunhão.
+        <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
+          Registros visuais da adoração, comunhão, serviço social e vida congregacional da Tenda do Encontro.
         </p>
       </FadeUp>
 
@@ -150,15 +153,15 @@ export const GallerySection: React.FC = () => {
           <CarouselItem key={item._id || item.id} className="min-w-[80vw] sm:min-w-[60vw]">
             <div 
               onClick={() => openModal(item)}
-              className="relative group rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-subtle hover:shadow-medium transition-all duration-normal active:scale-[0.98]"
+              className="relative group rounded-3xl overflow-hidden aspect-[4/3] cursor-pointer shadow-dark-card transition-all duration-normal active:scale-[0.98] border border-white/[0.08]"
             >
               {renderMedia(item)}
               
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-normal z-0" />
-              <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-normal flex items-center justify-between z-20">
-                <span className="text-white font-bold text-lg">{item.title}</span>
-                <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/20">
-                  <FaExpandAlt className="w-4 h-4 text-white" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-normal z-0" />
+              <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-normal flex items-center justify-between z-20">
+                <span className="text-white font-bold text-base">{item.title}</span>
+                <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 text-white">
+                  <Maximize2 className="w-4 h-4" />
                 </div>
               </div>
             </div>
@@ -167,22 +170,22 @@ export const GallerySection: React.FC = () => {
       </Carousel>
 
       {/* Desktop: Masonry-style Grid */}
-      <StaggerContainer className="hidden md:grid md:grid-cols-4 grid-rows-auto gap-3 md:gap-5">
+      <StaggerContainer className="hidden md:grid md:grid-cols-4 grid-rows-auto gap-4 md:gap-5">
         {data.map((item) => {
           const spanClass = item.featured ? 'col-span-1 md:col-span-2 row-span-2' : 'col-span-1 row-span-1';
           return (
             <StaggerItem 
               key={item._id || item.id} 
               onClick={() => openModal(item)}
-              className={`${spanClass} relative group rounded-3xl overflow-hidden min-h-[240px] cursor-pointer shadow-sm hover:shadow-medium transition-all duration-normal`}
+              className={`${spanClass} relative group rounded-3xl overflow-hidden min-h-[250px] cursor-pointer shadow-dark-card hover:shadow-glow border border-white/[0.08] hover:border-accent/40 transition-all duration-normal`}
             >
               {renderMedia(item)}
               
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-normal z-0" />
-              <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-normal flex items-center justify-between z-20">
-                <span className="text-white font-bold text-lg">{item.title}</span>
-                <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/20">
-                  <FaExpandAlt className="w-4 h-4 text-white" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-normal z-0" />
+              <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-normal flex items-center justify-between z-20">
+                <span className="text-white font-bold text-base sm:text-lg">{item.title}</span>
+                <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 text-white">
+                  <Maximize2 className="w-4 h-4" />
                 </div>
               </div>
             </StaggerItem>
@@ -190,13 +193,14 @@ export const GallerySection: React.FC = () => {
         })}
       </StaggerContainer>
 
-      <FadeUp delay={0.4} className="mt-12 text-center">
-        <button onClick={() => setModalState({isOpen: true, url: '/galeria', title: 'Galeria Completa'})} className="px-6 py-3.5 sm:px-8 sm:py-4 rounded-xl font-semibold text-primary bg-white border border-muted hover:border-accent hover:text-accent shadow-sm hover:shadow-medium transition-all duration-normal inline-flex items-center gap-2 min-h-[48px] active:scale-95">
-          Ver Álbum Completo
-          <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m-7-7H3" />
-          </svg>
-        </button>
+      <FadeUp delay={0.3} className="mt-12 text-center">
+        <a 
+          href="/galeria" 
+          className="px-8 py-4 rounded-xl font-semibold text-white bg-[#0B101D] border border-white/10 hover:border-accent/40 hover:bg-accent/10 shadow-dark-card transition-all duration-normal inline-flex items-center gap-2.5 min-h-[48px] active:scale-98 text-sm"
+        >
+          <span>Ver Álbum Completo</span>
+          <span className="text-accent font-bold">→</span>
+        </a>
       </FadeUp>
       <IframeModal 
         isOpen={modalState.isOpen} 
