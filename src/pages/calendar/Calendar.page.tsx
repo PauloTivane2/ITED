@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PageLayout } from '../../layouts/PageLayout';
 import { ChevronLeft, ChevronRight, Clock, MapPin } from 'lucide-react';
 import { sanityClient, queries } from '../../cms/sanity/client';
+import { CalendarSkeleton } from '@/shared/ui/Skeleton';
 import { SEO } from '@/shared/ui/SEO/SEO';
 import { Breadcrumbs } from '@/shared/ui/Navigation/Breadcrumbs';
 
@@ -21,21 +22,29 @@ export const CalendarPage: React.FC = () => {
   const [viewMonth, setViewMonth] = useState(today.getMonth());
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [events, setEvents] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
     const fetchEvents = async () => {
       try {
-        // Fetch events from a bit before today to show slightly past ones in the current month if needed
         const startDate = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
         const result = await sanityClient.fetch(queries.upcomingEvents, { today: startDate });
-        if (result) {
+        if (isMounted && result) {
           setEvents(result);
         }
       } catch (error) {
         console.error("Error fetching events:", error);
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
     fetchEvents();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const daysInMonth = getDaysInMonth(viewYear, viewMonth);
@@ -94,7 +103,10 @@ export const CalendarPage: React.FC = () => {
       </section>
 
       <section className="container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        {isLoading ? (
+          <CalendarSkeleton />
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
 
           {/* Calendar Widget */}
           <div className="lg:col-span-2">
@@ -223,6 +235,7 @@ export const CalendarPage: React.FC = () => {
             </div>
           </div>
         </div>
+        )}
       </section>
     </PageLayout>
   );

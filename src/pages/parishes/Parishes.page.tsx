@@ -1,50 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { PageLayout } from '../../layouts/PageLayout';
 import { SectionContainer } from '../../shared/SectionContainer';
 import { motion } from 'framer-motion';
 import { MapPin, UserCheck, Phone } from 'lucide-react';
 import { MapContent } from '../../widgets/sections/mapa/mapa';
-import { sanityClient, queries } from '../../cms/sanity/client';
+import { useParishes } from '@/shared/hooks';
+import { ParishCardSkeleton } from '@/shared/ui/Skeleton';
 import { SEO } from '@/shared/ui/SEO/SEO';
 import { Breadcrumbs } from '@/shared/ui/Navigation/Breadcrumbs';
 
-const fallbackParishes = [
-  {
-    _id: "p1",
-    name: 'ITED Munhava',
-    leader: 'Pastor Winn Pombo',
-    location: 'Bairro da Munhava, Beira',
-    phone: '',
-    image: 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1200&auto=format&fit=crop',
-    description: 'Uma das nossas congregações mais vibrantes, focada no crescimento espiritual e social da comunidade da Munhava.'
-  },
-  {
-    _id: "p2",
-    name: 'ITED Mutindire',
-    leader: 'Liderança Local iTED',
-    location: 'Mutindire, Manica',
-    phone: '',
-    image: 'https://images.unsplash.com/photo-1544427920-c49ccfb85579?q=80&w=1200&auto=format&fit=crop',
-    description: 'Dedicada a levar a mensagem do evangelho a todas as regiões, construindo pontes de fé e esperança em Mutindire.'
-  }
-];
-
 export const ParishesPage: React.FC = () => {
-  const [data, setData] = useState<any[]>(fallbackParishes);
-
-  useEffect(() => {
-    const fetchParishes = async () => {
-      try {
-        const result = await sanityClient.fetch(queries.parishes);
-        if (result && result.length > 0) {
-          setData(result);
-        }
-      } catch (error) {
-        console.error("Error fetching parishes:", error);
-      }
-    };
-    fetchParishes();
-  }, []);
+  const { parishes, isLoading } = useParishes();
 
   return (
     <PageLayout>
@@ -80,8 +46,14 @@ export const ParishesPage: React.FC = () => {
 
       {/* Parishes Grid */}
       <SectionContainer background="dark">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {data.map((parish, index) => (
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+            <ParishCardSkeleton />
+            <ParishCardSkeleton />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+            {parishes.map((parish, index) => (
             <motion.div
               key={parish._id || parish.name}
               initial={{ opacity: 0, y: 30 }}
@@ -142,7 +114,8 @@ export const ParishesPage: React.FC = () => {
             </motion.div>
           ))}
         </div>
-      </SectionContainer>
+      )}
+    </SectionContainer>
 
       {/* Map Section */}
       <SectionContainer background="dark">

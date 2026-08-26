@@ -149,40 +149,6 @@ export const TEXTS_PT = {
     heading: 'Nossos Horários',
     description:
       'Temos encontros semanais pensados para o edificar. Escolha o melhor horário e venha estar connosco.',
-    fallbackService: {
-      day: 'Domingo',
-      name: 'Culto de Adoração',
-      time: '09:00 — 12:30',
-      description:
-        'Momento especial de adoração, louvor e ministração da palavra.',
-    },
-    schedule: [
-      {
-        day: 'Segunda',
-        name: 'Intercessão',
-        time: '17:00',
-      },
-      {
-        day: 'Quinta',
-        name: 'Ensino',
-        time: '17:30',
-      },
-      {
-        day: 'Sexta',
-        name: 'Mulheres',
-        time: '16:00',
-      },
-      {
-        day: 'Sábado',
-        name: 'Jejum e Libertação',
-        time: '09:00',
-      },
-      {
-        day: 'Domingo',
-        name: 'Culto Matinal',
-        time: '09:00',
-      },
-    ],
   },
 
   // === MINISTÉRIOS ===
@@ -205,32 +171,6 @@ export const TEXTS_PT = {
       { label: 'Família', value: 'family' },
       { label: 'Ensino', value: 'teaching' },
       { label: 'Cuidado', value: 'care' },
-    ],
-    fallbackMinistries: [
-      {
-        name: 'Ministério Infantil',
-        description: 'Cuidando da próxima geração com amor e dedicação.',
-      },
-      {
-        name: 'Jovens e Adolescentes',
-        description: 'Formação espiritual para os jovens da comunidade.',
-      },
-      {
-        name: 'Ação Social',
-        description: 'Estendendo a mão aos necessitados.',
-      },
-      {
-        name: 'Louvor e Adoração',
-        description: 'Exaltando o nome do Senhor em espírito e verdade.',
-      },
-      {
-        name: 'Intercessão',
-        description: 'Orando pelos necessitados e pela comunidade.',
-      },
-      {
-        name: 'Casais e Família',
-        description: 'Fortalecendo os laços familiares na fé.',
-      },
     ],
   },
 
@@ -258,20 +198,6 @@ export const TEXTS_PT = {
       'Dezembro',
     ],
     weekDays: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
-    fallbackEvents: [
-      {
-        title: 'Conferência de Jovens 2026',
-        type: 'Destaque',
-      },
-      {
-        title: 'Café de Mulheres Virtuosas',
-        type: 'Inscrições abertas',
-      },
-      {
-        title: 'Batismo nas Águas e Confraternização',
-        type: 'Especial',
-      },
-    ],
   },
 
   // === GALERIA ===
@@ -294,18 +220,6 @@ export const TEXTS_PT = {
     sectionTitle: 'Nossa Expansão',
     heading: 'Nossas Paróquias',
     description: 'Estamos presentes em diversas localidades, sempre com a mesma fé e propósito.',
-    fallbackParishes: [
-      {
-        name: 'ITED Munhava',
-        leader: 'Pastor Winn Pombo',
-        location: 'Bairro da Munhava, Beira',
-      },
-      {
-        name: 'ITED Mutindire',
-        leader: 'Liderança Local ITED',
-        location: 'Mutindire, Manica',
-      },
-    ],
   },
 
   // === FOOTER ===

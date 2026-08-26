@@ -1,57 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { SectionContainer } from '../shared/SectionContainer';
-import { sanityClient, queries } from '../cms/sanity/client';
+import { useFeaturedEvents } from '@/shared/hooks';
+import { EventCardSkeleton } from '@/shared/ui/Skeleton';
 import { Calendar, Clock, MapPin, ArrowRight, Sparkles, Bell } from 'lucide-react';
 
-const fallbackEvents = [
-  {
-    _id: "e1",
-    date: '2026-04-15',
-    title: 'Conferência Anual de Avivamento & Fé',
-    time: '17:30 — 20:30',
-    location: 'Templo Principal, Matacuane',
-    tag: 'Destaque',
-    description: 'Três dias de ministração intensiva, louvor profético e renovação espiritual para toda a comunidade.',
-    featured: true
-  },
-  {
-    _id: "e2",
-    date: '2026-04-22',
-    title: 'Encontro Nacional de Mulheres & Famílias',
-    time: '09:00 — 13:00',
-    location: 'Auditório ITED Central',
-    tag: 'Família',
-    description: 'Palestra, aconselhamento bíblico e comunhão para edificação dos lares cristãos.',
-    featured: false
-  },
-  {
-    _id: "e3",
-    date: '2026-05-05',
-    title: 'Solene Batismo nas Águas & Ação de Graças',
-    time: '08:30 — 12:00',
-    location: 'Sede ITED, Beira',
-    tag: 'Celebração',
-    description: 'Ato de fé pública, batismo de novos convertidos e celebração da Ceia do Senhor.',
-    featured: false
-  }
-];
-
 export const EventsSection: React.FC = () => {
-  const [data, setData] = useState<any[]>(fallbackEvents);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const result = await sanityClient.fetch(queries.featuredEvents);
-        if (result && result.length > 0) {
-          setData(result);
-        }
-      } catch (error) {
-        console.error("Error fetching events:", error);
-      }
-    };
-    fetchEvents();
-  }, []);
+  const { events, isLoading } = useFeaturedEvents();
 
   const formatDateInfo = (dateString: string) => {
     if (!dateString) return { day: '15', month: 'ABR' };
@@ -109,19 +63,26 @@ export const EventsSection: React.FC = () => {
 
         {/* Right: Event List Cards (7 cols) */}
         <div className="lg:col-span-7 flex flex-col gap-4">
-          {data.map((event) => {
-            const { day, month } = formatDateInfo(event.date);
-            const title = event.title || 'Evento Especial ITED';
-            const time = event.time || '17:30';
-            const location = event.location || 'Sede Matacuane, Beira';
-            const tag = event.tag || 'Destaque';
-            
-            return (
-              <a 
-                key={event._id || title}
-                href="/calendario"
-                className="group bg-[#0B101D] rounded-3xl border border-white/[0.08] p-5 sm:p-6 flex gap-4 sm:gap-6 items-center hover:border-accent/40 hover:shadow-glow cursor-pointer transition-all duration-300 active:scale-[0.99]"
-              >
+          {isLoading ? (
+            <>
+              <EventCardSkeleton />
+              <EventCardSkeleton />
+              <EventCardSkeleton />
+            </>
+          ) : (
+            events.map((event) => {
+              const { day, month } = formatDateInfo(event.date);
+              const title = event.title || 'Evento Especial ITED';
+              const time = event.time || '17:30';
+              const location = event.location || 'Sede Matacuane, Beira';
+              const tag = event.tag || 'Destaque';
+              
+              return (
+                <a 
+                  key={event._id || title}
+                  href="/calendario"
+                  className="group bg-[#0B101D] rounded-3xl border border-white/[0.08] p-5 sm:p-6 flex gap-4 sm:gap-6 items-center hover:border-accent/40 hover:shadow-glow cursor-pointer transition-all duration-300 active:scale-[0.99]"
+                >
                 {/* Metallic Date Badge - Fixed Compact Dimensions */}
                 <div className="flex flex-col items-center justify-center bg-white/[0.04] border border-white/10 group-hover:border-accent/30 group-hover:bg-accent/10 rounded-2xl w-16 h-16 min-w-[64px] sm:w-20 sm:h-20 sm:min-w-[80px] transition-all duration-normal shrink-0">
                   <span className="font-extrabold text-2xl sm:text-3xl leading-none text-white group-hover:text-accent font-mono transition-colors">
@@ -164,7 +125,7 @@ export const EventsSection: React.FC = () => {
                 </div>
               </a>
             );
-          })}
+          }))}
         </div>
       </div>
     </SectionContainer>

@@ -1,25 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { SectionContainer } from '../shared/SectionContainer';
 import { FadeUp, SlideIn } from '../styles/effect/motionVariants';
 import { Church, Globe, Heart } from 'lucide-react';
-import { sanityClient, queries, urlFor } from '../cms/sanity/client';
+import { urlFor } from '../cms/sanity/client';
+import { useAboutData } from '@/shared/hooks';
+import { AboutSkeleton } from '@/shared/ui/Skeleton';
 
 export const AboutSection: React.FC = () => {
-  const [data, setData] = useState<any>(null);
-
-  useEffect(() => {
-    const fetchAboutData = async () => {
-      try {
-        const result = await sanityClient.fetch(queries.about);
-        if (result) {
-          setData(result);
-        }
-      } catch (error) {
-        console.error("Error fetching about data:", error);
-      }
-    };
-    fetchAboutData();
-  }, []);
+  const { aboutData: data, isLoading } = useAboutData();
 
   const getIcon = (title: string) => {
     const t = (title || '').toLowerCase();
@@ -31,6 +19,14 @@ export const AboutSection: React.FC = () => {
 
   const image1 = data?.images?.[0] ? urlFor(data.images[0]).url() : "https://images.unsplash.com/photo-1437603568260-1950d3c00cb5?q=80&w=600&auto=format&fit=crop";
   const image2 = data?.images?.[1] ? urlFor(data.images[1]).url() : "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=600&auto=format&fit=crop";
+
+  if (isLoading) {
+    return (
+      <SectionContainer background="dark" id="sobre">
+        <AboutSkeleton />
+      </SectionContainer>
+    );
+  }
 
   return (
     <SectionContainer background="dark" id="sobre">

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PageLayout } from '../../layouts/PageLayout';
 import { Baby, Flame, HandHeart, Music, Heart, BookOpen, Users, Sparkles } from 'lucide-react';
-import { sanityClient, queries } from '../../cms/sanity/client';
+import { useMinistries } from '@/shared/hooks';
+import { MinistryCardSkeleton } from '@/shared/ui/Skeleton';
 import { SEO } from '@/shared/ui/SEO/SEO';
 import { Breadcrumbs } from '@/shared/ui/Navigation/Breadcrumbs';
 
@@ -19,26 +20,12 @@ const getIconForTitle = (title: string) => {
 };
 
 export const MinistriesPage: React.FC = () => {
-  const [data, setData] = useState<any[]>([]);
+  const { ministries, isLoading } = useMinistries();
   const [selected, setSelected] = useState('Todos');
-
-  useEffect(() => {
-    const fetchMinistries = async () => {
-      try {
-        const result = await sanityClient.fetch(queries.ministries);
-        if (result) {
-          setData(result);
-        }
-      } catch (error) {
-        console.error("Error fetching ministries:", error);
-      }
-    };
-    fetchMinistries();
-  }, []);
 
   const categories = ['Todos', 'Infantil', 'Jovens', 'Social', 'Louvor', 'Oração', 'Família', 'Ensino'];
   
-  const filtered = selected === 'Todos' ? data : data.filter(m => {
+  const filtered = selected === 'Todos' ? ministries : ministries.filter(m => {
       const t = (m.title || '').toLowerCase();
       if (selected === 'Infantil') return t.includes('infantil') || t.includes('criança');
       if (selected === 'Jovens') return t.includes('jovem') || t.includes('adolescente');
@@ -97,7 +84,17 @@ export const MinistriesPage: React.FC = () => {
 
       {/* Grid */}
       <section className="container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
+            <MinistryCardSkeleton />
+            <MinistryCardSkeleton />
+            <MinistryCardSkeleton />
+            <MinistryCardSkeleton />
+            <MinistryCardSkeleton />
+            <MinistryCardSkeleton />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
           {filtered.map(m => (
             <div
               key={m._id}
@@ -137,6 +134,7 @@ export const MinistriesPage: React.FC = () => {
             </div>
           ))}
         </div>
+      )}
 
         {/* CTA Banner */}
         <div className="mt-20 rounded-3xl bg-[#0B101D] border border-white/10 p-10 md:p-14 text-center relative overflow-hidden shadow-dark-card">

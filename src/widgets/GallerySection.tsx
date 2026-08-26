@@ -1,48 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { SectionContainer } from '../shared/SectionContainer';
 import { Carousel, CarouselItem } from '../shared/Carousel';
 import { IframeModal } from '../shared/IframeModal';
 import { FadeUp, StaggerContainer, StaggerItem } from '../styles/effect/motionVariants';
 import { Maximize2, Play } from 'lucide-react';
-import { sanityClient, queries } from '../cms/sanity/client';
+import { useGalleryItems, GalleryItemData } from '@/shared/hooks';
+import { GalleryCardSkeleton } from '@/shared/ui/Skeleton';
 import { getYouTubeEmbedUrl } from '../shared/lib/utils';
-
-type GalleryItemType = 'image' | 'youtube' | 'video';
-
-interface GalleryItem {
-  _id?: string;
-  id?: string;
-  type: GalleryItemType;
-  imageUrl?: string;
-  youtubeUrl?: string;
-  videoUrl?: string;
-  thumbnailUrl?: string; // High res thumbnail for videos
-  title: string;
-  featured?: boolean;
-}
-
-const fallbackGalleryItems: GalleryItem[] = [
-  { 
-    id: '1',
-    type: 'youtube', 
-    youtubeUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ', 
-    thumbnailUrl: 'https://images.unsplash.com/photo-1544427920-c49ccfb85579?q=80&w=600&auto=format&fit=crop',
-    title: 'Louvor Semanal (Video)', 
-    featured: true 
-  },
-  { id: '2', type: 'image', imageUrl: 'https://images.unsplash.com/photo-1510590337019-5ef8d3d32116?q=80&w=400&auto=format&fit=crop', title: 'Reunião de Casais', featured: false },
-  { id: '3', type: 'image', imageUrl: 'https://images.unsplash.com/photo-1529070538774-1843cb3265df?q=80&w=400&auto=format&fit=crop', title: 'Estudo Bíblico', featured: false },
-  { id: '4', type: 'image', imageUrl: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=400&auto=format&fit=crop', title: 'Comunhão', featured: false },
-  { 
-    id: '5',
-    type: 'video', 
-    videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', 
-    thumbnailUrl: 'https://images.unsplash.com/photo-1456574808786-d2ba0a6af640?q=80&w=600&auto=format&fit=crop',
-    title: 'Grupo de Jovens (Video)', 
-    featured: true 
-  },
-  { id: '6', type: 'image', imageUrl: 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=400&auto=format&fit=crop', title: 'Ação Social', featured: false },
-];
 
 export const GallerySection: React.FC = () => {
   const [modalState, setModalState] = useState<{ isOpen: boolean; url: string; title: string; poster?: string }>({
@@ -52,35 +16,9 @@ export const GallerySection: React.FC = () => {
     poster: '',
   });
 
-  const [data, setData] = useState<GalleryItem[]>(fallbackGalleryItems);
+  const { galleryItems, isLoading } = useGalleryItems();
 
-  useEffect(() => {
-    const fetchGallery = async () => {
-      try {
-        const result = await sanityClient.fetch(queries.galleryItems);
-        if (result && result.length > 0) {
-          // Flatten albums into items
-          const flattenedItems = result.flatMap((album: any) => 
-            (album.items || []).map((item: any) => ({
-              ...item,
-              _id: item.id, // using the _key from sanity as _id
-              // Fallback to album featured status if not set on item
-              featured: item.featured || album.featured,
-              albumTitle: album.title,
-              // If item doesn't have a title, use album title
-              title: item.title || album.title
-            }))
-          );
-          setData(flattenedItems);
-        }
-      } catch (error) {
-        console.error("Error fetching gallery items:", error);
-      }
-    };
-    fetchGallery();
-  }, []);
-
-  const openModal = (item: GalleryItem) => {
+  const openModal = (item: GalleryItemData) => {
     let targetUrl = '';
     
     if (item.type === 'youtube') targetUrl = getYouTubeEmbedUrl(item.youtubeUrl || '');
@@ -90,8 +28,8 @@ export const GallerySection: React.FC = () => {
     setModalState({ 
       isOpen: true, 
       url: targetUrl, 
-      title: item.title, 
-      poster: item.thumbnailUrl || item.imageUrl 
+      title: item.title || item.albumTitle || '', 
+      poster: item.thumbnailUrl || item.imageUrl || '' 
     });
   };
 
@@ -99,7 +37,7 @@ export const GallerySection: React.FC = () => {
     setModalState(prev => ({ ...prev, isOpen: false }));
   };
 
-  const renderMedia = (item: GalleryItem) => {
+  const renderMedia = (item: GalleryItemData) => {
     switch (item.type) {
       case 'youtube':
       case 'video':
@@ -147,51 +85,63 @@ export const GallerySection: React.FC = () => {
         </p>
       </FadeUp>
 
-      {/* Mobile: Carousel */}
-      <Carousel className="md:hidden -mx-4 pb-4" gap="gap-4" padding="px-4">
-        {data.map((item) => (
-          <CarouselItem key={item._id || item.id} className="min-w-[80vw] sm:min-w-[60vw]">
-            <div 
-              onClick={() => openModal(item)}
-              className="relative group rounded-3xl overflow-hidden aspect-[4/3] cursor-pointer shadow-dark-card transition-all duration-normal active:scale-[0.98] border border-white/[0.08]"
-            >
-              {renderMedia(item)}
-              
-              <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-normal z-0" />
-              <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-normal flex items-center justify-between z-20">
-                <span className="text-white font-bold text-base">{item.title}</span>
-                <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 text-white">
-                  <Maximize2 className="w-4 h-4" />
+      {/* Loading Skeletons */}
+      {isLoading ? (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
+          <GalleryCardSkeleton aspect="video" />
+          <GalleryCardSkeleton aspect="square" />
+          <GalleryCardSkeleton aspect="square" />
+          <GalleryCardSkeleton aspect="video" />
+        </div>
+      ) : (
+        <>
+          {/* Mobile: Carousel */}
+          <Carousel className="md:hidden -mx-4 pb-4" gap="gap-4" padding="px-4">
+            {galleryItems.map((item) => (
+              <CarouselItem key={item._id || item.id} className="min-w-[80vw] sm:min-w-[60vw]">
+                <div 
+                  onClick={() => openModal(item)}
+                  className="relative group rounded-3xl overflow-hidden aspect-[4/3] cursor-pointer shadow-dark-card transition-all duration-normal active:scale-[0.98] border border-white/[0.08]"
+                >
+                  {renderMedia(item)}
+                  
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-normal z-0" />
+                  <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-normal flex items-center justify-between z-20">
+                    <span className="text-white font-bold text-base">{item.title}</span>
+                    <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 text-white">
+                      <Maximize2 className="w-4 h-4" />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </CarouselItem>
-        ))}
-      </Carousel>
+              </CarouselItem>
+            ))}
+          </Carousel>
 
-      {/* Desktop: Masonry-style Grid */}
-      <StaggerContainer className="hidden md:grid md:grid-cols-4 grid-rows-auto gap-4 md:gap-5">
-        {data.map((item) => {
-          const spanClass = item.featured ? 'col-span-1 md:col-span-2 row-span-2' : 'col-span-1 row-span-1';
-          return (
-            <StaggerItem 
-              key={item._id || item.id} 
-              onClick={() => openModal(item)}
-              className={`${spanClass} relative group rounded-3xl overflow-hidden min-h-[250px] cursor-pointer shadow-dark-card hover:shadow-glow border border-white/[0.08] hover:border-accent/40 transition-all duration-normal`}
-            >
-              {renderMedia(item)}
-              
-              <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-normal z-0" />
-              <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-normal flex items-center justify-between z-20">
-                <span className="text-white font-bold text-base sm:text-lg">{item.title}</span>
-                <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 text-white">
-                  <Maximize2 className="w-4 h-4" />
-                </div>
-              </div>
-            </StaggerItem>
-          );
-        })}
-      </StaggerContainer>
+          {/* Desktop: Masonry-style Grid */}
+          <StaggerContainer className="hidden md:grid md:grid-cols-4 grid-rows-auto gap-4 md:gap-5">
+            {galleryItems.map((item) => {
+              const spanClass = item.featured ? 'col-span-1 md:col-span-2 row-span-2' : 'col-span-1 row-span-1';
+              return (
+                <StaggerItem 
+                  key={item._id || item.id} 
+                  onClick={() => openModal(item)}
+                  className={`${spanClass} relative group rounded-3xl overflow-hidden min-h-[250px] cursor-pointer shadow-dark-card hover:shadow-glow border border-white/[0.08] hover:border-accent/40 transition-all duration-normal`}
+                >
+                  {renderMedia(item)}
+                  
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-normal z-0" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-normal flex items-center justify-between z-20">
+                    <span className="text-white font-bold text-base sm:text-lg">{item.title}</span>
+                    <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 text-white">
+                      <Maximize2 className="w-4 h-4" />
+                    </div>
+                  </div>
+                </StaggerItem>
+              );
+            })}
+          </StaggerContainer>
+        </>
+      )}
 
       <FadeUp delay={0.3} className="mt-12 text-center">
         <a 

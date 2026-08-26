@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { SectionContainer } from '../shared/SectionContainer';
 import { Carousel, CarouselItem } from '../shared/Carousel';
-import { sanityClient, queries } from '../cms/sanity/client';
+import { useMinistries } from '@/shared/hooks';
+import { MinistryCardSkeleton } from '@/shared/ui/Skeleton';
 import { ArrowRight, Baby, Flame, HandHeart, Music, Sparkles, Users, Heart } from 'lucide-react';
 
 const getMinistryIcon = (title: string) => {
@@ -15,61 +16,8 @@ const getMinistryIcon = (title: string) => {
   return <Users className="w-5 h-5" />;
 };
 
-const fallbackMinistries = [
-  {
-    _id: "m1",
-    title: 'Ministério Infantil',
-    description: 'Cuidando da próxima geração com princípios bíblicos sólidos, ambiente seguro, acolhimento pastoral e aprendizado prático da palavra de Deus.',
-    image: '/images/ministries/ministry_children_1774776653967.png',
-  },
-  {
-    _id: "m2",
-    title: 'Jovens e Adolescentes',
-    description: 'Encontros dinâmicos e mentoria bíblica para capacitar a juventude a viver com firmeza de propósito, fé e integridade nos desafios contemporâneos.',
-    image: '/images/ministries/ministry_youth_1774776798722.png',
-  },
-  {
-    _id: "m3",
-    title: 'Ação Social',
-    description: 'Impactando vidas em vulnerabilidade na comunidade através de campanhas solidárias, voluntariado, doações de alimentos e suporte humanitário contínuo.',
-    image: '/images/ministries/ministry_social_1774777423721.png',
-  },
-  {
-    _id: "m4",
-    title: 'Louvor e Adoração',
-    description: 'Conduzindo toda a congregação a um encontro profundo e transformador na presença de Deus através da música, artes e adoração genuína.',
-    image: '/images/ministries/ministry_worship_1774776893962.png',
-  },
-  {
-    _id: "m5",
-    title: 'Intercessão',
-    description: 'Guerreiros de oração que levantam clamor diário, cobertura espiritual permanente para as famílias, a liderança e o avivamento contínuo da nação.',
-    image: '/images/ministries/ministry_prayer_1774777667476.png',
-  },
-  {
-    _id: "m6",
-    title: 'Casais e Família',
-    description: 'Fortalecendo casamentos, aconselhamento conjugal e cultivando lares edificados sob os princípios sagrados da palavra de Deus.',
-    image: '/images/ministries/ministry_worship_1774776893962.png',
-  }
-];
-
 export const MinistriesList: React.FC = () => {
-  const [data, setData] = useState<any[]>(fallbackMinistries);
-
-  useEffect(() => {
-    const fetchMinistries = async () => {
-      try {
-        const result = await sanityClient.fetch(queries.ministries);
-        if (result && result.length > 0) {
-          setData(result);
-        }
-      } catch (error) {
-        console.error("Error fetching ministries:", error);
-      }
-    };
-    fetchMinistries();
-  }, []);
+  const { ministries, isLoading } = useMinistries();
 
   return (
     <SectionContainer background="dark" id="ministerios">
@@ -97,46 +45,55 @@ export const MinistriesList: React.FC = () => {
         </a>
       </div>
 
-      {/* Mobile: Horizontal Carousel */}
-      <Carousel className="sm:hidden -mx-4 pb-4" gap="gap-4" padding="px-4">
-        {data.map((m) => (
-          <CarouselItem
-            key={m._id || m.title}
-            className="w-[290px] max-w-[85vw] h-auto flex"
-          >
-            <div className="relative w-full min-h-[420px] rounded-3xl overflow-hidden shadow-dark-card bg-[#0B101D] flex flex-col justify-end flex-1 border border-white/[0.08]">
-              <img
-                src={m.image || '/images/ministries/ministry_worship_1774776893962.png'}
-                alt={m.title}
-                className="absolute inset-0 w-full h-full object-cover brightness-[0.85]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#060911] via-[#060911]/75 to-transparent" />
-              
-              {/* Top Icon */}
-              <div className="absolute top-5 left-5 z-10">
-                <div className="w-10 h-10 rounded-xl bg-[#060911]/70 backdrop-blur-md border border-white/15 flex items-center justify-center text-accent shadow-subtle">
-                  {getMinistryIcon(m.title)}
+      {/* Loading Skeletons */}
+      {isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          <MinistryCardSkeleton />
+          <MinistryCardSkeleton />
+          <MinistryCardSkeleton />
+        </div>
+      ) : (
+        <>
+          {/* Mobile: Horizontal Carousel */}
+          <Carousel className="sm:hidden -mx-4 pb-4" gap="gap-4" padding="px-4">
+            {ministries.map((m) => (
+              <CarouselItem
+                key={m._id || m.title}
+                className="w-[290px] max-w-[85vw] h-auto flex"
+              >
+                <div className="relative w-full min-h-[420px] rounded-3xl overflow-hidden shadow-dark-card bg-[#0B101D] flex flex-col justify-end flex-1 border border-white/[0.08]">
+                  <img
+                    src={m.image || '/images/ministries/ministry_worship_1774776893962.png'}
+                    alt={m.title}
+                    className="absolute inset-0 w-full h-full object-cover brightness-[0.85]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#060911] via-[#060911]/75 to-transparent" />
+                  
+                  {/* Top Icon */}
+                  <div className="absolute top-5 left-5 z-10">
+                    <div className="w-10 h-10 rounded-xl bg-[#060911]/70 backdrop-blur-md border border-white/15 flex items-center justify-center text-accent shadow-subtle">
+                      {getMinistryIcon(m.title)}
+                    </div>
+                  </div>
+
+                  {/* Bottom Content */}
+                  <div className="relative p-6 z-10 mt-auto">
+                    <div className="w-8 h-0.5 bg-accent mb-2.5 rounded-full" />
+                    <h3 className="text-xl font-bold text-white mb-2 tracking-tight">
+                      {m.title}
+                    </h3>
+                    <p className="text-slate-300 text-xs leading-relaxed">
+                      {m.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </CarouselItem>
+            ))}
+          </Carousel>
 
-              {/* Bottom Content */}
-              <div className="relative p-6 z-10 mt-auto">
-                <div className="w-8 h-0.5 bg-accent mb-2.5 rounded-full" />
-                <h3 className="text-xl font-bold text-white mb-2 tracking-tight">
-                  {m.title}
-                </h3>
-                <p className="text-slate-300 text-xs leading-relaxed">
-                  {m.description}
-                </p>
-              </div>
-            </div>
-          </CarouselItem>
-        ))}
-      </Carousel>
-
-      {/* Desktop: Enterprise Luxury Cards with Hover Expansion */}
-      <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
-        {data.map((m) => (
+          {/* Desktop: Enterprise Luxury Cards with Hover Expansion */}
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+            {ministries.map((m) => (
           <div 
             key={m._id || m.title} 
             className="group relative min-h-[440px] aspect-[3/4] rounded-3xl overflow-hidden cursor-pointer bg-[#0B101D] shadow-dark-card hover:shadow-glow-lg border border-white/[0.08] hover:border-accent/50 transition-all duration-500 hover:-translate-y-1.5 flex flex-col justify-between"
@@ -187,8 +144,10 @@ export const MinistriesList: React.FC = () => {
               </div>
             </div>
           </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </>
+    )}
     </SectionContainer>
   );
 };

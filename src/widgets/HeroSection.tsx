@@ -1,30 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
 import { Clock, ChevronRight, ChevronDown } from 'lucide-react';
 import { BibleVerse } from './BibleVerse';
-import { sanityClient, queries } from '../cms/sanity/client';
+import { useHeroData } from '@/shared/hooks';
+import { HeroSkeleton } from '@/shared/ui/Skeleton';
 
 const easeOut = 'easeOut' as const;
 
 export const HeroSection: React.FC = () => {
-  const [data, setData] = useState<any>(null);
+  const { heroData, isLoading } = useHeroData();
 
-  useEffect(() => {
-    const fetchHeroData = async () => {
-      try {
-        const result = await sanityClient.fetch(queries.hero);
-        if (result) {
-          setData(result);
-        }
-      } catch (error) {
-        console.error("Error fetching hero data:", error);
-      }
-    };
-    fetchHeroData();
-  }, []);
-
-  const typewriterWords = data?.typewriterWords || [
+  const typewriterWords = heroData?.typewriterWords || [
     'fé e esperança',
     'amor e propósito',
     'comunhão e paz',
@@ -38,6 +25,10 @@ export const HeroSection: React.FC = () => {
     deleteSpeed: 42,
     typeSpeed: 68,
   });
+
+  if (isLoading) {
+    return <HeroSkeleton />;
+  }
 
   return (
     <section className="relative min-h-[100vh] flex items-center overflow-hidden bg-transparent">
@@ -57,7 +48,7 @@ export const HeroSection: React.FC = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
               </span>
-              {data?.badge || 'Comunidade Cristã Internacional • ITED'}
+              {heroData?.badge || 'Comunidade Cristã Internacional • ITED'}
             </div>
           </motion.div>
 
@@ -78,8 +69,8 @@ export const HeroSection: React.FC = () => {
 
           {/* Subtitle / Verse */}
           <BibleVerse 
-            reference={data?.bibleReference || "Êxodo 33:7-11"}
-            text={data?.bibleText || "Moisés montava a 'Tenda do Encontro' fora do arraial, longe do povo, para consultar a Deus. Quando Moisés entrava, a coluna de nuvem descia e Deus falava com ele face a face, como um homem fala com seu amigo."}
+            reference={heroData?.bibleReference || "Êxodo 33:7-11"}
+            text={heroData?.bibleText || "Moisés montava a 'Tenda do Encontro' fora do arraial, longe do povo, para consultar a Deus. Quando Moisés entrava, a coluna de nuvem descia e Deus falava com ele face a face, como um homem fala com seu amigo."}
           />
 
           {/* CTAs */}
@@ -94,13 +85,13 @@ export const HeroSection: React.FC = () => {
               className="inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl font-semibold text-white bg-gradient-accent shadow-glow hover:shadow-glow-lg transition-all duration-normal hover:-translate-y-0.5 min-h-[48px] active:scale-98 text-sm sm:text-base tracking-wide"
             >
               <Clock className="w-4 h-4" />
-              {data?.ctaPrimaryLabel || 'Nossos Horários'}
+              {heroData?.ctaPrimaryLabel || 'Nossos Horários'}
             </a>
             <a
               href="#sobre"
               className="inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl font-semibold text-white/85 hover:text-white border border-white/15 hover:border-white/30 hover:bg-white/[0.08] transition-all duration-normal hover:-translate-y-0.5 min-h-[48px] active:scale-98 text-sm sm:text-base tracking-wide backdrop-blur-sm"
             >
-              {data?.ctaSecondaryLabel || 'Conheça a Igreja'}
+              {heroData?.ctaSecondaryLabel || 'Conheça a Igreja'}
               <ChevronRight className="w-4 h-4" />
             </a>
           </motion.div>
@@ -112,7 +103,7 @@ export const HeroSection: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5, ease: easeOut }}
           >
-            {(data?.stats || [
+            {(heroData?.stats || [
               { number: '7+', label: 'Anos de Edificação' },
               { number: '500+', label: 'Vidas Transformadas' },
             ]).map((stat: any, i: number) => (

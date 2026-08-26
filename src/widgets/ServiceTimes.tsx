@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { SectionContainer } from '../shared/SectionContainer';
 import { Carousel, CarouselItem } from '../shared/Carousel';
 import { FadeUp, StaggerContainer, StaggerItem } from '../styles/effect/motionVariants';
-import { sanityClient, queries } from '../cms/sanity/client';
+import { useServices } from '@/shared/hooks';
+import { ServiceCardSkeleton } from '@/shared/ui/Skeleton';
 import { Clock, Calendar, Users, BookOpen, Flame, Heart, Sparkles, MapPin, ArrowRight } from 'lucide-react';
 
 const getIconForDay = (day: string) => {
@@ -22,54 +23,8 @@ const getIconForDay = (day: string) => {
   return <Users className="w-5 h-5" />;
 };
 
-const fallbackServices = [
-  {
-    _id: 'fallback-1',
-    day: 'Segunda-feira',
-    name: 'Oração & Intercessão Profética',
-    time: '17:00 — 18:30',
-    description: 'Momento solene de clamor contínuo, oração congregacional e intercessão pelas famílias, enfermos e pela nação.',
-    modality: 'Presencial & Transmissão',
-    tag: 'Clamor & Avivamento'
-  },
-  {
-    _id: 'fallback-2',
-    day: 'Quinta-feira',
-    name: 'Culto de Ensino & Doutrina',
-    time: '17:30 — 19:30',
-    description: 'Exposição bíblica sistemática e aprofundamento das escrituras sagradas para edificação e maturidade na fé.',
-    modality: 'Presencial',
-    tag: 'Estudo Bíblico'
-  },
-  {
-    _id: 'fallback-3',
-    day: 'Domingo',
-    name: 'Celebração da Família & Adoração',
-    time: '09:00 — 12:30',
-    description: 'Grande celebração dominical com louvor congregacional, ministração apostólica da palavra e comunhão fraterna.',
-    modality: 'Presencial & Ao Vivo',
-    tag: 'Culto Principal',
-    featured: true
-  }
-];
-
 export const ServiceTimes: React.FC = () => {
-  const [data, setData] = useState<any[]>(fallbackServices);
-
-  useEffect(() => {
-    const fetchServiceTimes = async () => {
-      try {
-        const result = await sanityClient.fetch(queries.serviceTimes);
-        if (result && result.length > 0) {
-          setData(result);
-        }
-      } catch (error) {
-        console.error("Error fetching service times:", error);
-      }
-    };
-
-    fetchServiceTimes();
-  }, []);
+  const { services, isLoading } = useServices();
 
   return (
     <SectionContainer background="dark" id="horarios">
@@ -87,12 +42,21 @@ export const ServiceTimes: React.FC = () => {
         </p>
       </FadeUp>
 
-      {/* Mobile: Horizontal Carousel */}
-      <Carousel className="md:hidden -mx-4 pb-4" gap="gap-4" padding="px-4">
-        {data.map((service) => {
-          const isFeatured = service.featured || (service.day || '').toLowerCase().includes('domingo');
-          return (
-            <CarouselItem key={service._id} className="min-w-[300px] max-w-[88vw]">
+      {/* Loading Skeletons */}
+      {isLoading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          <ServiceCardSkeleton />
+          <ServiceCardSkeleton />
+          <ServiceCardSkeleton />
+        </div>
+      ) : (
+        <>
+          {/* Mobile: Horizontal Carousel */}
+          <Carousel className="md:hidden -mx-4 pb-4" gap="gap-4" padding="px-4">
+            {services.map((service) => {
+              const isFeatured = (service.day || '').toLowerCase().includes('domingo');
+              return (
+                <CarouselItem key={service._id || service.name} className="min-w-[300px] max-w-[88vw]">
               <div className={`relative rounded-3xl p-7 flex flex-col justify-between h-full overflow-hidden transition-all duration-300 border ${
                 isFeatured
                   ? 'bg-gradient-to-b from-[#111A30] to-[#0B101D] border-accent/40 shadow-glow'
@@ -146,10 +110,10 @@ export const ServiceTimes: React.FC = () => {
 
       {/* Desktop: Enterprise Luxury Grid */}
       <StaggerContainer className="hidden md:grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
-        {data.map((service) => {
-          const isFeatured = service.featured || (service.day || '').toLowerCase().includes('domingo');
+        {services.map((service) => {
+          const isFeatured = (service.day || '').toLowerCase().includes('domingo');
           return (
-            <StaggerItem key={service._id} className="h-full">
+            <StaggerItem key={service._id || service.name} className="h-full">
               <div className={`relative group h-full rounded-3xl p-8 lg:p-9 flex flex-col justify-between overflow-hidden transition-all duration-500 hover:-translate-y-1.5 border ${
                 isFeatured
                   ? 'bg-gradient-to-b from-[#111A30] to-[#0B101D] border-accent/35 hover:border-accent shadow-dark-card hover:shadow-glow-lg'
@@ -229,6 +193,8 @@ export const ServiceTimes: React.FC = () => {
           );
         })}
       </StaggerContainer>
+        </>
+      )}
     </SectionContainer>
   );
 };

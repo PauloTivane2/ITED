@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { PageLayout } from '../../layouts/PageLayout';
 import { X, Maximize2 } from 'lucide-react';
-import { sanityClient, queries } from '../../cms/sanity/client';
+import { useGalleryItems } from '@/shared/hooks';
+import { GalleryCardSkeleton } from '@/shared/ui/Skeleton';
 import { getYouTubeEmbedUrl } from '../../shared/lib/utils';
 import { SEO } from '@/shared/ui/SEO/SEO';
 import { Breadcrumbs } from '@/shared/ui/Navigation/Breadcrumbs';
 
 export const GalleryPage: React.FC = () => {
-  const [data, setData] = useState<any[]>([]);
+  const { galleryItems, isLoading } = useGalleryItems();
   const [selected, setSelected] = useState('Todos');
   const [lightbox, setLightbox] = useState<null | { url: string; title: string; poster?: string }>(null);
 
@@ -30,41 +31,13 @@ export const GalleryPage: React.FC = () => {
     };
   }, [lightbox]);
 
-  useEffect(() => {
-    const fetchGallery = async () => {
-      try {
-        const result = await sanityClient.fetch(queries.galleryItems);
-        if (result) {
-          // Flatten albums into items
-          const flattenedItems = result.flatMap((album: any) => 
-            (album.items || []).map((item: any) => ({
-              ...item,
-              _id: item.id || Math.random().toString(), 
-              // Fallback to album featured status if not set on item
-              featured: item.featured || album.featured,
-              albumTitle: album.title,
-              title: item.title || album.title
-            }))
-          );
-          setData(flattenedItems);
-        }
-      } catch (error) {
-        console.error("Error fetching gallery:", error);
-      }
-    };
-    fetchGallery();
-  }, []);
-
-  // Inferred categories from types or hardcoded since schema doesn't have them
-  const categories = ['Todos', 'Imagem', 'Vídeo'];
+  const categories = ['Todos', 'Cultos', 'Eventos', 'Batismos', 'Ação Social', 'Jovens'];
   
-  const filtered = selected === 'Todos' 
-    ? data 
-    : data.filter((p) => {
-        if (selected === 'Imagem') return p.type === 'image';
-        if (selected === 'Vídeo') return p.type === 'youtube' || p.type === 'video';
-        return true;
-      });
+  const filtered = selected === 'Todos' ? galleryItems : galleryItems.filter(item => {
+    const c = (item.category || item.title || '').toLowerCase();
+    const s = selected.toLowerCase();
+    return c.includes(s);
+  });
 
   return (
     <PageLayout>
@@ -113,21 +86,35 @@ export const GalleryPage: React.FC = () => {
 
       {/* Gallery Grid */}
       <section className="container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl py-16">
-        <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
-          {filtered.map((item, i) => {
-            const displayUrl = item.imageUrl || item.thumbnailUrl || 'https://images.unsplash.com/photo-1544427920-c49ccfb85579?q=80&w=800&auto=format&fit=crop';
-            const modalUrl = item.type === 'youtube' ? getYouTubeEmbedUrl(item.youtubeUrl) : (item.videoUrl || item.imageUrl);
+        {isLoading ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+            <GalleryCardSkeleton aspect="portrait" />
+            <GalleryCardSkeleton aspect="square" />
+            <GalleryCardSkeleton aspect="video" />
+            <GalleryCardSkeleton aspect="portrait" />
+            <GalleryCardSkeleton aspect="square" />
+            <GalleryCardSkeleton aspect="video" />
+            <GalleryCardSkeleton aspect="portrait" />
+            <GalleryCardSkeleton aspect="square" />
+          </div>
+        ) : (
+          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+            {filtered.map((item, i) => {
+              const displayUrl = item.imageUrl || 'https://images.unsplash.com/photo-1544427920-c49ccfb85579?q=80&w=800&auto=format&fit=crop';
+              const modalUrl = item.type === 'youtube' && item.youtubeUrl 
+                ? getYouTubeEmbedUrl(item.youtubeUrl) 
+                : (item.videoUrl || item.imageUrl || '');
 
-            return (
-              <div
-                key={item._id || i}
-                onClick={() => setLightbox({ 
-                  url: modalUrl, 
-                  title: item.title, 
-                  poster: item.thumbnailUrl || item.imageUrl 
-                })}
-                className="relative group rounded-3xl overflow-hidden cursor-pointer break-inside-avoid shadow-dark-card border border-white/[0.08] hover:border-accent/40 transition-all duration-300"
-              >
+              return (
+                <div
+                  key={item._id || i}
+                  onClick={() => setLightbox({ 
+                    url: modalUrl, 
+                    title: item.title || item.albumTitle || '', 
+                    poster: item.imageUrl 
+                  })}
+                  className="relative group rounded-3xl overflow-hidden cursor-pointer break-inside-avoid shadow-dark-card border border-white/[0.08] hover:border-accent/40 transition-all duration-300"
+                >
                 <img
                   src={displayUrl}
                   alt={item.title}
@@ -155,6 +142,7 @@ export const GalleryPage: React.FC = () => {
             );
           })}
         </div>
+      )}
       </section>
 
       {/* Lightbox */}
