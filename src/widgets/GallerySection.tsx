@@ -98,18 +98,21 @@ export const GallerySection: React.FC = () => {
           {/* Mobile: Carousel */}
           <Carousel className="md:hidden -mx-4 pb-4" gap="gap-4" padding="px-4">
             {galleryItems.map((item) => (
-              <CarouselItem key={item._id || item.id} className="min-w-[80vw] sm:min-w-[60vw]">
+              <CarouselItem key={item._id || item.id} className="min-w-[85vw] max-w-[320px]">
                 <div 
                   onClick={() => openModal(item)}
-                  className="relative group rounded-3xl overflow-hidden aspect-[4/3] cursor-pointer shadow-dark-card transition-all duration-normal active:scale-[0.98] border border-white/[0.08]"
+                  className="relative group rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-dark-card border border-white/15 bg-[#0E1528] active:scale-[0.98] transition-all"
                 >
                   {renderMedia(item)}
                   
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-normal z-0" />
-                  <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-normal flex items-center justify-between z-20">
-                    <span className="text-white font-bold text-base">{item.title}</span>
-                    <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 text-white">
-                      <Maximize2 className="w-4 h-4" />
+                  {/* Ambient gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/40 to-transparent pointer-events-none z-10" />
+                  
+                  {/* Bottom title & icon bar */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 flex items-center justify-between z-20">
+                    <span className="text-white font-bold text-sm line-clamp-1 pr-2">{item.title}</span>
+                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 text-white shrink-0 shadow-subtle">
+                      <Maximize2 className="w-3.5 h-3.5" />
                     </div>
                   </div>
                 </div>

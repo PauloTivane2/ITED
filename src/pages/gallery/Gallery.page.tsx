@@ -131,10 +131,10 @@ export const GalleryPage: React.FC = () => {
                   </div>
                 )}
 
-                <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/90 via-[#060911]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-between">
-                  <span className="text-white font-semibold text-xs sm:text-sm">{item.title}</span>
-                  <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/30 to-transparent opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute bottom-0 left-0 right-0 p-4 opacity-100 sm:translate-y-2 sm:opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-between z-10">
+                  <span className="text-white font-semibold text-xs sm:text-sm line-clamp-1">{item.title}</span>
+                  <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shrink-0">
                     <Maximize2 className="w-3.5 h-3.5" />
                   </div>
                 </div>
