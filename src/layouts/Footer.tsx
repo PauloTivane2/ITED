@@ -46,6 +46,30 @@ export const Footer: React.FC = () => {
   const tagline = config?.tagline || 'Tenda do Encontro com Deus';
   const description = config?.metaDescription || 'Uma comunidade cristã dedicada à fé, comunhão e transformação espiritual. Nossa missão é aproximar pessoas de Deus através do amor e da palavra.';
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.includes('#')) {
+      const [path, hash] = href.split('#');
+      const targetPath = path || '/';
+      const isCurrentPage = window.location.pathname === targetPath || (window.location.pathname === '/' && targetPath === '/');
+
+      if (isCurrentPage) {
+        e.preventDefault();
+        const element = document.getElementById(hash);
+        if (element) {
+          const headerOffset = 90;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+          window.scrollTo({
+            top: Math.max(0, offsetPosition),
+            behavior: 'smooth'
+          });
+          window.history.pushState(null, '', href);
+        }
+      }
+    }
+  };
+
   return (
     <footer className="relative bg-[#060911] text-white overflow-hidden border-t border-white/[0.08]">
       {/* Decorative gradient orbs */}
@@ -81,7 +105,7 @@ export const Footer: React.FC = () => {
                   href={social.href}
                   target={social.href !== '#' ? "_blank" : undefined}
                   rel={social.href !== '#' ? "noopener noreferrer" : undefined}
-                  className="w-10 h-10 min-w-[40px] min-h-[40px] rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center hover:bg-accent hover:border-accent hover:shadow-glow transition-all duration-normal group"
+                  className="w-10 h-10 min-w-[40px] min-h-[44px] rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center hover:bg-accent hover:border-accent hover:shadow-glow transition-all duration-normal group"
                   aria-label={social.label}
                 >
                   {social.icon}
@@ -104,7 +128,11 @@ export const Footer: React.FC = () => {
                 { label: 'Contato', href: '/#contato' },
               ].map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} className="text-slate-300 hover:text-white text-xs sm:text-sm transition-all duration-fast hover:translate-x-1 inline-flex items-center gap-2 group font-medium">
+                  <a 
+                    href={link.href} 
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    className="text-slate-300 hover:text-white text-xs sm:text-sm transition-all duration-fast hover:translate-x-1 inline-flex items-center gap-2 group font-medium"
+                  >
                     <span className="w-0 group-hover:w-2 h-0.5 bg-accent transition-all duration-fast rounded-full" />
                     {link.label}
                   </a>

@@ -17,9 +17,9 @@ export const Header: React.FC = () => {
   const navLinks = [
     { label: 'Início', href: '/' },
     { label: 'Sobre Nós', href: '/#sobre' },
-    { label: 'Ministérios', href: '/ministerios' },
-    { label: 'Eventos', href: '/calendario' },
-    { label: 'Galeria', href: '/galeria' },
+    { label: 'Ministérios', href: '/#ministerios' },
+    { label: 'Eventos', href: '/#eventos' },
+    { label: 'Galeria', href: '/#galeria' },
     { label: 'Paróquias', href: '/paroquias' },
   ];
 
