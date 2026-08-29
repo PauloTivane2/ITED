@@ -22,6 +22,31 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
     };
   }, [isOpen]);
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    onClose();
+    if (href.includes('#')) {
+      const [path, hash] = href.split('#');
+      const targetPath = path || '/';
+      const isCurrentPage = location.pathname === targetPath || (location.pathname === '/' && targetPath === '/');
+
+      if (isCurrentPage) {
+        e.preventDefault();
+        const element = document.getElementById(hash);
+        if (element) {
+          const headerOffset = 90;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+          window.scrollTo({
+            top: Math.max(0, offsetPosition),
+            behavior: 'smooth'
+          });
+          window.history.pushState(null, '', href);
+        }
+      }
+    }
+  };
+
   return (
     <>
       {/* Dark Backdrop */}
@@ -72,7 +97,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
               <Link
                 key={link.label}
                 to={link.href}
-                onClick={onClose}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className={`px-4 py-3.5 rounded-xl text-xs uppercase tracking-[0.14em] font-bold transition-all flex items-center justify-between group ${
                   isActive 
                     ? 'text-accent bg-accent/15 border border-accent/30 shadow-subtle' 
@@ -95,14 +120,14 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ isOpen, onCl
 
         {/* Bottom CTA */}
         <div className="p-6 border-t border-white/[0.10] bg-[#03050A]">
-          <a
-            href="/#contato"
-            onClick={onClose}
+          <Link
+            to="/#contato"
+            onClick={(e) => handleNavClick(e, '/#contato')}
             className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-lg bg-[#D4AF37] hover:bg-[#E2BE4B] text-[#060911] text-xs font-extrabold uppercase tracking-wider border border-[#FFF5DC]/60 shadow-[0_2px_10px_rgba(0,0,0,0.3),0_0_18px_rgba(212,175,55,0.22)] transition-all"
           >
             <Mail className="w-4 h-4 text-[#060911]" />
             <span>Fale Conosco</span>
-          </a>
+          </Link>
         </div>
       </div>
     </>

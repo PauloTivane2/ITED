@@ -23,6 +23,30 @@ export const Header: React.FC = () => {
     { label: 'Paróquias', href: '/paroquias' },
   ];
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.includes('#')) {
+      const [path, hash] = href.split('#');
+      const targetPath = path || '/';
+      const isCurrentPage = location.pathname === targetPath || (location.pathname === '/' && targetPath === '/');
+
+      if (isCurrentPage) {
+        e.preventDefault();
+        const element = document.getElementById(hash);
+        if (element) {
+          const headerOffset = 90;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+          window.scrollTo({
+            top: Math.max(0, offsetPosition),
+            behavior: 'smooth'
+          });
+          window.history.pushState(null, '', href);
+        }
+      }
+    }
+  };
+
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
@@ -92,6 +116,7 @@ export const Header: React.FC = () => {
                   <Link 
                     key={link.label} 
                     to={link.href}
+                    onClick={(e) => handleNavClick(e, link.href)}
                     className={`relative py-2 text-xs uppercase tracking-[0.16em] font-bold transition-all duration-200 group ${
                       isActive ? 'text-accent' : 'text-slate-300 hover:text-white'
                     }`}
@@ -110,6 +135,7 @@ export const Header: React.FC = () => {
               <div className="hidden sm:block">
                 <Link 
                   to="/#contato"
+                  onClick={(e) => handleNavClick(e, '/#contato')}
                   className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-lg bg-[#D4AF37] hover:bg-[#E2BE4B] text-[#060911] text-xs font-extrabold uppercase tracking-wider border border-[#FFF5DC]/60 shadow-[0_2px_10px_rgba(0,0,0,0.3),0_0_18px_rgba(212,175,55,0.22)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.4),0_0_28px_rgba(212,175,55,0.38)] active:scale-[0.98] transition-all duration-200"
                 >
                   <Mail className="w-3.5 h-3.5 text-[#060911]" />

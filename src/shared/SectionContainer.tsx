@@ -30,7 +30,7 @@ export const SectionContainer: React.FC<SectionContainerProps> = ({
 
   return (
     <Component 
-      className={`py-16 sm:py-20 md:py-24 lg:py-28 relative overflow-hidden text-slate-200 ${backgrounds[background]} ${className}`}
+      className={`scroll-mt-24 sm:scroll-mt-28 py-16 sm:py-20 md:py-24 lg:py-28 relative overflow-hidden text-slate-200 ${backgrounds[background]} ${className}`}
       {...props}
     >
       <motion.div

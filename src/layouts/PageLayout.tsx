@@ -19,17 +19,35 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
     setIsIframe(window !== window.top);
   }, []);
 
-  // Automatic scroll handling on route & hash change
+  // Automatic scroll handling on route & hash change with async retry & header offset
   useEffect(() => {
     if (!location.hash) {
       window.scrollTo({ top: 0, behavior: 'instant' });
-    } else {
-      const id = location.hash.replace('#', '');
+      return;
+    }
+
+    const id = location.hash.replace('#', '');
+    let attempts = 0;
+    
+    const scrollToTarget = () => {
       const element = document.getElementById(id);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        const headerOffset = 90;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+          top: Math.max(0, offsetPosition),
+          behavior: 'smooth'
+        });
+      } else if (attempts < 25) {
+        attempts++;
+        setTimeout(scrollToTarget, 60);
       }
-    }
+    };
+
+    const timer = setTimeout(scrollToTarget, 80);
+    return () => clearTimeout(timer);
   }, [location.pathname, location.hash]);
 
   return (
