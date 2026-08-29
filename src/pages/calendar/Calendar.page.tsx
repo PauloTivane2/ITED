@@ -84,20 +84,20 @@ export const CalendarPage: React.FC = () => {
         canonical="/calendario"
       />
       {/* Hero */}
-      <section className="bg-[#060911] pt-32 sm:pt-36 pb-16 relative overflow-hidden border-b border-white/[0.06]">
+      <section className="bg-[#060911] pt-32 sm:pt-36 pb-16 relative overflow-hidden border-b border-white/[0.08]">
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-accent/[0.08] rounded-full blur-3xl pointer-events-none" />
         <div className="relative container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl z-10">
           <Breadcrumbs items={[{ label: 'Calendário de Eventos' }]} />
 
-          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-2xs uppercase tracking-[0.22em] font-bold text-accent bg-accent/10 border border-accent/25 mb-4">
+          <span className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-2xs uppercase tracking-[0.22em] font-bold text-accent bg-accent/10 border border-accent/25 mb-4 shadow-subtle">
             <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-            Agenda & Programações
+            Agenda Ministerial & Oficial
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-4">
             Calendário <span className="font-serif italic font-normal text-accent">Geral</span>
           </h1>
-          <p className="text-slate-400 text-base sm:text-lg max-w-xl leading-relaxed">
-            Acompanhe todos os eventos, cultos e programações da nossa comunidade num só lugar.
+          <p className="text-slate-300 text-base sm:text-lg max-w-xl leading-relaxed">
+            Acompanhe a agenda de cultos, conferências, seminários e celebrações especiais da ITED.
           </p>
         </div>
       </section>
@@ -110,31 +110,31 @@ export const CalendarPage: React.FC = () => {
 
           {/* Calendar Widget */}
           <div className="lg:col-span-2">
-            <div className="bg-[#0B101D] rounded-3xl border border-white/[0.08] shadow-dark-card overflow-hidden">
+            <div className="bg-[#0E1528]/90 rounded-3xl border border-white/[0.10] shadow-dark-card overflow-hidden backdrop-blur-2xl">
               {/* Calendar header */}
-              <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.06] bg-white/[0.02]">
-                <button onClick={prevMonth} className="w-10 h-10 rounded-xl hover:bg-white/[0.06] border border-transparent hover:border-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-all">
+              <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.08] bg-white/[0.03]">
+                <button onClick={prevMonth} className="w-10 h-10 rounded-xl hover:bg-white/[0.08] border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-all shadow-subtle">
                   <ChevronLeft className="w-4 h-4" />
                 </button>
-                <h2 className="font-bold text-lg text-white tracking-tight">
+                <h2 className="font-bold text-lg sm:text-xl text-white tracking-tight">
                   {MONTH_NAMES[viewMonth]} <span className="text-accent font-serif italic">{viewYear}</span>
                 </h2>
-                <button onClick={nextMonth} className="w-10 h-10 rounded-xl hover:bg-white/[0.06] border border-transparent hover:border-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-all">
+                <button onClick={nextMonth} className="w-10 h-10 rounded-xl hover:bg-white/[0.08] border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-all shadow-subtle">
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
 
               {/* Day names */}
-              <div className="grid grid-cols-7 border-b border-white/[0.06] bg-white/[0.01]">
+              <div className="grid grid-cols-7 border-b border-white/[0.08] bg-white/[0.02]">
                 {DAY_NAMES.map(d => (
-                  <div key={d} className="py-3 text-center text-xs font-bold text-slate-400 uppercase tracking-wider">{d}</div>
+                  <div key={d} className="py-3.5 text-center text-xs font-bold text-slate-400 uppercase tracking-wider">{d}</div>
                 ))}
               </div>
 
               {/* Days grid */}
               <div className="grid grid-cols-7">
                 {Array.from({ length: firstDay }).map((_, i) => (
-                  <div key={`empty-${i}`} className="min-h-[76px] border-b border-r border-white/[0.04] last:border-r-0 bg-white/[0.01]" />
+                  <div key={`empty-${i}`} className="min-h-[76px] border-b border-r border-white/[0.05] last:border-r-0 bg-white/[0.01]" />
                 ))}
                 {Array.from({ length: daysInMonth }).map((_, i) => {
                   const day = i + 1;
@@ -146,15 +146,15 @@ export const CalendarPage: React.FC = () => {
                     <button
                       key={day}
                       onClick={() => setSelectedDate(isSelected ? null : ds)}
-                      className={`min-h-[76px] p-2 sm:p-2.5 border-b border-r border-white/[0.04] text-left transition-colors relative group ${
+                      className={`min-h-[76px] p-2 sm:p-2.5 border-b border-r border-white/[0.05] text-left transition-colors relative group ${
                         isSelected
-                          ? 'bg-accent/10'
-                          : 'hover:bg-white/[0.03]'
+                          ? 'bg-accent/15 border-accent/40'
+                          : 'hover:bg-white/[0.04]'
                       } ${(i + firstDay + 1) % 7 === 0 ? 'border-r-0' : ''}`}
                     >
-                      <span className={`inline-flex items-center justify-center w-8 h-8 rounded-xl text-sm font-semibold transition-all ${
-                        isToday ? 'bg-gradient-accent text-white shadow-glow' :
-                        isSelected ? 'bg-accent text-primary font-bold' :
+                      <span className={`inline-flex items-center justify-center w-8 h-8 rounded-xl text-sm font-bold transition-all ${
+                        isToday ? 'bg-[#D4AF37] text-[#060911] shadow-glow' :
+                        isSelected ? 'bg-accent text-[#060911] font-bold' :
                         'text-slate-300 group-hover:bg-accent/10 group-hover:text-accent'
                       }`}>
                         {day}
@@ -179,7 +179,7 @@ export const CalendarPage: React.FC = () => {
                   {selectedDate && `Eventos em ${new Date(selectedDate + 'T12:00').toLocaleDateString('pt-BR', { day: 'numeric', month: 'long' })}`}
                 </h3>
                 {selectedEvents.length === 0 ? (
-                  <div className="bg-[#0B101D] rounded-2xl border border-white/[0.08] p-8 text-center text-slate-400 text-sm">
+                  <div className="bg-[#0E1528]/90 rounded-2xl border border-white/[0.10] p-8 text-center text-slate-400 text-sm">
                     Nenhum evento agendado para este dia.
                   </div>
                 ) : (
@@ -216,14 +216,14 @@ export const CalendarPage: React.FC = () => {
                   <div
                     key={e._id}
                     onClick={() => setSelectedDate(e.date)}
-                    className="group bg-[#0B101D] rounded-2xl border border-white/[0.08] p-4 flex gap-4 items-start cursor-pointer hover:border-accent/40 hover:shadow-glow transition-all duration-normal"
+                    className="group bg-[#0E1528]/90 rounded-2xl border border-white/[0.10] p-4 flex gap-4 items-start cursor-pointer hover:border-accent/50 hover:shadow-glow transition-all duration-normal backdrop-blur-xl"
                   >
-                    <div className="flex flex-col items-center justify-center bg-white/[0.04] border border-white/10 group-hover:bg-gradient-accent rounded-xl w-14 h-14 min-w-[56px] transition-all">
-                      <span className="font-extrabold text-xl leading-none group-hover:text-primary text-white transition-colors">{d.getDate()}</span>
-                      <span className="text-[10px] font-bold mt-0.5 tracking-wider group-hover:text-primary/80 text-accent uppercase transition-colors">{MONTH_NAMES[d.getMonth()].slice(0,3)}</span>
+                    <div className="flex flex-col items-center justify-center bg-white/[0.05] border border-white/10 group-hover:bg-accent group-hover:border-accent rounded-xl w-14 h-14 min-w-[56px] transition-all">
+                      <span className="font-extrabold text-xl leading-none group-hover:text-[#060911] text-white transition-colors">{d.getDate()}</span>
+                      <span className="text-[10px] font-bold mt-0.5 tracking-wider group-hover:text-[#060911]/90 text-accent uppercase transition-colors">{MONTH_NAMES[d.getMonth()].slice(0,3)}</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20 inline-block uppercase tracking-wider">{e.tag || 'Evento'}</span>
+                      <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/25 inline-block uppercase tracking-wider">{e.tag || 'Evento'}</span>
                       <h4 className="font-bold text-sm text-white mt-1 group-hover:text-accent transition-colors line-clamp-2">{e.title}</h4>
                       <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-1">
                         <Clock className="w-3.5 h-3.5 text-accent" /> {e.time}
@@ -244,17 +244,17 @@ export const CalendarPage: React.FC = () => {
 function EventCard({ event }: { event: any }) {
   const d = new Date(event.date + 'T12:00');
   return (
-    <div className="bg-[#0B101D] rounded-2xl border border-white/[0.08] p-5 flex gap-5 items-start hover:border-accent/40 hover:shadow-glow transition-all duration-normal">
-      <div className="flex flex-col items-center justify-center bg-white/[0.04] rounded-2xl w-16 h-16 min-w-[64px] border border-white/10">
+    <div className="bg-[#0E1528]/90 rounded-2xl border border-white/[0.10] p-5 flex gap-5 items-start hover:border-accent/50 hover:shadow-glow transition-all duration-normal backdrop-blur-xl">
+      <div className="flex flex-col items-center justify-center bg-white/[0.05] rounded-2xl w-16 h-16 min-w-[64px] border border-white/10">
         <span className="font-extrabold text-2xl leading-none text-white">{d.getDate()}</span>
         <span className="text-[11px] font-bold mt-1 tracking-wider text-accent">{MONTH_NAMES[d.getMonth()].slice(0,3).toUpperCase()}</span>
       </div>
       <div className="flex-1">
         <div className="flex items-center gap-2 mb-1.5">
-          <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20 uppercase tracking-wider">{event.tag || 'Evento'}</span>
+          <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/25 uppercase tracking-wider">{event.tag || 'Evento'}</span>
         </div>
         <h4 className="font-bold text-white text-base mb-1">{event.title}</h4>
-        {event.description && <p className="text-slate-400 text-sm leading-relaxed mb-3">{event.description}</p>}
+        {event.description && <p className="text-slate-300 text-sm leading-relaxed mb-3">{event.description}</p>}
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 text-xs text-slate-400 font-medium">
           <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5 text-accent" />{event.time}</span>
           <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-accent" />{event.location}</span>

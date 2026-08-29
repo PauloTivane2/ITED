@@ -51,10 +51,10 @@ export const PrivacityPage: React.FC = () => {
         canonical="/privacidade"
       />
       {/* Hero */}
-      <div className="relative bg-[#060911] pt-36 pb-20 overflow-hidden border-b border-white/[0.06]">
+      <div className="relative bg-[#060911] pt-36 pb-20 overflow-hidden border-b border-white/[0.08]">
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-accent/[0.08] rounded-full blur-3xl pointer-events-none" />
         <div className="relative container mx-auto px-5 md:px-10 max-w-4xl text-center z-10">
-          <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/25 rounded-full px-4 py-1.5 mb-6">
+          <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/25 rounded-full px-4 py-1.5 mb-6 shadow-subtle">
             <ShieldCheck className="w-4 h-4 text-accent" />
             <span className="text-accent text-2xs font-bold uppercase tracking-widest">
               Documentos Institucionais
@@ -64,7 +64,7 @@ export const PrivacityPage: React.FC = () => {
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-5 leading-tight">
             Política de <span className="text-accent italic">Privacidade</span>
           </h1>
-          <p className="text-slate-400 text-base md:text-lg leading-relaxed max-w-xl mx-auto">
+          <p className="text-slate-300 text-base md:text-lg leading-relaxed max-w-xl mx-auto">
             Comprometemo-nos com a integridade, o sigilo e o respeito pela sua privacidade em todas as interações.
           </p>
 
@@ -77,13 +77,13 @@ export const PrivacityPage: React.FC = () => {
       {/* Content */}
       <div className="container mx-auto px-5 md:px-10 max-w-3xl py-14 md:py-20">
         {/* Intro card */}
-        <div className="bg-[#0B101D] rounded-3xl border border-white/[0.08] p-6 md:p-8 mb-10 flex gap-4 items-start shadow-dark-card">
-          <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center shrink-0 text-accent">
+        <div className="bg-[#0E1528]/90 rounded-3xl border border-white/[0.10] p-6 md:p-8 mb-10 flex gap-4 items-start shadow-dark-card backdrop-blur-2xl">
+          <div className="w-12 h-12 rounded-2xl bg-accent/15 flex items-center justify-center shrink-0 text-accent border border-accent/20">
             <ShieldCheck className="w-6 h-6" />
           </div>
           <div>
             <p className="font-bold text-white mb-1 text-base">Transparência e Respeito</p>
-            <p className="text-slate-400 text-sm leading-relaxed">
+            <p className="text-slate-300 text-sm leading-relaxed">
               A ITED valoriza a sua confiança. Esta política esclarece como tratamos seus dados pessoais em conformidade com as boas práticas éticas e a legislação aplicável.
             </p>
           </div>
@@ -94,17 +94,17 @@ export const PrivacityPage: React.FC = () => {
           {sections.map((section, index) => (
             <div
               key={index}
-              className="bg-[#0B101D] rounded-3xl border border-white/[0.08] shadow-dark-card p-6 md:p-8 hover:border-accent/40 hover:shadow-glow transition-all duration-normal"
+              className="bg-[#0E1528]/90 rounded-3xl border border-white/[0.10] shadow-dark-card p-6 md:p-8 hover:border-accent/40 hover:shadow-glow transition-all duration-normal backdrop-blur-2xl"
             >
               <div className="flex items-center gap-3.5 mb-5">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-accent/10 text-accent">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-accent/15 text-accent border border-accent/20">
                   {section.icon}
                 </div>
                 <h2 className="font-bold text-white text-lg">{section.title}</h2>
               </div>
               <ul className="flex flex-col gap-3">
                 {section.content.map((point, i) => (
-                  <li key={i} className="flex items-start gap-3 text-slate-400 text-sm leading-relaxed">
+                  <li key={i} className="flex items-start gap-3 text-slate-300 text-sm leading-relaxed">
                     <span className="shrink-0 mt-2 w-1.5 h-1.5 rounded-full bg-accent" />
                     {point}
                   </li>

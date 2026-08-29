@@ -77,13 +77,13 @@ export const AboutSection: React.FC = () => {
               { title: 'Missão', description: 'Edificar vidas e expandir o Reino de Deus.' }
             ]).map((item: any, idx: number) => (
               <FadeUp key={idx} delay={0.2 + idx * 0.08}>
-                <div className="p-6 rounded-2xl bg-[#0B101D] border border-white/[0.08] hover:border-accent/40 transition-all duration-normal group hover:shadow-glow flex flex-col justify-between h-full">
-                  <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent mb-4 group-hover:bg-accent group-hover:text-primary transition-all shrink-0">
+                <div className="p-6 rounded-2xl bg-[#0E1528]/90 border border-white/[0.10] hover:border-accent/50 transition-all duration-normal group hover:shadow-glow flex flex-col justify-between h-full backdrop-blur-xl">
+                  <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center text-accent mb-4 group-hover:bg-accent group-hover:text-[#060911] transition-all shrink-0">
                     {getIcon(item.title)}
                   </div>
                   <div>
                     <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-1.5">{item.title}</h3>
-                    <p className="text-xs text-slate-400 leading-relaxed">{item.description}</p>
+                    <p className="text-xs text-slate-300 leading-relaxed">{item.description}</p>
                   </div>
                 </div>
               </FadeUp>
@@ -94,18 +94,18 @@ export const AboutSection: React.FC = () => {
         {/* Image Grid (5 cols) */}
         <div className="lg:col-span-5 grid grid-cols-2 gap-4 relative">
           <SlideIn direction="left" className="flex flex-col gap-4 pt-8">
-            <div className="rounded-3xl overflow-hidden aspect-[4/5] relative shadow-dark-card border border-white/[0.08]">
+            <div className="rounded-3xl overflow-hidden aspect-[4/5] relative shadow-dark-card border border-white/[0.10]">
               <img src={image1} alt="Igreja adoração" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
             </div>
           </SlideIn>
           
           <SlideIn direction="right" className="flex flex-col gap-4">
-            <div className="rounded-3xl overflow-hidden aspect-[4/5] relative shadow-dark-card border border-white/[0.08]">
+            <div className="rounded-3xl overflow-hidden aspect-[4/5] relative shadow-dark-card border border-white/[0.10]">
               <img src={image2} alt="Comunidade unida" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
             </div>
-            <div className="bg-[#0B101D] border border-white/[0.08] rounded-3xl p-6 text-white shadow-dark-card">
+            <div className="bg-[#0E1528]/95 border border-white/[0.10] rounded-3xl p-6 text-white shadow-dark-card backdrop-blur-xl">
               <h4 className="text-2xl font-black text-white tracking-tight mb-1">{data?.statsNumber || '7+'}</h4>
-              <p className="text-xs text-slate-400 leading-snug">{data?.statsLabel || 'Anos manifestando o amor de Deus e transformando vidas.'}</p>
+              <p className="text-xs text-slate-300 leading-snug">{data?.statsLabel || 'Anos manifestando o amor de Deus e transformando vidas.'}</p>
             </div>
           </SlideIn>
         </div>

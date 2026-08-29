@@ -43,12 +43,12 @@ export const HeroSection: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: easeOut }}
           >
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/[0.05] border border-accent/25 backdrop-blur-xl text-2xs sm:text-xs font-semibold text-white/90 tracking-[0.2em] uppercase shadow-subtle">
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#0E1528]/90 border border-accent/35 backdrop-blur-2xl text-2xs sm:text-xs font-bold text-white/95 tracking-[0.2em] uppercase shadow-subtle">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
               </span>
-              {heroData?.badge || 'Comunidade Cristã Internacional • ITED'}
+              {heroData?.badge || 'Instituição Cristã Internacional • ITED'}
             </div>
           </motion.div>
 
@@ -82,14 +82,14 @@ export const HeroSection: React.FC = () => {
           >
             <a
               href="#horarios"
-              className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl font-semibold text-[#070C18] bg-[#D4AF37] hover:bg-[#E2BE4B] border border-[#FFF5DC]/50 shadow-[0_1px_2px_rgba(0,0,0,0.4),0_0_18px_rgba(212,175,55,0.22)] hover:shadow-[0_0_26px_rgba(212,175,55,0.38)] transition-all duration-200 active:scale-[0.98] text-sm tracking-wide"
+              className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl font-bold text-[#060911] bg-[#D4AF37] hover:bg-[#E2BE4B] border border-[#FFF5DC]/60 shadow-[0_2px_10px_rgba(0,0,0,0.3),0_0_18px_rgba(212,175,55,0.22)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.4),0_0_28px_rgba(212,175,55,0.38)] transition-all duration-200 active:scale-[0.98] text-sm tracking-wide"
             >
-              <Clock className="w-4 h-4 text-[#070C18]" />
+              <Clock className="w-4 h-4 text-[#060911]" />
               <span>{heroData?.ctaPrimaryLabel || 'Nossos Horários'}</span>
             </a>
             <a
               href="#sobre"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-medium text-slate-200 hover:text-white border border-white/[0.12] hover:border-[#D4AF37]/50 bg-[#0A1020]/80 hover:bg-[#121B32]/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-all duration-200 active:scale-[0.98] text-sm tracking-wide backdrop-blur-md"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-slate-200 hover:text-white border border-white/[0.15] hover:border-[#D4AF37]/50 bg-[#0E1528]/85 hover:bg-[#15203C]/95 shadow-subtle transition-all duration-200 active:scale-[0.98] text-sm tracking-wide backdrop-blur-md"
             >
               <span>{heroData?.ctaSecondaryLabel || 'Conheça a Igreja'}</span>
               <ChevronRight className="w-4 h-4 text-[#D4AF37]" />
@@ -98,7 +98,7 @@ export const HeroSection: React.FC = () => {
 
           {/* Stats row */}
           <motion.div
-            className="flex flex-wrap gap-x-10 sm:gap-x-16 gap-y-6 pt-8 mt-4 border-t border-white/[0.08]"
+            className="flex flex-wrap gap-x-10 sm:gap-x-16 gap-y-6 pt-8 mt-4 border-t border-white/[0.10]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5, ease: easeOut }}
@@ -114,7 +114,7 @@ export const HeroSection: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.55 + i * 0.1, ease: easeOut }}
                 className="flex flex-col"
               >
-                <div className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-baseline gap-1">
+                <div className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-baseline gap-1.5">
                   <span>{stat.number}</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-accent" />
                 </div>

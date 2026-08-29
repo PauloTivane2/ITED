@@ -20,7 +20,7 @@ export const ParishesPage: React.FC = () => {
         canonical="/paroquias"
       />
       {/* Hero Banner */}
-      <section className="bg-[#060911] pt-32 sm:pt-36 pb-16 relative overflow-hidden border-b border-white/[0.06]">
+      <section className="bg-[#060911] pt-32 sm:pt-36 pb-16 relative overflow-hidden border-b border-white/[0.08]">
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-accent/[0.08] rounded-full blur-3xl pointer-events-none" />
         <div className="relative container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl z-10">
           <Breadcrumbs items={[{ label: 'Paróquias' }]} />
@@ -30,14 +30,14 @@ export const ParishesPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-2xs uppercase tracking-[0.22em] font-bold text-accent bg-accent/10 border border-accent/25 mb-4">
+            <span className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-2xs uppercase tracking-[0.22em] font-bold text-accent bg-accent/10 border border-accent/25 mb-4 shadow-subtle">
               <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-              Nossa Expansão
+              Extensão & Presença Ministerial
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-4">
               Nossas <span className="font-serif italic font-normal text-accent">Paróquias</span>
             </h1>
-            <p className="text-slate-400 text-base sm:text-lg max-w-xl leading-relaxed">
+            <p className="text-slate-300 text-base sm:text-lg max-w-xl leading-relaxed">
               Estamos presentes em diversas localidades, levando a Tenda do Encontro para mais perto de você. Conheça nossas congregações.
             </p>
           </motion.div>
@@ -59,7 +59,7 @@ export const ParishesPage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-[#080D1A]/70 backdrop-blur-xl rounded-3xl border border-[#C59B27]/15 overflow-hidden shadow-dark-card hover:border-[#C59B27]/50 hover:shadow-[0_12px_40px_rgba(0,0,0,0.6),0_0_25px_rgba(197,155,39,0.15)] transition-all duration-500 flex flex-col group"
+              className="bg-[#0E1528]/90 backdrop-blur-2xl rounded-3xl border border-white/[0.10] overflow-hidden shadow-dark-card hover:border-[#D4AF37]/50 hover:shadow-[0_12px_40px_rgba(0,0,0,0.6),0_0_25px_rgba(197,155,39,0.15)] transition-all duration-500 flex flex-col group"
             >
               <div className="relative h-60 overflow-hidden">
                 <img 
@@ -67,9 +67,9 @@ export const ParishesPage: React.FC = () => {
                   alt={parish.name} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#080D1A] via-transparent to-transparent" />
-                <div className="absolute top-4 right-4 bg-[#05070E]/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#C59B27]/30 text-2xs font-bold text-accent uppercase tracking-wider">
-                  Congregação
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0E1528] via-transparent to-transparent" />
+                <div className="absolute top-4 right-4 bg-[#060911]/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-accent/40 text-2xs font-bold text-accent uppercase tracking-wider shadow-subtle">
+                  Congregação Oficial
                 </div>
               </div>
 
@@ -78,36 +78,36 @@ export const ParishesPage: React.FC = () => {
                   <h3 className="text-2xl font-bold text-white mb-2 tracking-tight group-hover:text-accent transition-colors">
                     {parish.name}
                   </h3>
-                  <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+                  <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-normal">
                     {parish.description}
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 gap-3.5 pt-5 border-t border-white/[0.06]">
+                <div className="grid grid-cols-1 gap-3.5 pt-5 border-t border-white/[0.08]">
                   <div className="flex items-center gap-3 text-slate-300">
-                    <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent shrink-0 shadow-subtle">
+                    <div className="w-10 h-10 rounded-xl bg-accent/15 border border-accent/25 flex items-center justify-center text-accent shrink-0 shadow-subtle">
                       <UserCheck className="w-5 h-5" />
                     </div>
                     <div>
-                      <span className="block text-2xs uppercase tracking-wider text-slate-400 font-bold">Liderança</span>
-                      <span className="font-semibold text-white text-sm">{parish.leader}</span>
+                      <span className="block text-2xs uppercase tracking-wider text-slate-400 font-bold">Liderança Pastoral</span>
+                      <span className="font-bold text-white text-sm">{parish.leader}</span>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3 text-slate-300">
-                    <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent shrink-0 shadow-subtle">
+                    <div className="w-10 h-10 rounded-xl bg-accent/15 border border-accent/25 flex items-center justify-center text-accent shrink-0 shadow-subtle">
                       <MapPin className="w-5 h-5" />
                     </div>
                     <div>
                       <span className="block text-2xs uppercase tracking-wider text-slate-400 font-bold">Localização</span>
-                      <span className="font-semibold text-white text-sm">{parish.location}</span>
+                      <span className="font-bold text-white text-sm">{parish.location}</span>
                     </div>
                   </div>
                 </div>
 
                 <a 
                   href={parish.phone ? `tel:${parish.phone.replace(/\D/g,'')}` : '/#contato'} 
-                  className="w-full py-3.5 bg-[#05070E]/80 hover:bg-[#C59B27]/15 border border-[#C59B27]/25 hover:border-[#C59B27]/60 rounded-xl text-white font-semibold transition-all flex items-center justify-center gap-2 mt-2 text-sm active:scale-98"
+                  className="w-full py-3.5 bg-[#060911]/90 hover:bg-[#D4AF37]/15 border border-[#D4AF37]/30 hover:border-[#D4AF37]/60 rounded-xl text-white font-bold transition-all flex items-center justify-center gap-2 mt-2 text-sm active:scale-98 shadow-subtle"
                 >
                   <Phone className="text-accent w-4 h-4" />
                   <span>{parish.phone ? `Ligar: ${parish.phone}` : 'Entrar em Contato'}</span>
@@ -117,17 +117,17 @@ export const ParishesPage: React.FC = () => {
           ))}
         </div>
       )}
-    </SectionContainer>
+      </SectionContainer>
 
       {/* Map Section */}
       <SectionContainer background="dark">
         <div className="max-w-4xl mx-auto text-center mb-14">
-          <div className="inline-flex items-center gap-2.5 px-3.5 py-1 rounded-full text-2xs uppercase tracking-[0.22em] font-bold text-accent bg-accent/10 border border-accent/25 mb-4">
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-2xs uppercase tracking-[0.22em] font-bold text-accent bg-accent/10 border border-accent/25 mb-4 shadow-subtle">
             <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-            Nossa Sede
+            Nossa Sede Central
           </div>
           <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4 tracking-tight">Sede Central</h2>
-          <p className="text-slate-400 text-base leading-relaxed">
+          <p className="text-slate-300 text-base leading-relaxed">
             Se você estiver na Beira, venha nos visitar em nossa sede principal. Para as outras paróquias, entre em contato para localizações detalhadas.
           </p>
         </div>

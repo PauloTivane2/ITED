@@ -47,41 +47,41 @@ export const Footer: React.FC = () => {
   const description = config?.metaDescription || 'Uma comunidade cristã dedicada à fé, comunhão e transformação espiritual. Nossa missão é aproximar pessoas de Deus através do amor e da palavra.';
 
   return (
-    <footer className="relative bg-primary text-white overflow-hidden">
+    <footer className="relative bg-[#060911] text-white overflow-hidden border-t border-white/[0.08]">
       {/* Decorative gradient orbs */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-highlight/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative container mx-auto px-4 sm:px-5 md:px-8 lg:px-10 max-w-7xl pt-12 sm:pt-16 lg:pt-20 pb-8 sm:pb-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-16 mb-12 sm:mb-16">
+      <div className="relative container mx-auto px-5 sm:px-8 lg:px-12 max-w-7xl pt-14 sm:pt-18 lg:pt-22 pb-10 sm:pb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-16 mb-14 sm:mb-18">
           
           {/* Brand */}
           <div className="lg:col-span-1 flex flex-col gap-5">
-            <a href="/" className="flex items-center gap-3 group">
-              <div className="w-12 h-12 bg-gradient-accent rounded-xl flex items-center justify-center text-white font-extrabold text-xl shadow-glow">
+            <a href="/" className="flex items-center gap-3.5 group">
+              <div className="w-11 h-11 bg-[#0E1528] border border-white/20 rounded-xl flex items-center justify-center text-accent font-extrabold text-xl shadow-subtle group-hover:border-accent/60 transition-all">
                 <span className="font-serif italic font-bold">I</span>
               </div>
               <div>
-                <span className="font-bold text-xl tracking-tight block">ITED</span>
-                <span className="text-white/50 text-xs font-verse">{tagline}</span>
+                <span className="font-black text-xl tracking-tight block text-white group-hover:text-accent transition-colors">ITED</span>
+                <span className="text-slate-400 text-2xs uppercase tracking-[0.18em] font-semibold">{tagline}</span>
               </div>
             </a>
-            <p className="text-white/60 text-sm leading-relaxed font-verse">
+            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-normal">
               {description}
             </p>
             {/* Social Icons */}
             <div className="flex gap-3 mt-2">
               {[
-                { label: 'facebook', icon: <FacebookIcon className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />, href: facebookUrl },
-                { label: 'instagram', icon: <InstagramIcon className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />, href: instagramUrl },
-                { label: 'youtube', icon: <YoutubeIcon className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />, href: youtubeUrl },
+                { label: 'facebook', icon: <FacebookIcon className="w-4 h-4 text-slate-300 group-hover:text-[#060911] transition-colors" />, href: facebookUrl },
+                { label: 'instagram', icon: <InstagramIcon className="w-4 h-4 text-slate-300 group-hover:text-[#060911] transition-colors" />, href: instagramUrl },
+                { label: 'youtube', icon: <YoutubeIcon className="w-4 h-4 text-slate-300 group-hover:text-[#060911] transition-colors" />, href: youtubeUrl },
               ].map((social) => (
                 <a 
                   key={social.label}
                   href={social.href}
                   target={social.href !== '#' ? "_blank" : undefined}
                   rel={social.href !== '#' ? "noopener noreferrer" : undefined}
-                  className="w-10 h-10 min-w-[44px] min-h-[44px] rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-accent hover:border-accent hover:shadow-glow transition-all duration-normal group"
+                  className="w-10 h-10 min-w-[40px] min-h-[40px] rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center hover:bg-accent hover:border-accent hover:shadow-glow transition-all duration-normal group"
                   aria-label={social.label}
                 >
                   {social.icon}
@@ -92,8 +92,8 @@ export const Footer: React.FC = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-bold text-base mb-6 text-white/90">Links Rápidos</h3>
-            <ul className="flex flex-col gap-3.5">
+            <h3 className="font-bold text-xs uppercase tracking-[0.18em] mb-6 text-accent">Navegação Oficial</h3>
+            <ul className="flex flex-col gap-3">
               {[
                 { label: 'Início', href: '/' },
                 { label: 'Sobre Nós', href: '/#sobre' },
@@ -104,8 +104,8 @@ export const Footer: React.FC = () => {
                 { label: 'Contato', href: '/#contato' },
               ].map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} className="text-white/50 hover:text-white text-sm transition-all duration-fast hover:translate-x-1 inline-flex items-center gap-2 group">
-                    <span className="w-0 group-hover:w-2 h-px bg-accent transition-all duration-fast" />
+                  <a href={link.href} className="text-slate-300 hover:text-white text-xs sm:text-sm transition-all duration-fast hover:translate-x-1 inline-flex items-center gap-2 group font-medium">
+                    <span className="w-0 group-hover:w-2 h-0.5 bg-accent transition-all duration-fast rounded-full" />
                     {link.label}
                   </a>
                 </li>
@@ -115,21 +115,21 @@ export const Footer: React.FC = () => {
 
           {/* Service Schedule */}
           <div>
-            <h3 className="font-bold text-base mb-6 text-white/90">Horários</h3>
-            <ul className="flex flex-col gap-4 text-sm">
+            <h3 className="font-bold text-xs uppercase tracking-[0.18em] mb-6 text-accent">Cultos & Encontros</h3>
+            <ul className="flex flex-col gap-3 text-xs sm:text-sm">
               {[
                 { day: 'Segunda', service: 'Intercessão', time: '17:00' },
                 { day: 'Quinta', service: 'Ensino', time: '17:30' },
                 { day: 'Sexta', service: 'Mulheres', time: '16:00' },
                 { day: 'Sábado', service: 'Jejum e Libert.', time: '09:00' },
-                { day: 'Domingo', service: 'Culto de Manã', time: '09:00' },
+                { day: 'Domingo', service: 'Culto de Manhã', time: '09:00' },
               ].map((item) => (
-                <li key={item.day} className="flex items-center justify-between pb-3 border-b border-white/5 last:border-0">
+                <li key={item.day} className="flex items-center justify-between pb-2.5 border-b border-white/[0.06] last:border-0">
                   <div>
-                    <span className="text-white/70 block">{item.day}</span>
-                    <span className="text-white/40 text-xs">{item.service}</span>
+                    <span className="text-slate-200 font-semibold block">{item.day}</span>
+                    <span className="text-slate-400 text-2xs">{item.service}</span>
                   </div>
-                  <span className="font-semibold text-accent-light bg-accent/10 px-3 py-1 rounded-full text-xs">{item.time}</span>
+                  <span className="font-bold text-accent bg-accent/10 border border-accent/20 px-3 py-1 rounded-full text-2xs">{item.time}</span>
                 </li>
               ))}
             </ul>
@@ -137,16 +137,16 @@ export const Footer: React.FC = () => {
 
           {/* Contact */}
           <div>
-            <h3 className="font-bold text-base mb-6 text-white/90">Contato</h3>
-            <ul className="flex flex-col gap-4 text-sm text-white/50">
+            <h3 className="font-bold text-xs uppercase tracking-[0.18em] mb-6 text-accent">Contactos Oficiais</h3>
+            <ul className="flex flex-col gap-4 text-xs sm:text-sm text-slate-300">
               {[
                 { icon: <Phone className="w-4 h-4" />, text: phone, href: `tel:${phone.replace(/\D/g, '')}` },
                 { icon: <Mail className="w-4 h-4" />, text: email, href: `mailto:${email}` },
                 { icon: <MapPin className="w-4 h-4" />, text: address, href: 'https://maps.app.goo.gl/Vn6iaZRVSL9f9Hg69' },
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-3 group hover:text-white transition-colors">
-                  <span className="mt-0.5 text-accent/60 group-hover:text-accent transition-colors shrink-0">{item.icon}</span>
-                  <a href={item.href} target={item.href.startsWith('http') ? "_blank" : undefined} rel={item.href.startsWith('http') ? "noopener noreferrer" : undefined} className="hover:underline decoration-accent/30 underline-offset-4">
+                  <span className="mt-0.5 text-accent group-hover:text-accent-light transition-colors shrink-0">{item.icon}</span>
+                  <a href={item.href} target={item.href.startsWith('http') ? "_blank" : undefined} rel={item.href.startsWith('http') ? "noopener noreferrer" : undefined} className="hover:underline decoration-accent/40 underline-offset-4 font-medium">
                     {item.text}
                   </a>
                 </li>
@@ -156,9 +156,9 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/30">
-          <p className="font-verse">© {new Date().getFullYear()} ITED. Todos os direitos reservados.</p>
-          <div className="flex gap-6">
+        <div className="pt-8 border-t border-white/[0.08] flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+          <p className="font-sans">© {new Date().getFullYear()} ITED — Igreja Internacional Tenda do Encontro com Deus. Todos os direitos reservados.</p>
+          <div className="flex gap-6 font-medium">
             <a href="/termos" className="hover:text-accent transition-colors">Termos de Uso</a>
             <a href="/privacidade" className="hover:text-accent transition-colors">Política de Privacidade</a>
           </div>

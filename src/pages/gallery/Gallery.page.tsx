@@ -47,35 +47,35 @@ export const GalleryPage: React.FC = () => {
         canonical="/galeria"
       />
       {/* Hero Banner */}
-      <section className="bg-[#060911] pt-32 sm:pt-36 pb-16 relative overflow-hidden border-b border-white/[0.06]">
+      <section className="bg-[#060911] pt-32 sm:pt-36 pb-16 relative overflow-hidden border-b border-white/[0.08]">
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-accent/[0.08] rounded-full blur-3xl pointer-events-none" />
         <div className="relative container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl z-10">
           <Breadcrumbs items={[{ label: 'Galeria' }]} />
 
-          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-2xs uppercase tracking-[0.22em] font-bold text-accent bg-accent/10 border border-accent/25 mb-4">
+          <span className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-2xs uppercase tracking-[0.22em] font-bold text-accent bg-accent/10 border border-accent/25 mb-4 shadow-subtle">
             <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-            Galeria & Multimídia
+            Registos & Memórias
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-4">
-            Álbum <span className="font-serif italic font-normal text-accent">Completo</span>
+            Galeria <span className="font-serif italic font-normal text-accent">Oficial</span>
           </h1>
-          <p className="text-slate-400 text-base sm:text-lg max-w-xl leading-relaxed">
-            Reviva cada momento especial da nossa comunidade — adoração, serviço, comunhão e vida na presença de Deus.
+          <p className="text-slate-300 text-base sm:text-lg max-w-xl leading-relaxed">
+            Reviva os momentos marcantes da nossa congregação — cultos, baptismos, eventos sociais e comunhão.
           </p>
         </div>
       </section>
 
       {/* Filter Bar */}
-      <div className="sticky top-16 sm:top-20 z-30 bg-[#060911]/90 backdrop-blur-2xl border-b border-white/[0.08] shadow-dark-card">
+      <div className="sticky top-16 sm:top-20 z-30 bg-[#060911]/95 backdrop-blur-2xl border-b border-white/[0.08] shadow-dark-card">
         <div className="container mx-auto px-5 md:px-8 lg:px-10 max-w-7xl py-3.5 flex gap-2 overflow-x-auto scrollbar-none">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelected(cat)}
-              className={`shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-normal ${
+              className={`shrink-0 px-4.5 py-2 rounded-full text-xs font-bold transition-all duration-normal ${
                 selected === cat
-                  ? 'bg-gradient-accent text-white shadow-glow'
-                  : 'bg-[#0B101D] text-slate-400 hover:text-white hover:bg-white/[0.06] border border-white/[0.08]'
+                  ? 'bg-[#D4AF37] text-[#060911] shadow-glow border border-[#FFF5DC]/50'
+                  : 'bg-[#0E1528] text-slate-300 hover:text-white hover:bg-white/[0.06] border border-white/[0.10]'
               }`}
             >
               {cat}

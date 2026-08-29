@@ -28,7 +28,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
     return (
       <div
         ref={ref}
-        className={`bg-[#080E1C]/65 backdrop-blur-xl rounded-2xl border border-white/[0.08] text-slate-100 transition-all duration-300 ease-out shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] active:scale-[0.99] ${elevations[elevation]} ${hoverClass} ${glowClass} ${className}`}
+        className={`bg-[#0A101E]/80 backdrop-blur-2xl rounded-2xl border border-white/[0.09] text-slate-100 transition-all duration-300 ease-out shadow-dark-card ${elevations[elevation]} ${hoverClass} ${glowClass} ${className}`}
         {...props}
       >
         {children}
